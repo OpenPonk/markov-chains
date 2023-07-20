@@ -1,0 +1,17 @@
+SmalltalkCISpec {
+	#loading : [
+		SCIMetacelloLoadSpec {
+			#baseline : 'MarkovChains',
+			#directory : 'Pharo',
+			#platforms : [ #pharo ]
+		}
+	],
+	#preLoading : '.github/scripts/preLoad.st',
+	#postLoading : '.github/scripts/postLoad.st',
+	#testing : {
+		#packages : [ 'OpenPonk*' ],
+		#coverage : {
+			#packages : [ 'OpenPonk-Markov*' ]
+		}
+	}
+}
