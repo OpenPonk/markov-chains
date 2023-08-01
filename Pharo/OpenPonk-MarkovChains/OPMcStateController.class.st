@@ -9,13 +9,13 @@ OPMcStateController >> buildEditorForm: aForm [
 	super buildEditorForm: aForm.
 ]
 
-{ #category : #forms }
+{ #category : #construction }
 OPMcStateController >> diagramElementClass [
 
-	^ OPFsmStateShape
+	^ OPMcStateFigure
 ]
 
-{ #category : #forms }
+{ #category : #accessing }
 OPMcStateController >> modelClass [
 	^ OPMcState
 ]

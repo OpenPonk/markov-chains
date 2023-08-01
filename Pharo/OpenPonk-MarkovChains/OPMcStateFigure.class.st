@@ -31,10 +31,12 @@ OPMcStateFigure >> renderShapeDetails [
 		         height: 11;
 		         model: self;
 		         yourself.
-	self canvas
-		add: label.
-	self roassalShape when: RSShapeRemovedEvent do: [ 
-		label remove ]
+	RSLocation new stick: label on: self roassalShape.
+	self canvas add: label.
+	self roassalShape
+		when: RSShapeRemovedEvent
+		do: [ label remove ]
+		for: self
 ]
 
 { #category : #rendering }
