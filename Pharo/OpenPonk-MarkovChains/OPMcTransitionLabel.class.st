@@ -29,4 +29,5 @@ OPMcTransitionLabel >> renderShapeDetails [
 	self roassalShape
 		when: RSMouseDoubleClick
 		do: [ :evt | OPRenameElementCommand executeOn: self modelElement ]
+		for: self
 ]
