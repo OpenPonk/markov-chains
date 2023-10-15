@@ -40,10 +40,11 @@ OPMcStateFigure >> renderShapeDetails [
 ]
 
 { #category : #rendering }
-OPMcStateFigure >> setupHighlight: aHighlightable [
+OPMcStateFigure >> selectableInteraction [
 
-	super setupHighlight: aHighlightable.
-	aHighlightable highlightBorderColor: Color blue
+	^ super selectableInteraction
+		  highlightBorderColor: Color blue;
+		  yourself
 ]
 
 { #category : #rendering }
