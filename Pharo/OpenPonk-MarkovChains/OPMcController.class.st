@@ -11,9 +11,9 @@ OPMcController >> applyLayout: anAlgorithm [
 	figures := self controllers
 		           select: [ :each | each isKindOf: OPMcVertexController ]
 		           thenCollect: #figure.
-	edges := (figures flatCollect: #connectedLines) reject: [ :each | 
+	edges := (figures flatCollect: #connectedLines) reject: [ :each |
 		         each from = each to ].
-	anAlgorithm on: figures edges: edges
+	anAlgorithm on: figures asGroup edges: edges asGroup
 ]
 
 { #category : #connecting }
