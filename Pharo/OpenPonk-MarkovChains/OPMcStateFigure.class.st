@@ -5,7 +5,7 @@ Class {
 		'label',
 		'innerCircle'
 	],
-	#category : #'OpenPonk-MarkovChains-DiagramElements'
+	#category : #'OpenPonk-MarkovChains-Shapes'
 }
 
 { #category : #rendering }

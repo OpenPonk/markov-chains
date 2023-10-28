@@ -1,10 +1,10 @@
 Class {
 	#name : #OPMcAbstractStateFigure,
-	#superclass : #OPShape,
+	#superclass : #OPBoundNode,
 	#instVars : [
 		'adornmentCreationBlock'
 	],
-	#category : #'OpenPonk-MarkovChains-DiagramElements'
+	#category : #'OpenPonk-MarkovChains-Shapes'
 }
 
 { #category : #accessing }

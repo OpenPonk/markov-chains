@@ -1,7 +1,7 @@
 Class {
 	#name : #OPMcFigureHighlighter,
 	#superclass : #Object,
-	#category : #'OpenPonk-MarkovChains-DiagramElements'
+	#category : #'OpenPonk-MarkovChains-Shapes'
 }
 
 { #category : #'api - highlight' }
