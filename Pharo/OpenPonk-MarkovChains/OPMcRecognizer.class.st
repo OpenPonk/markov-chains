@@ -158,6 +158,11 @@ OPMcRecognizer >> decrementGCInclZero [
 	
 ]
 
+{ #category : #accessing }
+OPMcRecognizer >> globalCounter [
+	^ globalCounter
+]
+
 { #category : #'as yet unclassified' }
 OPMcRecognizer >> goTo: aPlace [
 	current ifNotNil: [ self announce: (OPMcRecognizerLeave place: current) ].
@@ -212,6 +217,11 @@ OPMcRecognizer >> inputPosition [
 { #category : #'as yet unclassified' }
 OPMcRecognizer >> inputPositionExclNil [
 	^ globalCounter + 1
+]
+
+{ #category : #'accessing - Action' }
+OPMcRecognizer >> inputs [
+	^ input
 ]
 
 { #category : #'as yet unclassified' }

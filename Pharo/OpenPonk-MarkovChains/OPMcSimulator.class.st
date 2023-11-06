@@ -255,6 +255,11 @@ OPMcSimulator >> pauseButton [
 	^ pauseButton
 ]
 
+{ #category : #accessing }
+OPMcSimulator >> recognizer [
+	^ recognizer
+]
+
 { #category : #actions }
 OPMcSimulator >> resetAction [
 	diagramController model elements
