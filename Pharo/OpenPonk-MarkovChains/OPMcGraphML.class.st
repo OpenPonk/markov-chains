@@ -1,10 +1,12 @@
 Class {
-	#name : #OPMcGraphML,
-	#superclass : #Object,
-	#category : #'OpenPonk-MarkovChains-Serialization'
+	#name : 'OPMcGraphML',
+	#superclass : 'Object',
+	#category : 'OpenPonk-MarkovChains-Serialization',
+	#package : 'OpenPonk-MarkovChains',
+	#tag : 'Serialization'
 }
 
-{ #category : #toolbar }
+{ #category : 'toolbar' }
 OPMcGraphML class >> exportPackage: aModel [
 
 	StFBSaveFileDialog new
@@ -26,7 +28,7 @@ OPMcGraphML class >> exportPackage: aModel [
 		open
 ]
 
-{ #category : #toolbar }
+{ #category : 'toolbar' }
 OPMcGraphML class >> importToModel: aModel withBuilder: aBuilder [
 
 	StFBOpenFileDialog new
@@ -39,7 +41,7 @@ OPMcGraphML class >> importToModel: aModel withBuilder: aBuilder [
 		open.
 ]
 
-{ #category : #toolbar }
+{ #category : 'toolbar' }
 OPMcGraphML class >> toolbarMenu: aBuilder [
 
 	<opEditorToolbarMenu: #OPMcPlugin>
@@ -51,14 +53,14 @@ OPMcGraphML class >> toolbarMenu: aBuilder [
 		action: [ self importToModel: aBuilder model diagramController model withBuilder: aBuilder ].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcGraphML class >> updateModelAfterImport: aModel [
 	aModel workbench projectTree refresh.
 	aModel diagramController showAllElements.
 	aModel diagramController layouter defaultLayout
 ]
 
-{ #category : #'public-exporting' }
+{ #category : 'public-exporting' }
 OPMcGraphML >> export: aModel [
 	^ (MustacheTemplate on: self template)
 		value:
@@ -74,7 +76,7 @@ OPMcGraphML >> export: aModel [
 								with: #graphmlType -> each graphmlType ]))} asDictionary
 ]
 
-{ #category : #'public-exporting' }
+{ #category : 'public-exporting' }
 OPMcGraphML >> import: aXml into: model [
 	| doc graph graphData node nodeData edge edgeData nodes |
 	doc := XMLDOMParser parse: aXml.
@@ -113,12 +115,12 @@ OPMcGraphML >> import: aXml into: model [
 	^ model
 ]
 
-{ #category : #'public-exporting' }
+{ #category : 'public-exporting' }
 OPMcGraphML >> nodeForType: aType [
 	^ OPMcState new
 ]
 
-{ #category : #'public-exporting' }
+{ #category : 'public-exporting' }
 OPMcGraphML >> template [
 	<script: '(XMLDOMParser parse: self new template) inspect'>
 	^ '<?xml version="1.0" encoding="UTF-8"?>

@@ -1,28 +1,30 @@
 Class {
-	#name : #OPMcTransitionLabel,
-	#superclass : #OPEdgeLabel,
-	#category : #'OpenPonk-MarkovChains-Shapes'
+	#name : 'OPMcTransitionLabel',
+	#superclass : 'OPEdgeLabel',
+	#category : 'OpenPonk-MarkovChains-Shapes',
+	#package : 'OpenPonk-MarkovChains',
+	#tag : 'Shapes'
 }
 
-{ #category : #adding }
+{ #category : 'adding' }
 OPMcTransitionLabel >> defaultAnchorConstraintPosition [
 
 	^ OPRSAnchorConstraintBalanceReference balance: 0.2
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 OPMcTransitionLabel >> defaultMinDistance [
 
 	^ 5
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 OPMcTransitionLabel >> defaultText [
 
 	^ self modelElement name
 ]
 
-{ #category : #adding }
+{ #category : 'adding' }
 OPMcTransitionLabel >> renderShapeDetails [
 
 	super renderShapeDetails.

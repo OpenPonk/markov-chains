@@ -1,21 +1,23 @@
 Class {
-	#name : #OPMcStateController,
-	#superclass : #OPMcVertexController,
-	#category : #'OpenPonk-MarkovChains-Controllers'
+	#name : 'OPMcStateController',
+	#superclass : 'OPMcVertexController',
+	#category : 'OpenPonk-MarkovChains-Controllers',
+	#package : 'OpenPonk-MarkovChains',
+	#tag : 'Controllers'
 }
 
-{ #category : #forms }
+{ #category : 'forms' }
 OPMcStateController >> buildEditorForm: aForm [
 	super buildEditorForm: aForm.
 ]
 
-{ #category : #construction }
+{ #category : 'construction' }
 OPMcStateController >> diagramElementClass [
 
 	^ OPMcStateFigure
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcStateController >> modelClass [
 	^ OPMcState
 ]

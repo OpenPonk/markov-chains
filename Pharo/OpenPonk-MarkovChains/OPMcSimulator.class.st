@@ -1,6 +1,6 @@
 Class {
-	#name : #OPMcSimulator,
-	#superclass : #SpPresenter,
+	#name : 'OPMcSimulator',
+	#superclass : 'SpPresenter',
 	#instVars : [
 		'diagramController',
 		'recognizer',
@@ -18,10 +18,12 @@ Class {
 		'resumeButton',
 		'stateTable'
 	],
-	#category : #'OpenPonk-MarkovChains-Simulations'
+	#category : 'OpenPonk-MarkovChains-Simulations',
+	#package : 'OpenPonk-MarkovChains',
+	#tag : 'Simulations'
 }
 
-{ #category : #layout }
+{ #category : 'layout' }
 OPMcSimulator class >> defaultLayout [
 
 	^ SpBoxLayout newTopToBottom
@@ -62,7 +64,7 @@ OPMcSimulator class >> defaultLayout [
 		  yourself
 ]
 
-{ #category : #layout }
+{ #category : 'layout' }
 OPMcSimulator class >> toolbarMenu: aBuilder [
 
 	<opEditorToolbarMenu: #OPMcPlugin>
@@ -71,7 +73,7 @@ OPMcSimulator class >> toolbarMenu: aBuilder [
 		action: [ self new openOn: aBuilder model diagramController ]
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> backAction [
 	recognizer back.
 	recognizer consumed ifEmpty: [ backButton disable. ].
@@ -80,12 +82,12 @@ OPMcSimulator >> backAction [
 	self listOfStates
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> backButton [
 	^ backButton
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> connectPresenters [
 
 	super connectPresenters.
@@ -142,30 +144,30 @@ OPMcSimulator >> connectPresenters [
 	
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> idleData [
 
 	^ self idleInput text
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> idleInput [
 	^ idleInput
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> idleLabel [
 	^ idleLabel
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> initialize [
 	recognizer := OPMcRecognizer new.
 	self watchRecognizer: recognizer.
 	super initialize
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> initializePresenters [
 
 	inputLabel := self newLabel.
@@ -184,30 +186,30 @@ OPMcSimulator >> initializePresenters [
 	
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> initializeWindow: aWindow [
 
 	aWindow initialExtent: 400 @ 400.
 	aWindow title: 'Markov Chain Simulator'
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> input [
 	^ input
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> inputData [
 
 	^ self input text
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> inputLabel [
 	^ inputLabel
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> listOfStates [ 
 		
 	stateTable
@@ -216,7 +218,7 @@ OPMcSimulator >> listOfStates [
 		
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> nextAction [
 	backButton enable.
 	recognizer 
@@ -225,19 +227,19 @@ OPMcSimulator >> nextAction [
 	self listOfStates 
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> nextButton [
 	^ nextButton
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> openOn: aDiagramController [
 
 	diagramController := aDiagramController.
 	self open
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> pauseAction [
 	input disable.
 	idleInput disable.
@@ -250,17 +252,17 @@ OPMcSimulator >> pauseAction [
 	self listOfStates 
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> pauseButton [
 	^ pauseButton
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcSimulator >> recognizer [
 	^ recognizer
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> resetAction [
 	diagramController model elements
 		do: [ :each | OPMcFigureHighlighter unhighlight: (diagramController roassalShapeForModel: each) ].
@@ -269,18 +271,18 @@ OPMcSimulator >> resetAction [
 		items: #().
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> resetButton [
 	^ resetButton
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> resetStateEntries [
 	diagramController model states
 		do: [ :state | state counterReset ]
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> resumeAction [
 	input disable.
 	idleInput disable.
@@ -294,12 +296,12 @@ OPMcSimulator >> resumeAction [
 		nextUpToEnd
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> resumeButton [
 	^ resumeButton
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> runAction [
 	nextButton disable.
 	backButton disable.
@@ -308,12 +310,12 @@ OPMcSimulator >> runAction [
 	recognizer nextUpToEnd
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> runButton [
 	^ runButton
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> startAction [
 	input disable.
 	idleInput disable.
@@ -330,12 +332,12 @@ OPMcSimulator >> startAction [
 		for: self idleData
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> startButton [
 	^ startButton
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> stopAction [
 	input enable.
 	idleInput enable.
@@ -351,36 +353,49 @@ OPMcSimulator >> stopAction [
 		do: [ :each | OPMcFigureHighlighter unhighlight: (diagramController roassalShapeForModel: each) ]
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> stopButton [
 	^ stopButton
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcSimulator >> watchRecognizer: aRecognizer [
-	aRecognizer when: OPMcRecognizerSuccess do: [ :ann | 
-		OPMcFigureHighlighter
-			highlightNode: (diagramController roassalShapeForModel: ann place)
-			with: Color green.
+
+	aRecognizer
+		when: OPMcRecognizerSuccess
+		do: [ :ann |
+			OPMcFigureHighlighter
+				highlightNode: (diagramController roassalShapeForModel: ann place)
+				with: Color green.
 			nextButton disable.
 			backButton enable.
 			pauseButton disable.
 			runButton disable.
-			self listOfStates. ].
-	aRecognizer when: OPMcRecognizerFailure do: [ :ann | 
-		OPMcFigureHighlighter
-			highlightNode: (diagramController roassalShapeForModel: ann place)
-			with: Color red.
+			self listOfStates ]
+		for: self.
+	aRecognizer
+		when: OPMcRecognizerFailure
+		do: [ :ann |
+			OPMcFigureHighlighter
+				highlightNode: (diagramController roassalShapeForModel: ann place)
+				with: Color red.
 			nextButton disable.
 			backButton enable.
 			pauseButton disable.
 			runButton disable.
-			self listOfStates. ].
-	aRecognizer when: OPMcRecognizerLeave do: [ :ann | 
-		OPMcFigureHighlighter unhighlight:
-			(diagramController roassalShapeForModel: ann place) ].
-	aRecognizer when: OPMcRecognizerEnter do: [ :ann | 
-		OPMcFigureHighlighter
-			highlight: (diagramController roassalShapeForModel: ann place)
-			with: Color orange ]
+			self listOfStates ]
+		for: self.
+	aRecognizer
+		when: OPMcRecognizerLeave
+		do: [ :ann |
+			OPMcFigureHighlighter unhighlight:
+				(diagramController roassalShapeForModel: ann place) ]
+		for: self.
+	aRecognizer
+		when: OPMcRecognizerEnter
+		do: [ :ann |
+			OPMcFigureHighlighter
+				highlight: (diagramController roassalShapeForModel: ann place)
+				with: Color orange ]
+		for: self
 ]

@@ -1,10 +1,12 @@
 Class {
-	#name : #OPMcController,
-	#superclass : #OPDiagramController,
-	#category : #'OpenPonk-MarkovChains-Controllers'
+	#name : 'OPMcController',
+	#superclass : 'OPDiagramController',
+	#category : 'OpenPonk-MarkovChains-Controllers',
+	#package : 'OpenPonk-MarkovChains',
+	#tag : 'Controllers'
 }
 
-{ #category : #userinterface }
+{ #category : 'userinterface' }
 OPMcController >> applyLayout: anAlgorithm [
 
 	| figures edges |
@@ -16,18 +18,18 @@ OPMcController >> applyLayout: anAlgorithm [
 	anAlgorithm on: figures asGroup edges: edges asGroup
 ]
 
-{ #category : #connecting }
+{ #category : 'connecting' }
 OPMcController >> canBeTargetFor: aController [
 	^ (super canBeTargetFor: aController)
 		or: [ aController isKindOf: OPMcVertexController ]
 ]
 
-{ #category : #connecting }
+{ #category : 'connecting' }
 OPMcController >> commonModelClassPrefix [
 	^ 'OPMc'
 ]
 
-{ #category : #connecting }
+{ #category : 'connecting' }
 OPMcController >> controllerFactory [
 	^ super controllerFactory
 		register: OPMcStateController forModel: OPMcState;
@@ -35,12 +37,12 @@ OPMcController >> controllerFactory [
 		register: OPMcTransitionController forModel: OPMcIncomingTransition
 ]
 
-{ #category : #connecting }
+{ #category : 'connecting' }
 OPMcController >> elementsToShowInside [
 	^ model elements
 ]
 
-{ #category : #connecting }
+{ #category : 'connecting' }
 OPMcController >> initializePalette: aPalette [
 	aPalette
 		newCreationTool: 'State' 
@@ -51,12 +53,12 @@ OPMcController >> initializePalette: aPalette [
 			icon: OPCoreIcons opFsmTransitionIcon
 ]
 
-{ #category : #connecting }
+{ #category : 'connecting' }
 OPMcController >> modelClass [
 	^ OPMc
 ]
 
-{ #category : #connecting }
+{ #category : 'connecting' }
 OPMcController >> newControllerFor: aModel [
 	"IncomingTransition identifies itself as transition, but is not"
 

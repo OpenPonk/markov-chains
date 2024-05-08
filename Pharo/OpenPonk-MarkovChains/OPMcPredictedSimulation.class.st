@@ -1,15 +1,17 @@
 Class {
-	#name : #OPMcPredictedSimulation,
-	#superclass : #OPMcSimulator,
+	#name : 'OPMcPredictedSimulation',
+	#superclass : 'OPMcSimulator',
 	#instVars : [
 		'separatorLabel',
 		'separatorInput',
 		'letterPanel'
 	],
-	#category : #'OpenPonk-MarkovChains-Simulations'
+	#category : 'OpenPonk-MarkovChains-Simulations',
+	#package : 'OpenPonk-MarkovChains',
+	#tag : 'Simulations'
 }
 
-{ #category : #layout }
+{ #category : 'layout' }
 OPMcPredictedSimulation class >> defaultLayout [
 
 	^ SpBoxLayout newTopToBottom
@@ -52,7 +54,7 @@ OPMcPredictedSimulation class >> defaultLayout [
 		  yourself
 ]
 
-{ #category : #layout }
+{ #category : 'layout' }
 OPMcPredictedSimulation class >> toolbarMenu: aBuilder [
 
 	<opEditorToolbarMenu: #OPMcPlugin>
@@ -61,7 +63,7 @@ OPMcPredictedSimulation class >> toolbarMenu: aBuilder [
 		action: [ self new openOn: aBuilder model diagramController ]
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcPredictedSimulation >> backAction [
 	recognizer backPredicted.
 	recognizer consumed ifEmpty: [ backButton disable. ].
@@ -70,7 +72,7 @@ OPMcPredictedSimulation >> backAction [
 	self listOfStates
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcPredictedSimulation >> connectPresenters [
 
 	super connectPresenters.
@@ -130,14 +132,14 @@ OPMcPredictedSimulation >> connectPresenters [
 	
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcPredictedSimulation >> initialize [
 	recognizer := OPMcRecognizer new.
 	self watchRecognizer: recognizer.
 	super initialize
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcPredictedSimulation >> initializePresenters [
 
 	inputLabel := self newLabel.
@@ -159,7 +161,7 @@ OPMcPredictedSimulation >> initializePresenters [
 	
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcPredictedSimulation >> inputData [
 	"^self input text"
 
@@ -168,12 +170,12 @@ OPMcPredictedSimulation >> inputData [
 		ifNotEmpty: [ :sep | ^ ((self input text splitOn: sep) collect: #trim) removeAllSuchThat: #isEmpty ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcPredictedSimulation >> letterPanel [
 	^ letterPanel
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcPredictedSimulation >> nextAction [
 	backButton enable.
 	recognizer 
@@ -182,14 +184,14 @@ OPMcPredictedSimulation >> nextAction [
 	self listOfStates 
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcPredictedSimulation >> openOn: aDiagramController [
 
 	diagramController := aDiagramController.
 	self open
 ]
 
-{ #category : #preconditions }
+{ #category : 'preconditions' }
 OPMcPredictedSimulation >> preconditions [
 	diagramController model states
 		detect: [ :each | each name = (self inputData at: 1) asString]
@@ -200,7 +202,7 @@ OPMcPredictedSimulation >> preconditions [
 	^ true
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcPredictedSimulation >> resumeAction [
 	input disable.
 	idleInput disable.
@@ -214,7 +216,7 @@ OPMcPredictedSimulation >> resumeAction [
 		nextUpToEndPredicted
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcPredictedSimulation >> runAction [
 	nextButton disable.
 	backButton disable.
@@ -223,17 +225,17 @@ OPMcPredictedSimulation >> runAction [
 	recognizer nextUpToEndPredicted
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcPredictedSimulation >> separatorInput [
 	^ separatorInput
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcPredictedSimulation >> separatorLabel [
 	^ separatorLabel
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcPredictedSimulation >> startAction [
 	self preconditions
 		ifFalse: [ ^ self ].
@@ -254,7 +256,7 @@ OPMcPredictedSimulation >> startAction [
 	letterPanel data: self inputData.
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcPredictedSimulation >> stopAction [
 	input enable.
 	idleInput enable.
@@ -270,7 +272,7 @@ OPMcPredictedSimulation >> stopAction [
 		do: [ :each | OPMcFigureHighlighter unhighlight: (diagramController roassalShapeForModel: each) ]
 ]
 
-{ #category : #actions }
+{ #category : 'actions' }
 OPMcPredictedSimulation >> watchRecognizer: aRecognizer [
 	aRecognizer when: OPMcRecognizerEvent do: [ :ann | 
 		(ann isKindOf: OPMcRecognizerFailure) not & ann place isState 

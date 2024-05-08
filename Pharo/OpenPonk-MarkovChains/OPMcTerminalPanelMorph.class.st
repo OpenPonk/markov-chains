@@ -1,10 +1,12 @@
 Class {
-	#name : #OPMcTerminalPanelMorph,
-	#superclass : #Morph,
-	#category : #'OpenPonk-MarkovChains-Simulations'
+	#name : 'OPMcTerminalPanelMorph',
+	#superclass : 'Morph',
+	#category : 'OpenPonk-MarkovChains-Simulations',
+	#package : 'OpenPonk-MarkovChains',
+	#tag : 'Simulations'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcTerminalPanelMorph >> changeBoxAt: anIndex to: aSymbol [
 
 	self submorphs withIndexDo: [ :morph :index | 
@@ -13,19 +15,19 @@ OPMcTerminalPanelMorph >> changeBoxAt: anIndex to: aSymbol [
 		index > anIndex ifTrue: [ morph normal ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcTerminalPanelMorph >> data: aCollection [
 	self submorphsDo: #delete.
 	aCollection
 		do: [ :terminal | self addMorphBack: (OPMcTerminalBoxMorph new terminal: terminal) ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcTerminalPanelMorph >> defaultColor [
 	^ Color transparent
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcTerminalPanelMorph >> initialize [
 	super initialize.
 	self

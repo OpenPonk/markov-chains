@@ -1,13 +1,15 @@
 Class {
-	#name : #OPMcTerminalDataChanged,
-	#superclass : #Announcement,
+	#name : 'OPMcTerminalDataChanged',
+	#superclass : 'Announcement',
 	#instVars : [
 		'data'
 	],
-	#category : #'OpenPonk-MarkovChains-Simulations'
+	#category : 'OpenPonk-MarkovChains-Simulations',
+	#package : 'OpenPonk-MarkovChains',
+	#tag : 'Simulations'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcTerminalDataChanged class >> data: aString [
 
 	^ self new
@@ -15,13 +17,13 @@ OPMcTerminalDataChanged class >> data: aString [
 		  yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcTerminalDataChanged >> data [
 
 	^ data
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcTerminalDataChanged >> data: aString [
 
 	data := aString

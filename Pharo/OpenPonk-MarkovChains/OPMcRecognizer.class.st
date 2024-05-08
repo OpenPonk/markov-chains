@@ -1,6 +1,6 @@
 Class {
-	#name : #OPMcRecognizer,
-	#superclass : #OPAnnouncableObject,
+	#name : 'OPMcRecognizer',
+	#superclass : 'OPAnnouncableObject',
 	#instVars : [
 		'model',
 		'input',
@@ -12,10 +12,12 @@ Class {
 		'globalCounter',
 		'consumedBack'
 	],
-	#category : #'OpenPonk-MarkovChains-Simulations'
+	#category : 'OpenPonk-MarkovChains-Simulations',
+	#package : 'OpenPonk-MarkovChains',
+	#tag : 'Simulations'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcRecognizer >> allStates [
 	| visited |
 	visited := Set new.
@@ -25,7 +27,7 @@ OPMcRecognizer >> allStates [
 			yourself ].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcRecognizer >> back [
 	consumed ifEmpty: [ ^ self ].
 	canContinue := true.
@@ -38,7 +40,7 @@ OPMcRecognizer >> back [
 	
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcRecognizer >> backPredicted [	
 	consumed ifEmpty: [ ^ self ].
 	canContinue := true.
@@ -50,7 +52,7 @@ OPMcRecognizer >> backPredicted [
 	consumed ifEmpty: [ ^ self ].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcRecognizer >> beComplete [
 	current outgoing isNil | (globalCounter = (input asNumber)) 
 		ifTrue: [ self beSuccess ]
@@ -60,7 +62,7 @@ OPMcRecognizer >> beComplete [
 "be complete when path reaches a length equals idle (steps given by the user)"
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcRecognizer >> beCompletePredicted [
 	current outgoing isNil | (globalCounter = (input size)) 
 		ifTrue: [ self beSuccess ]
@@ -68,24 +70,24 @@ OPMcRecognizer >> beCompletePredicted [
 	canContinue := false
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcRecognizer >> beFailure [
 	self announce: (OPMcRecognizerFailure place: current).
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcRecognizer >> beSuccess [
 	self announce: (OPMcRecognizerSuccess place: current)
 	
 		
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcRecognizer >> consumed [
 	^ consumed
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcRecognizer >> consumedBackEmpty [
 	| transition |
 		
@@ -115,7 +117,7 @@ OPMcRecognizer >> consumedBackEmpty [
 	self goTo: transition.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcRecognizer >> consumedBackNotEmpty [
 	|transition|
 	consumed push: consumedBack pop.
@@ -142,7 +144,7 @@ OPMcRecognizer >> consumedBackNotEmpty [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcRecognizer >> decrementGC [
 	globalCounter = 1
 		ifFalse: [ globalCounter := globalCounter - 1 ] 
@@ -150,7 +152,7 @@ OPMcRecognizer >> decrementGC [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcRecognizer >> decrementGCInclZero [
 	globalCounter = 1
 		ifFalse: [ globalCounter := globalCounter - 1 ] 
@@ -158,19 +160,19 @@ OPMcRecognizer >> decrementGCInclZero [
 	
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcRecognizer >> globalCounter [
 	^ globalCounter
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcRecognizer >> goTo: aPlace [
 	current ifNotNil: [ self announce: (OPMcRecognizerLeave place: current) ].
 	current := aPlace.
 	self announce: (OPMcRecognizerEnter place: current)
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcRecognizer >> incrementGC [
 	globalCounter 
 		ifNotNil: [ globalCounter := globalCounter + 1 ] 
@@ -178,7 +180,7 @@ OPMcRecognizer >> incrementGC [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcRecognizer >> incrementGCInclZero [
 	globalCounter 
 		ifNotNil: [ globalCounter := globalCounter + 1 ] 
@@ -186,14 +188,14 @@ OPMcRecognizer >> incrementGCInclZero [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcRecognizer >> input: aCollection startingAt: aState [ 
 	self reset.
 	input := aCollection.
 	self goTo: aState "outgoing anyOne target"
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcRecognizer >> input: aCollection startingAt: aState for: idleTime [
 	self reset.
 	input := aCollection.
@@ -203,38 +205,38 @@ OPMcRecognizer >> input: aCollection startingAt: aState for: idleTime [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcRecognizer >> inputFinished [
 	((current name = (input at: input size asInteger) asString) & (globalCounter = input size)) 		
 		ifTrue: [ ^ self beCompletePredicted  ].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcRecognizer >> inputPosition [
 	^ "path size + 1" globalCounter
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcRecognizer >> inputPositionExclNil [
 	^ globalCounter + 1
 ]
 
-{ #category : #'accessing - Action' }
+{ #category : 'accessing - Action' }
 OPMcRecognizer >> inputs [
 	^ input
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcRecognizer >> isInputEmpty [
 	^ current isState & input isEmpty
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcRecognizer >> isPathEmpty [
 	^ path isEmpty
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcRecognizer >> next [
 	| transition sum probability|	
 	consumedBack isNotEmpty 
@@ -283,14 +285,14 @@ OPMcRecognizer >> next [
 	
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcRecognizer >> nextPredicted [
 	consumedBack isNotEmpty 
 		ifTrue:[ self consumedBackNotEmpty ]
 		ifFalse: [ self consumedBackEmpty ]. 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcRecognizer >> nextTransition [
 	| transition |
 	current outgoing do: [ :each | 
@@ -303,7 +305,7 @@ OPMcRecognizer >> nextTransition [
 		^ self beCompletePredicted ].
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcRecognizer >> nextUpToEnd [
 	[ canContinue ]
 		whileTrue: [ self next.
@@ -311,7 +313,7 @@ OPMcRecognizer >> nextUpToEnd [
 			self currentWorld doOneCycle ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcRecognizer >> nextUpToEndPredicted [
 	[ canContinue ]
 		whileTrue: [ self nextPredicted.
@@ -319,14 +321,14 @@ OPMcRecognizer >> nextUpToEndPredicted [
 			self currentWorld doOneCycle ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcRecognizer >> pause [
 	canContinue := false
 	
 "be complete when path reaches a length equals idle (steps given by the user)"
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcRecognizer >> predictedInput: aCollection startingAt: aState for: idleTime [
 	self resetPredicted.
 	input := aCollection.
@@ -335,7 +337,7 @@ OPMcRecognizer >> predictedInput: aCollection startingAt: aState for: idleTime [
 	globalCounter := 0.
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcRecognizer >> reset [
 	path := Stack new.
 	consumed := Stack new.
@@ -344,7 +346,7 @@ OPMcRecognizer >> reset [
 	globalCounter := 1
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcRecognizer >> resetPredicted [
 	path := Stack new.
 	consumed := Stack new.
@@ -353,14 +355,14 @@ OPMcRecognizer >> resetPredicted [
 	globalCounter := 0
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcRecognizer >> resume [
 	canContinue := true
 	
 "be complete when path reaches a length equals idle (steps given by the user)"
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcRecognizer >> stop [
 	canContinue := false.
 	path := Stack new.
@@ -370,7 +372,7 @@ OPMcRecognizer >> stop [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcRecognizer >> stopPredicted [
 	canContinue := false.
 	path := Stack new.
@@ -380,7 +382,7 @@ OPMcRecognizer >> stopPredicted [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcRecognizer >> transitionFrom: aState using: aSymbol [
 	^ aState outgoing detect: [ :each | each matches: aSymbol asString ] ifNone: [ nil ]
 ]

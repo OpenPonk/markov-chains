@@ -1,20 +1,22 @@
 Class {
-	#name : #OPMcVertexController,
-	#superclass : #OPElementController,
-	#category : #'OpenPonk-MarkovChains-Controllers'
+	#name : 'OPMcVertexController',
+	#superclass : 'OPElementController',
+	#category : 'OpenPonk-MarkovChains-Controllers',
+	#package : 'OpenPonk-MarkovChains',
+	#tag : 'Controllers'
 }
 
-{ #category : #connecting }
+{ #category : 'connecting' }
 OPMcVertexController >> canBeSourceFor: aController [
 	^ (aController respondsTo: #modelClass) and: [ aController modelClass = OPMcTransition ]
 ]
 
-{ #category : #connecting }
+{ #category : 'connecting' }
 OPMcVertexController >> canBeTargetFor: aController [
 	^ self canBeSourceFor: aController
 ]
 
-{ #category : #connecting }
+{ #category : 'connecting' }
 OPMcVertexController >> createTransitionAdornmentBy: builder [
 
 	builder
@@ -32,7 +34,7 @@ OPMcVertexController >> createTransitionAdornmentBy: builder [
 			tool selectedControllers: { self } ]
 ]
 
-{ #category : #connecting }
+{ #category : 'connecting' }
 OPMcVertexController >> createVertexAdornmentBy: builder [
 
 	builder
@@ -60,12 +62,12 @@ OPMcVertexController >> createVertexAdornmentBy: builder [
 			self diagramController editor palette selectTool: tool ]
 ]
 
-{ #category : #connecting }
+{ #category : 'connecting' }
 OPMcVertexController >> dependentElements [
 	^ (model incoming , model outgoing) asSet
 ]
 
-{ #category : #connecting }
+{ #category : 'connecting' }
 OPMcVertexController >> hookDiagramElement [
 
 	super hookDiagramElement.
@@ -76,23 +78,27 @@ OPMcVertexController >> hookDiagramElement [
 			createTransitionAdornmentBy: builder ]
 ]
 
-{ #category : #connecting }
+{ #category : 'announcements' }
 OPMcVertexController >> internalSubscribeTo: aModel [
+
 	super internalSubscribeTo: aModel.
-	aModel when: OPElementRemoved do: [ :e | self removeController ]
+	aModel
+		when: OPElementRemoved
+		send: #removeController 
+		to: self
 ]
 
-{ #category : #connecting }
+{ #category : 'connecting' }
 OPMcVertexController >> isHideable [
 	^ true
 ]
 
-{ #category : #connecting }
+{ #category : 'connecting' }
 OPMcVertexController >> modelAsParent [
 	^ self model owner
 ]
 
-{ #category : #connecting }
+{ #category : 'connecting' }
 OPMcVertexController >> removeModel [
 	self model announcer unsubscribe: self.
 	self diagramController model remove: self model

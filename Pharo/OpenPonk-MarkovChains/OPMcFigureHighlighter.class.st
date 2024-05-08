@@ -1,10 +1,12 @@
 Class {
-	#name : #OPMcFigureHighlighter,
-	#superclass : #Object,
-	#category : #'OpenPonk-MarkovChains-Shapes'
+	#name : 'OPMcFigureHighlighter',
+	#superclass : 'Object',
+	#category : 'OpenPonk-MarkovChains-Shapes',
+	#package : 'OpenPonk-MarkovChains',
+	#tag : 'Shapes'
 }
 
-{ #category : #'api - highlight' }
+{ #category : 'api - highlight' }
 OPMcFigureHighlighter class >> highlight: aShapedObject with: aColor [
 	aShapedObject isNode
 		ifTrue: [ self highlightNode: aShapedObject with: aColor ].
@@ -12,7 +14,7 @@ OPMcFigureHighlighter class >> highlight: aShapedObject with: aColor [
 		ifTrue: [ self highlightLine: aShapedObject with: aColor ]
 ]
 
-{ #category : #'api - highlight' }
+{ #category : 'api - highlight' }
 OPMcFigureHighlighter class >> highlightLine: aLine with: aColor [
 
 	self unhighlightNode: aLine.
@@ -21,7 +23,7 @@ OPMcFigureHighlighter class >> highlightLine: aLine with: aColor [
 	aLine signalUpdate
 ]
 
-{ #category : #'api - highlight' }
+{ #category : 'api - highlight' }
 OPMcFigureHighlighter class >> highlightNode: aNode with: aColor [
 
 	self unhighlightNode: aNode.
@@ -30,7 +32,7 @@ OPMcFigureHighlighter class >> highlightNode: aNode with: aColor [
 	aNode signalUpdate
 ]
 
-{ #category : #'api - highlight' }
+{ #category : 'api - highlight' }
 OPMcFigureHighlighter class >> unhighlight: aShapedObject [
 	aShapedObject isNode
 		ifTrue: [ self unhighlightNode: aShapedObject ].
@@ -38,7 +40,7 @@ OPMcFigureHighlighter class >> unhighlight: aShapedObject [
 		ifTrue: [ self unhighlightLine: aShapedObject ]
 ]
 
-{ #category : #'api - highlight' }
+{ #category : 'api - highlight' }
 OPMcFigureHighlighter class >> unhighlightLine: aLine [
 
 	aLine shape color: (aLine propertyAt: self name ifAbsent: [ ^ self ]).
@@ -46,7 +48,7 @@ OPMcFigureHighlighter class >> unhighlightLine: aLine [
 	aLine signalUpdate
 ]
 
-{ #category : #'api - highlight' }
+{ #category : 'api - highlight' }
 OPMcFigureHighlighter class >> unhighlightNode: aNode [
 
 	aNode shape borderColor:

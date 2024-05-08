@@ -1,14 +1,16 @@
 Class {
-	#name : #OPMcTerminalRecognizerStateChanged,
-	#superclass : #Announcement,
+	#name : 'OPMcTerminalRecognizerStateChanged',
+	#superclass : 'Announcement',
 	#instVars : [
 		'inputPosition',
 		'inputState'
 	],
-	#category : #'OpenPonk-MarkovChains-Simulations'
+	#category : 'OpenPonk-MarkovChains-Simulations',
+	#package : 'OpenPonk-MarkovChains',
+	#tag : 'Simulations'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcTerminalRecognizerStateChanged class >> at: anInteger to: aString [
 
 	^ self new
@@ -17,25 +19,25 @@ OPMcTerminalRecognizerStateChanged class >> at: anInteger to: aString [
 		  yourself
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcTerminalRecognizerStateChanged >> inputPosition [
 
 	^ inputPosition
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcTerminalRecognizerStateChanged >> inputPosition: anInteger [
 
 	inputPosition := anInteger
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcTerminalRecognizerStateChanged >> inputState [
 
 	^ inputState
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcTerminalRecognizerStateChanged >> inputState: aString [
 
 	inputState := aString

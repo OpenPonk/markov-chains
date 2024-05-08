@@ -1,45 +1,47 @@
 Class {
-	#name : #OPMcTerminalPanelPresenter,
-	#superclass : #SpAbstractWidgetPresenter,
+	#name : 'OPMcTerminalPanelPresenter',
+	#superclass : 'SpAbstractWidgetPresenter',
 	#instVars : [
 		'data'
 	],
-	#category : #'OpenPonk-MarkovChains-Simulations'
+	#category : 'OpenPonk-MarkovChains-Simulations',
+	#package : 'OpenPonk-MarkovChains',
+	#tag : 'Simulations'
 }
 
-{ #category : #specs }
+{ #category : 'specs' }
 OPMcTerminalPanelPresenter class >> adapterName [
 
 	^ #OPMcTerminalPanelAdapter
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcTerminalPanelPresenter >> changeBoxAt: aPosition to: aState [
 
 	self announce:
 		(OPMcTerminalRecognizerStateChanged at: aPosition to: aState)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcTerminalPanelPresenter >> data [
 
 	^ data
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcTerminalPanelPresenter >> data: aString [
 
 	data := aString.
 	self announce: (OPMcTerminalDataChanged data: data)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcTerminalPanelPresenter >> whenDataChangedDo: aBlock [
 
 	self announcer when: OPMcTerminalDataChanged do: aBlock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcTerminalPanelPresenter >> whenRecognizerStateChangedDo: aBlock [
 
 	self announcer when: OPMcTerminalRecognizerStateChanged do: aBlock

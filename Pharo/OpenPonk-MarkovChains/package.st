@@ -1,1 +1,1 @@
-Package { #name : #'OpenPonk-MarkovChains' }
+Package { #name : 'OpenPonk-MarkovChains' }

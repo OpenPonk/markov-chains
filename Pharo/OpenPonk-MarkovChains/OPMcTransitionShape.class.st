@@ -1,17 +1,19 @@
 Class {
-	#name : #OPMcTransitionShape,
-	#superclass : #OPEdge,
-	#category : #'OpenPonk-MarkovChains-Shapes'
+	#name : 'OPMcTransitionShape',
+	#superclass : 'OPEdge',
+	#category : 'OpenPonk-MarkovChains-Shapes',
+	#package : 'OpenPonk-MarkovChains',
+	#tag : 'Shapes'
 }
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 OPMcTransitionShape >> createOwnedElementsWithoutController [
 
 	self ownedElements ifNotEmpty: [ ^ self ].
 	OPMcTransitionLabel in: self
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 OPMcTransitionShape >> renderBasicShape [
 
 	^ (self source = self target

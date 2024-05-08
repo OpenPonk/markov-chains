@@ -1,16 +1,18 @@
 Class {
-	#name : #OPMcTransitionController,
-	#superclass : #OPDirectionalRelationshipController,
-	#category : #'OpenPonk-MarkovChains-Controllers'
+	#name : 'OPMcTransitionController',
+	#superclass : 'OPDirectionalRelationshipController',
+	#category : 'OpenPonk-MarkovChains-Controllers',
+	#package : 'OpenPonk-MarkovChains',
+	#tag : 'Controllers'
 }
 
-{ #category : #construction }
+{ #category : 'construction' }
 OPMcTransitionController >> diagramElementClass [
 
 	^ OPMcTransitionShape
 ]
 
-{ #category : #construction }
+{ #category : 'construction' }
 OPMcTransitionController >> ensureSourceAndTargetIn: aDiagramController [
 
 	source ifNil: [ 
@@ -23,36 +25,40 @@ OPMcTransitionController >> ensureSourceAndTargetIn: aDiagramController [
 				 model target) ]
 ]
 
-{ #category : #construction }
+{ #category : 'announcements' }
 OPMcTransitionController >> internalSubscribeTo: aModel [
+
 	super internalSubscribeTo: aModel.
-	aModel when: OPElementRemoved do: [ :e | self removeController ]
+	aModel
+		when: OPElementRemoved
+		send: #removeController
+		to: self
 ]
 
-{ #category : #construction }
+{ #category : 'construction' }
 OPMcTransitionController >> isHideable [
 	^ true
 ]
 
-{ #category : #construction }
+{ #category : 'construction' }
 OPMcTransitionController >> modelClass [
 	^ OPMcTransition
 ]
 
-{ #category : #construction }
+{ #category : 'construction' }
 OPMcTransitionController >> removeModel [
 	self model announcer unsubscribe: self.
 	self diagramController model remove: self model
 ]
 
-{ #category : #construction }
+{ #category : 'construction' }
 OPMcTransitionController >> showInDiagram: aDiagramController [
 
 	self ensureSourceAndTargetIn: aDiagramController.
 	^ super showInDiagram: aDiagramController
 ]
 
-{ #category : #construction }
+{ #category : 'construction' }
 OPMcTransitionController >> showWithoutDependentInDiagram: aDiagramController [
 
 	self ensureSourceAndTargetIn: aDiagramController.

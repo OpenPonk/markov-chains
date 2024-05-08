@@ -1,40 +1,42 @@
 Class {
-	#name : #OPMcPlugin,
-	#superclass : #OPPlugin,
-	#category : #'OpenPonk-MarkovChains-Plugin'
+	#name : 'OPMcPlugin',
+	#superclass : 'OPPlugin',
+	#category : 'OpenPonk-MarkovChains-Plugin',
+	#package : 'OpenPonk-MarkovChains',
+	#tag : 'Plugin'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcPlugin >> diagramControllerClass [
 	^ OPMcController
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcPlugin >> icon [
 	^ OPCoreIcons opMcDiagramIcon
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcPlugin >> layouterClass [
 	^ OPMcLayouter
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcPlugin >> modelClass [
 	^ OPMc
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcPlugin >> modelSerializerClass [
 	^ OPMcModelSerializer
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcPlugin >> name [
 	^ 'MC Diagram'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcPlugin >> supportsHidingElements [
 	^ true
 ]

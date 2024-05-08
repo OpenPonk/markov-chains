@@ -1,62 +1,64 @@
 Class {
-	#name : #OPMcVertex,
-	#superclass : #OPModelObject,
-	#category : #'OpenPonk-MarkovChains-Models'
+	#name : 'OPMcVertex',
+	#superclass : 'OPModelObject',
+	#category : 'OpenPonk-MarkovChains-Models',
+	#package : 'OpenPonk-MarkovChains',
+	#tag : 'Models'
 }
 
-{ #category : #associating }
+{ #category : 'associating' }
 OPMcVertex >> -> aVertex [
 	^ OPMcTransition from: self to: aVertex
 ]
 
-{ #category : #associating }
+{ #category : 'associating' }
 OPMcVertex >> graphmlType [
 	^ self subclassResponsibility
 ]
 
-{ #category : #associating }
+{ #category : 'associating' }
 OPMcVertex >> incoming [
 	owner ifNil: [ ^ #() ].
 	^ owner transitions select: [ :each | each target = self ]
 ]
 
-{ #category : #associating }
+{ #category : 'associating' }
 OPMcVertex >> isFinal [
 	^ false
 ]
 
-{ #category : #associating }
+{ #category : 'associating' }
 OPMcVertex >> isInitial [
 	^ false
 ]
 
-{ #category : #associating }
+{ #category : 'associating' }
 OPMcVertex >> isNormal [
 	^ false
 ]
 
-{ #category : #associating }
+{ #category : 'associating' }
 OPMcVertex >> isState [
 	^ true
 ]
 
-{ #category : #associating }
+{ #category : 'associating' }
 OPMcVertex >> isTransition [
 	^ false
 ]
 
-{ #category : #associating }
+{ #category : 'associating' }
 OPMcVertex >> outgoing [
 	owner ifNil: [ ^ #() ].
 	^ owner transitions select: [ :each | each source = self ]
 ]
 
-{ #category : #associating }
+{ #category : 'associating' }
 OPMcVertex >> relatedElements [
 	^ (self incoming , self outgoing) asSet asOrderedCollection
 ]
 
-{ #category : #associating }
+{ #category : 'associating' }
 OPMcVertex >> removedFrom: aDiagram [
 	self
 		removedFrom: aDiagram

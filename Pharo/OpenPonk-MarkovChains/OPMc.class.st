@@ -1,25 +1,27 @@
 Class {
-	#name : #OPMc,
-	#superclass : #OPModelObject,
-	#category : #'OpenPonk-MarkovChains-Models'
+	#name : 'OPMc',
+	#superclass : 'OPModelObject',
+	#category : 'OpenPonk-MarkovChains-Models',
+	#package : 'OpenPonk-MarkovChains',
+	#tag : 'Models'
 }
 
-{ #category : #testing }
+{ #category : 'testing' }
 OPMc >> isState [
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 OPMc >> isTransition [
 	^ false
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 OPMc >> states [
 	^ elements select: [ :each | each isState ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 OPMc >> transitions [
 	^ elements select: [ :each | each isTransition ]
 ]

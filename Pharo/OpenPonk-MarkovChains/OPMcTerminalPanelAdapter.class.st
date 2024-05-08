@@ -1,19 +1,21 @@
 Class {
-	#name : #OPMcTerminalPanelAdapter,
-	#superclass : #SpAbstractMorphicAdapter,
+	#name : 'OPMcTerminalPanelAdapter',
+	#superclass : 'SpAbstractMorphicAdapter',
 	#instVars : [
 		'morph'
 	],
-	#category : #'OpenPonk-MarkovChains-Simulations'
+	#category : 'OpenPonk-MarkovChains-Simulations',
+	#package : 'OpenPonk-MarkovChains',
+	#tag : 'Simulations'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcTerminalPanelAdapter class >> adaptingName [
 
 	^ self name copyReplaceAll: 'Morphic' with: ''
 ]
 
-{ #category : #factory }
+{ #category : 'factory' }
 OPMcTerminalPanelAdapter >> buildWidget [
 
 	morph := OPMcTerminalPanelMorph new

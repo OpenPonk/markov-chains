@@ -1,10 +1,12 @@
 Class {
-	#name : #OPMcExamples,
-	#superclass : #Object,
-	#category : #'OpenPonk-MarkovChains-Examples'
+	#name : 'OPMcExamples',
+	#superclass : 'Object',
+	#category : 'OpenPonk-MarkovChains-Examples',
+	#package : 'OpenPonk-MarkovChains',
+	#tag : 'Examples'
 }
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcExamples class >> exampleEmpty [
 	| project mc |
 	project := OPProject new name: 'New Markov Chain'.
@@ -13,7 +15,7 @@ OPMcExamples class >> exampleEmpty [
 	(OPWorkbench openProject: project) showAllElementsInAllDiagrams
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcExamples class >> exampleMarkovChain [
 	| project mc states stateNames |
 	project := OPProject named: 'MC Example'.
@@ -39,7 +41,7 @@ OPMcExamples class >> exampleMarkovChain [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcExamples class >> exampleMarkovWeather [
 	| project mc sunny cloudy rainy |
 	project := OPProject named: 'MC Weather Example'.
@@ -67,7 +69,7 @@ OPMcExamples class >> exampleMarkovWeather [
 	(OPWorkbench openProject: project) showAllElementsInAllDiagrams
 ]
 
-{ #category : #'world menu' }
+{ #category : 'world menu' }
 OPMcExamples class >> menuCommandOn: aBuilder [
 
 	<worldMenu>

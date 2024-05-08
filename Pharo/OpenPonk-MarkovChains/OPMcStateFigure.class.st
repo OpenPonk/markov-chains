@@ -1,14 +1,16 @@
 Class {
-	#name : #OPMcStateFigure,
-	#superclass : #OPMcAbstractStateFigure,
+	#name : 'OPMcStateFigure',
+	#superclass : 'OPMcAbstractStateFigure',
 	#instVars : [
 		'label',
 		'innerCircle'
 	],
-	#category : #'OpenPonk-MarkovChains-Shapes'
+	#category : 'OpenPonk-MarkovChains-Shapes',
+	#package : 'OpenPonk-MarkovChains',
+	#tag : 'Shapes'
 }
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 OPMcStateFigure >> renderBasicShape [
 
 	^ RSCircle new
@@ -21,7 +23,7 @@ OPMcStateFigure >> renderBasicShape [
 		  yourself
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 OPMcStateFigure >> renderShapeDetails [
 
 	super renderShapeDetails.
@@ -39,7 +41,7 @@ OPMcStateFigure >> renderShapeDetails [
 		for: self
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 OPMcStateFigure >> selectableInteraction [
 
 	^ super selectableInteraction
@@ -47,7 +49,7 @@ OPMcStateFigure >> selectableInteraction [
 		  yourself
 ]
 
-{ #category : #rendering }
+{ #category : 'rendering' }
 OPMcStateFigure >> updateRenderFromModel [
 
 	label text: self modelElement name.

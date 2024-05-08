@@ -1,6 +1,6 @@
 Class {
-	#name : #OPMcServer,
-	#superclass : #Object,
+	#name : 'OPMcServer',
+	#superclass : 'Object',
 	#instVars : [
 		'server',
 		'image',
@@ -10,10 +10,12 @@ Class {
 		'simulator',
 		'modelPNG'
 	],
-	#category : #'OpenPonk-MarkovChains-Zinc'
+	#category : 'OpenPonk-MarkovChains-Zinc',
+	#package : 'OpenPonk-MarkovChains',
+	#tag : 'Zinc'
 }
 
-{ #category : #toolbar }
+{ #category : 'toolbar' }
 OPMcServer class >> toolbarMenu: aBuilder [
 
 	<opEditorToolbarMenu: #OPMcPlugin>
@@ -22,7 +24,7 @@ OPMcServer class >> toolbarMenu: aBuilder [
 		action: [ self new launch: aBuilder model  ]
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcServer >> getModelAsSVG [
 	| xmlStream xmlString xmlFile |
 	diagramController canvasPresenter currentCanvas zoomToFit.
@@ -36,7 +38,7 @@ OPMcServer >> getModelAsSVG [
 	
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcServer >> handleGetRequest: request [
 	request hasEntity ifTrue: [ ^ ZnResponse badRequest: request ].
 	(request uri equals: #home asUrl) ifTrue: [
@@ -51,7 +53,7 @@ OPMcServer >> handleGetRequest: request [
 	^ ZnResponse ok: (ZnEntity html: currentHTML)
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcServer >> handlePostRequest: request [
    | part badRequest |
    badRequest := [ ^ ZnResponse badRequest: request ].
@@ -84,7 +86,7 @@ OPMcServer >> handlePostRequest: request [
 	badRequest.
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcServer >> handleRequest: request [
    "request uri path = #mc ifTrue: [
       request method = #GET ifTrue: [
@@ -100,7 +102,7 @@ OPMcServer >> handleRequest: request [
    ^ ZnResponse notFound: request uri
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcServer >> htmlPlugin [
 	^ 
 '<html>
@@ -134,7 +136,7 @@ OPMcServer >> htmlPlugin [
 </html>'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcServer >> htmlSimPred [
    ^ 
 '<html>
@@ -176,7 +178,7 @@ OPMcServer >> htmlSimPred [
 </html>'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcServer >> htmlSimPredResults [
    ^ 
 '<html>
@@ -234,7 +236,7 @@ OPMcServer >> htmlSimPredResults [
 </html>'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcServer >> htmlSimPredResultsFailure [
    ^ 
 '<html>
@@ -301,7 +303,7 @@ OPMcServer >> htmlSimPredResultsFailure [
 </html>'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcServer >> htmlSimRnd [
    ^ 
 '<html>
@@ -342,7 +344,7 @@ OPMcServer >> htmlSimRnd [
 </html>'
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcServer >> htmlSimRndResults [
    ^ 
 '<html>
@@ -400,7 +402,7 @@ OPMcServer >> htmlSimRndResults [
 </html>'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcServer >> htmlSimType [
 	^
 '<html>
@@ -445,7 +447,7 @@ OPMcServer >> htmlSimType [
 </html>'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcServer >> launch: aModel [
 	server := ZnServer startDefaultOn: 8080.
 	"server delegate map: #mc to: self.
@@ -457,7 +459,7 @@ OPMcServer >> launch: aModel [
 	
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcServer >> launchSimPred: fields via: request [
 	((((fields at: #states) value isNotEmpty) and: 
 	 ((fields at: #idle) value asNumber asFloat > 0.0)) and:
@@ -478,7 +480,7 @@ OPMcServer >> launchSimPred: fields via: request [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcServer >> launchSimRnd: fields via: request [
 	(((fields at: #nos) value asInteger > 0) and: ((fields at: #idle) value asNumber asFloat > 0.0))
 		ifFalse: [ ^ ZnResponse badRequest: request ].
@@ -493,7 +495,7 @@ OPMcServer >> launchSimRnd: fields via: request [
 
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcServer >> loadFile: file via: request [
    (file notNil
       and: [ file contentType matches: 'application/octet-stream' asZnMimeType ])
@@ -505,7 +507,7 @@ OPMcServer >> loadFile: file via: request [
    ^ ZnResponse redirect: #mc
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcServer >> loadSimType: field via: request [
    (field notNil
       and: [ field contentType matches: ZnMimeType applicationFormUrlEncoded ])
@@ -519,14 +521,14 @@ OPMcServer >> loadSimType: field via: request [
    ^ ZnResponse redirect: #mc
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcServer >> mustacheHtmlSimPred [
    ^ (MustacheTemplate on: self htmlSimPred)
 		value:
 			{(#image -> modelPNG contents)} asDictionary
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcServer >> mustacheHtmlSimPredResults [
    ^ (MustacheTemplate on: self htmlSimPredResults)
 		value:
@@ -540,7 +542,7 @@ OPMcServer >> mustacheHtmlSimPredResults [
 			 (#image -> modelPNG contents)} asDictionary
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcServer >> mustacheHtmlSimPredResultsFailure [
    ^ (MustacheTemplate on: self htmlSimPredResultsFailure)
 		value:
@@ -559,14 +561,14 @@ OPMcServer >> mustacheHtmlSimPredResultsFailure [
 			 (#position -> (simulator recognizer globalCounter + 1)) } asDictionary
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcServer >> mustacheHtmlSimRnd [
    ^ (MustacheTemplate on: self htmlSimRnd)
 		value:
 			{(#image -> modelPNG contents)} asDictionary
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcServer >> mustacheHtmlSimRndResults [
 	simulator recognizer allStates sort: [ :a :b | a name < b name ].
    ^ (MustacheTemplate on: self htmlSimRndResults)
@@ -581,30 +583,30 @@ OPMcServer >> mustacheHtmlSimRndResults [
 			 (#image -> modelPNG contents)} asDictionary
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcServer >> mustacheHtmlSimType [
    ^ (MustacheTemplate on: self htmlSimType)
 		value:
 			{(#image -> modelPNG contents)} asDictionary
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcServer >> pngHeight [
 	^ '300pt'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcServer >> pngWidth [
 	^ '300pt'
 ]
 
-{ #category : #'as yet unclassified' }
+{ #category : 'as yet unclassified' }
 OPMcServer >> siteTags [
 	^ { #mc.
 		 #home. }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 OPMcServer >> value: request [
    ^ self handleRequest: request
 ]
