@@ -1,1 +1,1 @@
-Package { #name : #BaselineOfMarkovChains }
+Package { #name : 'BaselineOfMarkovChains' }

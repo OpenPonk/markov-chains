@@ -1,10 +1,11 @@
 Class {
-	#name : #BaselineOfMarkovChains,
-	#superclass : #BaselineOf,
-	#category : #BaselineOfMarkovChains
+	#name : 'BaselineOfMarkovChains',
+	#superclass : 'BaselineOf',
+	#category : 'BaselineOfMarkovChains',
+	#package : 'BaselineOfMarkovChains'
 }
 
-{ #category : #baselines }
+{ #category : 'baselines' }
 BaselineOfMarkovChains >> baseline: spec [
 
 	<baseline>
