@@ -29,7 +29,7 @@ OPMcServer >> getModelAsSVG [
 	| xmlStream xmlString xmlFile |
 	diagramController canvasPresenter currentCanvas zoomToFit.
 	xmlStream := WriteStream on: ''.
-	diagramController canvasPresenter currentCanvas svgExporter exportToStream: xmlStream.
+	diagramController canvasPresenter currentCanvas svgCairoExporter exportToStream: xmlStream.
 	xmlString := xmlStream contents.
 	xmlFile := (XMLDOMParser parse: xmlString).
 	(xmlFile nodeAt: 1) attributeAt: #width put: self pngWidth.
