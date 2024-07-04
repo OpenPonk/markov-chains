@@ -94,11 +94,6 @@ OPMcVertexController >> isHideable [
 ]
 
 { #category : 'connecting' }
-OPMcVertexController >> modelAsParent [
-	^ self model owner
-]
-
-{ #category : 'connecting' }
 OPMcVertexController >> removeModel [
 	self model announcer unsubscribe: self.
 	self diagramController model remove: self model
