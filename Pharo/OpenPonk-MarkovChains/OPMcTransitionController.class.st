@@ -32,8 +32,10 @@ OPMcTransitionController >> modelClass [
 	^ OPMcTransition
 ]
 
-{ #category : 'construction' }
+{ #category : 'destruction' }
 OPMcTransitionController >> removeModel [
+
 	self model announcer unsubscribe: self.
-	self diagramController model remove: self model
+	self diagramController model remove: self model.
+	super removeModel
 ]
