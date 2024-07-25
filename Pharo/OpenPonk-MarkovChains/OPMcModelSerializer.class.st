@@ -41,7 +41,8 @@ OPMcModelSerializer >> materializeModelFrom: aStream [
 
 { #category : 'formatting' }
 OPMcModelSerializer >> materializeModelFromString: aString [
-	^ OPMcGraphML new import: aString
+
+	^ OPMcGraphML new import: aString into: OPMc new
 ]
 
 { #category : 'formatting' }
