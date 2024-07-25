@@ -14,39 +14,38 @@ OPMcNavigatorAdapter class >> priority [
 
 { #category : 'widget API' }
 OPMcNavigatorAdapter >> childrenMapping [
-	^ {(OPMc -> #states). 
-	(OPMcVertex
-		-> [ :o | 
-			o outgoing
-				, (o incoming collect: [ :each | OPMcIncomingTransition of: each ]) ]).
-	(OPMcIncomingTransition -> #()).
-	(OPMcTransition -> #())}
+
+	^ {
+		  (OPMc -> #states).
+		  (OPMcVertex -> [ :o | o incoming , o outgoing ]).
+		  (OPMcTransition -> #(  )) }
 ]
 
 { #category : 'widget API' }
 OPMcNavigatorAdapter >> displayMapping [
-	^ {(OPMc -> 'Diagram').
-	(OPMcState -> 'State').
-	(OPMcTransition -> 'Transition').
-	(OPMcIncomingTransition -> 'Incoming transition')}
+
+	^ {
+		  (OPMc -> 'Diagram').
+		  (OPMcState -> 'State').
+		  (OPMcTransition -> 'Transition') }
 ]
 
 { #category : 'widget API' }
 OPMcNavigatorAdapter >> hasMappingFor: anObject in: aModel [
 
-	^ { 
+	^ {
 		  OPMc.
 		  OPMcTransition.
-		  OPMcIncomingTransition.
 		  OPMcVertex } anySatisfy: [ :any | anObject isKindOf: any ]
 ]
 
 { #category : 'widget API' }
-OPMcNavigatorAdapter >> iconMapping [ 
-	^ {(OPMc -> OPCoreIcons opMcDiagramIcon).
-	(OPMcIncomingTransition -> OPCoreIcons opFsmFlippedTransitionIcon).
-	(OPMcTransition -> OPCoreIcons opFsmTransitionIcon).
-	(OPMcState -> OPCoreIcons opFsmRegularStateIcon )}
+OPMcNavigatorAdapter >> iconMapping [
+
+	^ {
+		  (OPMc -> OPCoreIcons opMcDiagramIcon).
+		  (OPMcTransition -> OPCoreIcons opFsmTransitionIcon).
+		  (OPMcState -> OPCoreIcons opFsmRegularStateIcon) }
 ]
 
 { #category : 'widget API' }
@@ -58,8 +57,9 @@ OPMcNavigatorAdapter >> sort: modelObjects [
 
 { #category : 'widget API' }
 OPMcNavigatorAdapter >> typesByDependency [
-	^ {OPMc.
-	OPMcVertex.
-	OPMcTransition.
-	OPMcIncomingTransition}
+
+	^ {
+		  OPMc.
+		  OPMcVertex.
+		  OPMcTransition }
 ]

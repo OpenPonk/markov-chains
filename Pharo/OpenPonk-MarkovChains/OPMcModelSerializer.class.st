@@ -12,10 +12,16 @@ OPMcModelSerializer class >> exportVersion [
 	^ 1
 ]
 
+{ #category : 'accessing' }
+OPMcModelSerializer class >> fileExtension [
+
+	^ #xml
+]
+
 { #category : 'as yet unclassified' }
 OPMcModelSerializer class >> formatName [
 
-	^ #'graphml-ston'
+	^ #graphml
 ]
 
 { #category : 'as yet unclassified' }
@@ -24,43 +30,23 @@ OPMcModelSerializer class >> minImportVersion [
 	^ 1
 ]
 
-{ #category : 'formatting' }
-OPMcModelSerializer >> formatName [
-	^ 'ston'
-]
-
-{ #category : 'formatting' }
-OPMcModelSerializer >> materializeDiagramFrom: aString [
-	^ STON fromString: aString
-]
-
-{ #category : 'formatting' }
+{ #category : 'serialize/materialize' }
 OPMcModelSerializer >> materializeModelFrom: aStream [
 	^ self materializeModelFromString: aStream contents
 ]
 
-{ #category : 'formatting' }
+{ #category : 'serialize/materialize' }
 OPMcModelSerializer >> materializeModelFromString: aString [
 
 	^ OPMcGraphML new import: aString into: OPMc new
 ]
 
-{ #category : 'formatting' }
-OPMcModelSerializer >> modelExtension [
-	^ 'graphml'
-]
-
-{ #category : 'formatting' }
-OPMcModelSerializer >> serializeDiagram: aDiagramMemento [
-	^ STON toStringPretty: aDiagramMemento
-]
-
-{ #category : 'formatting' }
+{ #category : 'serialize/materialize' }
 OPMcModelSerializer >> serializeModel: aModel [
 	^ OPMcGraphML new export: aModel
 ]
 
-{ #category : 'formatting' }
+{ #category : 'serialize/materialize' }
 OPMcModelSerializer >> serializeModel: aModel to: aStream [
 	^ aStream << (self serializeModel: aModel)
 ]

@@ -31,10 +31,10 @@ OPMcController >> commonModelClassPrefix [
 
 { #category : 'connecting' }
 OPMcController >> controllerFactory [
+
 	^ super controllerFactory
-		register: OPMcStateController forModel: OPMcState;
-		register: OPMcTransitionController forModel: OPMcTransition;
-		register: OPMcTransitionController forModel: OPMcIncomingTransition
+		  register: OPMcStateController forModel: OPMcState;
+		  register: OPMcTransitionController forModel: OPMcTransition
 ]
 
 { #category : 'connecting' }
