@@ -9,7 +9,7 @@ Class {
 { #category : 'toolbar' }
 OPMcGraphML class >> exportPackage: aModel [
 
-	StFBSaveFileDialog new
+	StSaveFilePresenter new
 		title: 'Choose a XMI file to export to';
 		okAction: [ :file | 
 			file
@@ -31,7 +31,7 @@ OPMcGraphML class >> exportPackage: aModel [
 { #category : 'toolbar' }
 OPMcGraphML class >> importToModel: aModel withBuilder: aBuilder [
 
-	StFBOpenFileDialog new
+	StOpenFilePresenter new
 		title: 'Choose a XMI export of UML model';
 		okAction: [ :file | 
 			OPMcGraphML new import: file into: aModel.
