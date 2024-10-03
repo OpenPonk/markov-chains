@@ -38,11 +38,17 @@ OPMcTerminalPanelPresenter >> data: aString [
 { #category : 'accessing' }
 OPMcTerminalPanelPresenter >> whenDataChangedDo: aBlock [
 
-	self announcer when: OPMcTerminalDataChanged do: aBlock
+	self announcer
+		when: OPMcTerminalDataChanged
+		do: aBlock
+		for: aBlock receiver
 ]
 
 { #category : 'accessing' }
 OPMcTerminalPanelPresenter >> whenRecognizerStateChangedDo: aBlock [
 
-	self announcer when: OPMcTerminalRecognizerStateChanged do: aBlock
+	self announcer
+		when: OPMcTerminalRecognizerStateChanged
+		do: aBlock
+		for: aBlock receiver
 ]

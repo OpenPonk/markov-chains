@@ -274,42 +274,58 @@ OPMcPredictedSimulation >> stopAction [
 
 { #category : 'actions' }
 OPMcPredictedSimulation >> watchRecognizer: aRecognizer [
-	aRecognizer when: OPMcRecognizerEvent do: [ :ann | 
-		(ann isKindOf: OPMcRecognizerFailure) not & ann place isState 
-			ifTrue: [ 
+
+	aRecognizer
+		when: OPMcRecognizerEvent
+		do: [ :ann |
+			(ann isKindOf: OPMcRecognizerFailure) not & ann place isState
+				ifTrue: [
+					self letterPanel
+						changeBoxAt: aRecognizer inputPositionExclNil
+						to: #success ].
+			ann place isTransition ifTrue: [
 				self letterPanel
-					changeBoxAt: aRecognizer inputPositionExclNil 
-					to: #success ].
-		ann place isTransition ifTrue: [ 
-			self letterPanel
-				changeBoxAt: aRecognizer inputPositionExclNil 
-				to: #processed ] ].
-	aRecognizer when: OPMcRecognizerSuccess do: [ :ann | 
-		OPMcFigureHighlighter
-			highlightNode: (diagramController roassalShapeForModel: ann place)
-			with: Color green.
+					changeBoxAt: aRecognizer inputPositionExclNil
+					to: #processed ] ]
+		for: self.
+	aRecognizer
+		when: OPMcRecognizerSuccess
+		do: [ :ann |
+			OPMcFigureHighlighter
+				highlightNode: (diagramController roassalShapeForModel: ann place)
+				with: Color green.
 			nextButton disable.
 			backButton enable.
 			pauseButton disable.
 			runButton disable.
-			self listOfStates. ].
-	aRecognizer when: OPMcRecognizerFailure do: [ :ann | 
-		OPMcFigureHighlighter
-			highlightNode: (diagramController roassalShapeForModel: ann place)
-			with: Color red.
+			self listOfStates ]
+		for: self.
+	aRecognizer
+		when: OPMcRecognizerFailure
+		do: [ :ann |
+			OPMcFigureHighlighter
+				highlightNode: (diagramController roassalShapeForModel: ann place)
+				with: Color red.
 			nextButton disable.
 			backButton enable.
 			pauseButton disable.
 			runButton disable.
-			self listOfStates. 
+			self listOfStates.
 			self letterPanel
 				changeBoxAt: aRecognizer inputPositionExclNil
-				to: #failure ].
-	aRecognizer when: OPMcRecognizerLeave do: [ :ann | 
-		OPMcFigureHighlighter unhighlight:
-			(diagramController roassalShapeForModel: ann place) ].
-	aRecognizer when: OPMcRecognizerEnter do: [ :ann | 
-		OPMcFigureHighlighter
-			highlight: (diagramController roassalShapeForModel: ann place)
-			with: Color orange ]
+				to: #failure ]
+		for: self.
+	aRecognizer
+		when: OPMcRecognizerLeave
+		do: [ :ann |
+			OPMcFigureHighlighter unhighlight:
+				(diagramController roassalShapeForModel: ann place) ]
+		for: self.
+	aRecognizer
+		when: OPMcRecognizerEnter
+		do: [ :ann |
+			OPMcFigureHighlighter
+				highlight: (diagramController roassalShapeForModel: ann place)
+				with: Color orange ]
+		for: self
 ]
