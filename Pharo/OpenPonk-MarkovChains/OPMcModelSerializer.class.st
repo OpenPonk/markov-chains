@@ -13,9 +13,9 @@ OPMcModelSerializer class >> exportVersion [
 ]
 
 { #category : 'accessing' }
-OPMcModelSerializer class >> fileExtension [
+OPMcModelSerializer class >> fileExtensions [
 
-	^ #xml
+	^ #( #xml )
 ]
 
 { #category : 'as yet unclassified' }

@@ -9,37 +9,39 @@ Class {
 	#tag : 'Models'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 OPMcState >> activations [
-	^ activationCount 
+
+	^ activationCount
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 OPMcState >> counterAdd [
-	activationCount 
-		ifNotNil: [ activationCount := activationCount +1 ] 
-		ifNil: [ activationCount  := 0.
-					activationCount := activationCount + 1 ] 
+
+	activationCount ifNil: [ ^ activationCount := 1 ].
+	activationCount := activationCount + 1
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 OPMcState >> counterDecrement [
-	activationCount = 1 | (activationCount = 0)
-		ifFalse: [ activationCount := activationCount - 1 ] 
-		ifTrue: [ activationCount  := 0 ] 
+
+	activationCount := activationCount < 2
+		                   ifTrue: [ 0 ]
+		                   ifFalse: [ activationCount - 1 ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 OPMcState >> counterReset [
+
 	activationCount := 0
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'DynaCASE-FSM-GraphML-accessing' }
 OPMcState >> graphmlType [
 	^ #regular
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'testing' }
 OPMcState >> isNormal [
 	^ true
 ]

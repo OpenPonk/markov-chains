@@ -35,71 +35,71 @@ OPMcTransition >> = otherTransition [
 				and: [ otherTransition represents: self ] ]
 ]
 
-{ #category : 'comparing' }
+{ #category : 'converting' }
 OPMcTransition >> asTransition [
 	^ self
 ]
 
-{ #category : 'comparing' }
+{ #category : 'removing' }
 OPMcTransition >> detach [
 	super detach.
 	source := nil.
 	target := nil
 ]
 
-{ #category : 'comparing' }
+{ #category : 'initialization' }
 OPMcTransition >> initialize [
 	super initialize.
 	matchBlock := [ :aValue | (self name splitOn: ',') includes: aValue asString ]
 ]
 
-{ #category : 'comparing' }
+{ #category : 'testing' }
 OPMcTransition >> isState [
 	^ false
 ]
 
-{ #category : 'comparing' }
+{ #category : 'testing' }
 OPMcTransition >> isTransition [
 	^ true
 ]
 
-{ #category : 'comparing' }
+{ #category : 'accessing' }
 OPMcTransition >> matchBlock [
 	^ matchBlock
 ]
 
-{ #category : 'comparing' }
+{ #category : 'accessing' }
 OPMcTransition >> matchBlock: aOneArgBlock [
 	matchBlock := aOneArgBlock.
 	self changed
 ]
 
-{ #category : 'comparing' }
+{ #category : 'testing' }
 OPMcTransition >> matches: aValue [
 	^ matchBlock value: aValue
 ]
 
-{ #category : 'comparing' }
+{ #category : 'testing' }
 OPMcTransition >> represents: otherTransition [
 	^ super = otherTransition
 ]
 
-{ #category : 'comparing' }
+{ #category : 'accessing' }
 OPMcTransition >> source [
 	^ source
 ]
 
-{ #category : 'comparing' }
+{ #category : 'accessing' }
 OPMcTransition >> source: aVertex [
 	source := aVertex
 ]
 
-{ #category : 'comparing' }
+{ #category : 'accessing' }
 OPMcTransition >> target [
 	^ target
 ]
 
-{ #category : 'comparing' }
+{ #category : 'accessing' }
 OPMcTransition >> target: aVertex [
 	target := aVertex
 ]

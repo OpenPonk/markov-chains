@@ -16,12 +16,12 @@ OPMc >> isTransition [
 	^ false
 ]
 
-{ #category : 'testing' }
+{ #category : 'accessing' }
 OPMc >> states [
 	^ elements select: [ :each | each isState ]
 ]
 
-{ #category : 'testing' }
+{ #category : 'accessing' }
 OPMc >> transitions [
 	^ elements select: [ :each | each isTransition ]
 ]
