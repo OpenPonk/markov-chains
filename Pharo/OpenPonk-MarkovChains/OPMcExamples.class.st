@@ -52,15 +52,15 @@ OPMcExamples class >> exampleMarkovWeather [
 		add: cloudy;
 		add: rainy.
 	mc addAll: {
-			(sunny -> sunny name: '0.6').
-			(sunny -> cloudy name: '0.3').
-			(sunny -> rainy name: '0.1').
-			(cloudy -> cloudy name: '0.3').
-			(cloudy -> sunny name: '0.2').
-			(cloudy -> rainy name: '0.5').
-			(rainy -> rainy name: '0.5').
-			(rainy -> sunny name: '0.4').
-			(rainy -> cloudy name: '0.1') }.
+			(sunny => sunny name: '0.6').
+			(sunny => cloudy name: '0.3').
+			(sunny => rainy name: '0.1').
+			(cloudy => cloudy name: '0.3').
+			(cloudy => sunny name: '0.2').
+			(cloudy => rainy name: '0.5').
+			(rainy => rainy name: '0.5').
+			(rainy => sunny name: '0.4').
+			(rainy => cloudy name: '0.1') }.
 	^ mc
 ]
 

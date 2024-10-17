@@ -7,58 +7,59 @@ Class {
 }
 
 { #category : 'associating' }
-OPMcVertex >> -> aVertex [
+OPMcVertex >> => aVertex [
+
 	^ OPMcTransition from: self to: aVertex
 ]
 
-{ #category : 'associating' }
+{ #category : 'DynaCASE-FSM-GraphML-accessing' }
 OPMcVertex >> graphmlType [
 	^ self subclassResponsibility
 ]
 
-{ #category : 'associating' }
+{ #category : 'accessing' }
 OPMcVertex >> incoming [
 	owner ifNil: [ ^ #() ].
 	^ owner transitions select: [ :each | each target = self ]
 ]
 
-{ #category : 'associating' }
+{ #category : 'testing' }
 OPMcVertex >> isFinal [
 	^ false
 ]
 
-{ #category : 'associating' }
+{ #category : 'testing' }
 OPMcVertex >> isInitial [
 	^ false
 ]
 
-{ #category : 'associating' }
+{ #category : 'testing' }
 OPMcVertex >> isNormal [
 	^ false
 ]
 
-{ #category : 'associating' }
+{ #category : 'testing' }
 OPMcVertex >> isState [
 	^ true
 ]
 
-{ #category : 'associating' }
+{ #category : 'testing' }
 OPMcVertex >> isTransition [
 	^ false
 ]
 
-{ #category : 'associating' }
+{ #category : 'accessing' }
 OPMcVertex >> outgoing [
 	owner ifNil: [ ^ #() ].
 	^ owner transitions select: [ :each | each source = self ]
 ]
 
-{ #category : 'associating' }
+{ #category : 'accessing' }
 OPMcVertex >> relatedElements [
 	^ (self incoming , self outgoing) asSet asOrderedCollection
 ]
 
-{ #category : 'associating' }
+{ #category : 'removing' }
 OPMcVertex >> removedFrom: aDiagram [
 	self
 		removedFrom: aDiagram

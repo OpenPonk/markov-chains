@@ -7,9 +7,9 @@ Class {
 }
 
 { #category : 'accessing' }
-OPMcModelDeprecatedSerializer class >> fileExtension [
+OPMcModelDeprecatedSerializer class >> fileExtensions [
 
-	^ #ston
+	^ #( #ston )
 ]
 
 { #category : 'as yet unclassified' }

@@ -15,3 +15,10 @@ ManifestOpenPonkMarkovChains class >> ruleAnySatisfyRuleV1FalsePositive [
 	<ignoreForCoverage>
 	^ #(#(#(#RGMethodDefinition #(#OPMcPredictedSimulation #preconditions #false)) #'2023-07-13T11:24:22.815+02:00') )
 ]
+
+{ #category : 'code-critics' }
+ManifestOpenPonkMarkovChains class >> ruleSendsDifferentSuperRuleV1FalsePositive [
+
+	<ignoreForCoverage>
+	^ #(#(#(#RGMethodDefinition #(#OPMcTransition #represents: #false)) #'2024-10-17T13:25:59.228+02:00') )
+]
