@@ -189,6 +189,7 @@ OPMcSimulator >> initializePresenters [
 { #category : 'actions' }
 OPMcSimulator >> initializeWindow: aWindow [
 
+	super initializeWindow: aWindow.
 	aWindow initialExtent: 400 @ 400.
 	aWindow title: 'Markov Chain Simulator'
 ]

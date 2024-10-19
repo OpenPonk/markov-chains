@@ -16,10 +16,7 @@ OPMcTransitionController >> diagramElementClass [
 OPMcTransitionController >> internalSubscribeTo: aModel [
 
 	super internalSubscribeTo: aModel.
-	aModel
-		when: OPElementRemoved
-		send: #removeController
-		to: self
+	aModel when: OPElementRemoved send: #removeControllerAndDiagramElement to: self
 ]
 
 { #category : 'construction' }
