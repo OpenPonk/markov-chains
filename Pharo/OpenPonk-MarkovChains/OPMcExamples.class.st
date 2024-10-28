@@ -32,7 +32,7 @@ OPMcExamples class >> exampleMarkovChain [
 		mc add: (states at: i) ].
 
 	states do: [ :stateFrom |
-		states do: [ :stateTo | mc add: (stateFrom -> stateTo name: '0.04') ] ].
+		states do: [ :stateTo | mc add: (stateFrom => stateTo name: '0.04') ] ].
 
 	^ mc
 ]

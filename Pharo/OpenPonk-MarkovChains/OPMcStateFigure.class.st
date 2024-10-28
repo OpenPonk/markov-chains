@@ -2,13 +2,19 @@ Class {
 	#name : 'OPMcStateFigure',
 	#superclass : 'OPMcAbstractStateFigure',
 	#instVars : [
-		'label',
-		'innerCircle'
+		'label'
 	],
 	#category : 'OpenPonk-MarkovChains-Shapes',
 	#package : 'OpenPonk-MarkovChains',
 	#tag : 'Shapes'
 }
+
+{ #category : 'removing' }
+OPMcStateFigure >> removeRender [
+
+	super removeRender.
+	label := nil
+]
 
 { #category : 'rendering' }
 OPMcStateFigure >> renderBasicShape [

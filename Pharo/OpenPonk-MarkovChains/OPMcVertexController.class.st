@@ -82,10 +82,7 @@ OPMcVertexController >> hookDiagramElement [
 OPMcVertexController >> internalSubscribeTo: aModel [
 
 	super internalSubscribeTo: aModel.
-	aModel
-		when: OPElementRemoved
-		send: #removeController 
-		to: self
+	aModel weakWhen: OPElementRemoved send: #removeControllerAndDiagramElement to: self
 ]
 
 { #category : 'connecting' }
@@ -96,7 +93,15 @@ OPMcVertexController >> isHideable [
 { #category : 'destruction' }
 OPMcVertexController >> removeModel [
 
-	self model announcer unsubscribe: self.
 	self diagramController model remove: self model.
 	super removeModel
+]
+
+{ #category : 'connecting' }
+OPMcVertexController >> unhookDiagramElement [
+
+	super unhookDiagramElement.
+
+	(self diagramElement ifNotExists: [ ^ self ])
+		adornmentCreationBlock: [ :builder |  ]
 ]

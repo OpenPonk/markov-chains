@@ -16,10 +16,7 @@ OPMcTransitionController >> diagramElementClass [
 OPMcTransitionController >> internalSubscribeTo: aModel [
 
 	super internalSubscribeTo: aModel.
-	aModel
-		when: OPElementRemoved
-		send: #removeController
-		to: self
+	aModel weakWhen: OPElementRemoved send: #removeControllerAndDiagramElement to: self
 ]
 
 { #category : 'construction' }
@@ -35,7 +32,6 @@ OPMcTransitionController >> modelClass [
 { #category : 'destruction' }
 OPMcTransitionController >> removeModel [
 
-	self model announcer unsubscribe: self.
 	self diagramController model remove: self model.
 	super removeModel
 ]
