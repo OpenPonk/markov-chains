@@ -39,7 +39,8 @@ OPMcController >> controllerFactory [
 
 { #category : 'connecting' }
 OPMcController >> elementsToShowInside [
-	^ model elements
+
+	^ self model elements
 ]
 
 { #category : 'connecting' }

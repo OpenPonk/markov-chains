@@ -64,7 +64,8 @@ OPMcVertexController >> createVertexAdornmentBy: builder [
 
 { #category : 'connecting' }
 OPMcVertexController >> dependentElements [
-	^ (model incoming , model outgoing) asSet
+
+	^ (self model incoming , self model outgoing) asSet
 ]
 
 { #category : 'connecting' }
