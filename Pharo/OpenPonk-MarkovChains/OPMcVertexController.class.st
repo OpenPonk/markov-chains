@@ -86,11 +86,6 @@ OPMcVertexController >> internalSubscribeTo: aModel [
 	aModel weakWhen: OPElementRemoved send: #removeControllerAndDiagramElement to: self
 ]
 
-{ #category : 'connecting' }
-OPMcVertexController >> isHideable [
-	^ true
-]
-
 { #category : 'destruction' }
 OPMcVertexController >> removeModel [
 

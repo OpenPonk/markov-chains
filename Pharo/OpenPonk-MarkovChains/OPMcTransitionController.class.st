@@ -20,11 +20,6 @@ OPMcTransitionController >> internalSubscribeTo: aModel [
 ]
 
 { #category : 'construction' }
-OPMcTransitionController >> isHideable [
-	^ true
-]
-
-{ #category : 'construction' }
 OPMcTransitionController >> modelClass [
 	^ OPMcTransition
 ]
