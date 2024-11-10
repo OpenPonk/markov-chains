@@ -1,12 +1,12 @@
 Class {
-	#name : 'BaselineOfMarkovChains',
+	#name : 'BaselineOfOpenPonkMarkovChains',
 	#superclass : 'BaselineOf',
-	#category : 'BaselineOfMarkovChains',
-	#package : 'BaselineOfMarkovChains'
+	#category : 'BaselineOfOpenPonkMarkovChains',
+	#package : 'BaselineOfOpenPonkMarkovChains'
 }
 
 { #category : 'baselines' }
-BaselineOfMarkovChains >> baseline: spec [
+BaselineOfOpenPonkMarkovChains >> baseline: spec [
 
 	<baseline>
 	spec for: #common do: [
