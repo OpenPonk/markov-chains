@@ -10,6 +10,12 @@ Class {
 }
 
 { #category : 'removing' }
+OPMcStateFigure >> attachedShapes [
+
+	^ super attachedShapes , { label }
+]
+
+{ #category : 'removing' }
 OPMcStateFigure >> removeRender [
 
 	super removeRender.
@@ -40,11 +46,7 @@ OPMcStateFigure >> renderShapeDetails [
 		         model: self;
 		         yourself.
 	RSLocation new stick: label on: self roassalShape.
-	self canvas add: label.
-	self roassalShape
-		when: RSShapeRemovedEvent
-		do: [ label remove ]
-		for: self
+	self canvas add: label
 ]
 
 { #category : 'rendering' }

@@ -64,7 +64,8 @@ OPMcVertexController >> createVertexAdornmentBy: builder [
 
 { #category : 'connecting' }
 OPMcVertexController >> dependentElements [
-	^ (model incoming , model outgoing) asSet
+
+	^ (self model incoming , self model outgoing) asSet
 ]
 
 { #category : 'connecting' }
@@ -83,11 +84,6 @@ OPMcVertexController >> internalSubscribeTo: aModel [
 
 	super internalSubscribeTo: aModel.
 	aModel weakWhen: OPElementRemoved send: #removeControllerAndDiagramElement to: self
-]
-
-{ #category : 'connecting' }
-OPMcVertexController >> isHideable [
-	^ true
 ]
 
 { #category : 'destruction' }

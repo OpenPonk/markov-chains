@@ -1,7 +1,7 @@
 SmalltalkCISpec {
 	#loading : [
 		SCIMetacelloLoadSpec {
-			#baseline : 'MarkovChains',
+			#baseline : 'OpenPonkMarkovChains',
 			#directory : 'Pharo',
 			#platforms : [ #pharo ]
 		}

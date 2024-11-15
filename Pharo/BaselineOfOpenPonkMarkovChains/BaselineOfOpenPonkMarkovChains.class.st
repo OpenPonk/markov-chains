@@ -1,12 +1,12 @@
 Class {
-	#name : 'BaselineOfMarkovChains',
+	#name : 'BaselineOfOpenPonkMarkovChains',
 	#superclass : 'BaselineOf',
-	#category : 'BaselineOfMarkovChains',
-	#package : 'BaselineOfMarkovChains'
+	#category : 'BaselineOfOpenPonkMarkovChains',
+	#package : 'BaselineOfOpenPonkMarkovChains'
 }
 
 { #category : 'baselines' }
-BaselineOfMarkovChains >> baseline: spec [
+BaselineOfOpenPonkMarkovChains >> baseline: spec [
 
 	<baseline>
 	spec for: #common do: [
@@ -15,10 +15,10 @@ BaselineOfMarkovChains >> baseline: spec [
 			with: [ spec repository: 'github://noha/mustache:a8db6a2' ].
 		spec
 			baseline: 'OpenPonk'
-			with: [ spec repository: 'github://openponk/openponk:v4.0.x' ].
+			with: [ spec repository: 'github://openponk/openponk' ].
 		spec
 			baseline: 'OpenPonkModel'
-			with: [ spec repository: 'github://OpenPonk/openponk-model:v4.0.x' ].
+			with: [ spec repository: 'github://OpenPonk/openponk-model' ].
 		spec
 			package: 'OpenPonk-MarkovChains'
 			with: [
