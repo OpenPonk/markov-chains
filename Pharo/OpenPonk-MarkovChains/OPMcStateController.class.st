@@ -14,7 +14,7 @@ OPMcStateController >> buildEditorForm: aForm [
 { #category : 'construction' }
 OPMcStateController >> diagramElementClass [
 
-	^ OPMcStateFigure
+	^ OPMcStateShape
 ]
 
 { #category : 'accessing' }

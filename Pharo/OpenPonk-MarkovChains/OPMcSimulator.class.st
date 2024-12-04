@@ -266,7 +266,7 @@ OPMcSimulator >> recognizer [
 { #category : 'actions' }
 OPMcSimulator >> resetAction [
 	diagramController model elements
-		do: [ :each | OPMcFigureHighlighter unhighlight: (diagramController roassalShapeForModel: each) ].
+		do: [ :each | OPMcShapeHighlighter unhighlight: (diagramController roassalShapeForModel: each) ].
 	self resetStateEntries.
 	stateTable 
 		items: #().
@@ -351,7 +351,7 @@ OPMcSimulator >> stopAction [
 	pauseButton disable.
 	recognizer stop.
 	diagramController model elements
-		do: [ :each | OPMcFigureHighlighter unhighlight: (diagramController roassalShapeForModel: each) ]
+		do: [ :each | OPMcShapeHighlighter unhighlight: (diagramController roassalShapeForModel: each) ]
 ]
 
 { #category : 'actions' }
@@ -365,7 +365,7 @@ OPMcSimulator >> watchRecognizer: aRecognizer [
 	aRecognizer
 		when: OPMcRecognizerSuccess
 		do: [ :ann |
-			OPMcFigureHighlighter
+			OPMcShapeHighlighter
 				highlightNode: (diagramController roassalShapeForModel: ann place)
 				with: Color green.
 			nextButton disable.
@@ -377,7 +377,7 @@ OPMcSimulator >> watchRecognizer: aRecognizer [
 	aRecognizer
 		when: OPMcRecognizerFailure
 		do: [ :ann |
-			OPMcFigureHighlighter
+			OPMcShapeHighlighter
 				highlightNode: (diagramController roassalShapeForModel: ann place)
 				with: Color red.
 			nextButton disable.
@@ -389,13 +389,13 @@ OPMcSimulator >> watchRecognizer: aRecognizer [
 	aRecognizer
 		when: OPMcRecognizerLeave
 		do: [ :ann |
-			OPMcFigureHighlighter unhighlight:
+			OPMcShapeHighlighter unhighlight:
 				(diagramController roassalShapeForModel: ann place) ]
 		for: self.
 	aRecognizer
 		when: OPMcRecognizerEnter
 		do: [ :ann |
-			OPMcFigureHighlighter
+			OPMcShapeHighlighter
 				highlight: (diagramController roassalShapeForModel: ann place)
 				with: Color orange ]
 		for: self

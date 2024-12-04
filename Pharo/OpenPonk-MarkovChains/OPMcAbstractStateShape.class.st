@@ -1,22 +1,22 @@
 Class {
-	#name : 'OPMcAbstractStateFigure',
+	#name : 'OPMcAbstractStateShape',
 	#superclass : 'OPBoundNode',
 	#instVars : [
 		'adornmentCreationBlock'
 	],
-	#category : 'OpenPonk-MarkovChains-Shapes',
+	#category : 'OpenPonk-MarkovChains-DiagramElements',
 	#package : 'OpenPonk-MarkovChains',
-	#tag : 'Shapes'
+	#tag : 'DiagramElements'
 }
 
 { #category : 'accessing' }
-OPMcAbstractStateFigure >> adornmentCreationBlock: aBlock [
+OPMcAbstractStateShape >> adornmentCreationBlock: aBlock [
 
 	adornmentCreationBlock := aBlock
 ]
 
 { #category : 'hooks' }
-OPMcAbstractStateFigure >> selectableInteraction [
+OPMcAbstractStateShape >> selectableInteraction [
 
 	^ OPRSSelectable highlightAdornments: [ :builder |
 		  builder horizontalLocation
@@ -30,7 +30,7 @@ OPMcAbstractStateFigure >> selectableInteraction [
 ]
 
 { #category : 'rendering' }
-OPMcAbstractStateFigure >> shouldBePositionableByUser [
+OPMcAbstractStateShape >> shouldBePositionableByUser [
 
 	^ true
 ]
