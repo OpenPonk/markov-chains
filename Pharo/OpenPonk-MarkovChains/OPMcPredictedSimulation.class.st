@@ -269,7 +269,7 @@ OPMcPredictedSimulation >> stopAction [
 	pauseButton disable.
 	recognizer stopPredicted.
 	diagramController model elements
-		do: [ :each | OPMcFigureHighlighter unhighlight: (diagramController roassalShapeForModel: each) ]
+		do: [ :each | OPMcShapeHighlighter unhighlight: (diagramController roassalShapeForModel: each) ]
 ]
 
 { #category : 'actions' }
@@ -291,7 +291,7 @@ OPMcPredictedSimulation >> watchRecognizer: aRecognizer [
 	aRecognizer
 		when: OPMcRecognizerSuccess
 		do: [ :ann |
-			OPMcFigureHighlighter
+			OPMcShapeHighlighter
 				highlightNode: (diagramController roassalShapeForModel: ann place)
 				with: Color green.
 			nextButton disable.
@@ -303,7 +303,7 @@ OPMcPredictedSimulation >> watchRecognizer: aRecognizer [
 	aRecognizer
 		when: OPMcRecognizerFailure
 		do: [ :ann |
-			OPMcFigureHighlighter
+			OPMcShapeHighlighter
 				highlightNode: (diagramController roassalShapeForModel: ann place)
 				with: Color red.
 			nextButton disable.
@@ -318,13 +318,13 @@ OPMcPredictedSimulation >> watchRecognizer: aRecognizer [
 	aRecognizer
 		when: OPMcRecognizerLeave
 		do: [ :ann |
-			OPMcFigureHighlighter unhighlight:
+			OPMcShapeHighlighter unhighlight:
 				(diagramController roassalShapeForModel: ann place) ]
 		for: self.
 	aRecognizer
 		when: OPMcRecognizerEnter
 		do: [ :ann |
-			OPMcFigureHighlighter
+			OPMcShapeHighlighter
 				highlight: (diagramController roassalShapeForModel: ann place)
 				with: Color orange ]
 		for: self

@@ -1,9 +1,9 @@
 Class {
 	#name : 'OPMcTransitionLabel',
 	#superclass : 'OPEdgeLabel',
-	#category : 'OpenPonk-MarkovChains-Shapes',
+	#category : 'OpenPonk-MarkovChains-DiagramElements',
 	#package : 'OpenPonk-MarkovChains',
-	#tag : 'Shapes'
+	#tag : 'DiagramElements'
 }
 
 { #category : 'adding' }

@@ -1,29 +1,29 @@
 Class {
-	#name : 'OPMcStateFigure',
-	#superclass : 'OPMcAbstractStateFigure',
+	#name : 'OPMcStateShape',
+	#superclass : 'OPMcAbstractStateShape',
 	#instVars : [
 		'label'
 	],
-	#category : 'OpenPonk-MarkovChains-Shapes',
+	#category : 'OpenPonk-MarkovChains-DiagramElements',
 	#package : 'OpenPonk-MarkovChains',
-	#tag : 'Shapes'
+	#tag : 'DiagramElements'
 }
 
 { #category : 'removing' }
-OPMcStateFigure >> attachedShapes [
+OPMcStateShape >> attachedShapes [
 
 	^ super attachedShapes , { label }
 ]
 
 { #category : 'removing' }
-OPMcStateFigure >> removeRender [
+OPMcStateShape >> removeRender [
 
 	super removeRender.
 	label := nil
 ]
 
 { #category : 'rendering' }
-OPMcStateFigure >> renderBasicShape [
+OPMcStateShape >> renderBasicShape [
 
 	^ RSCircle new
 		  size: 50;
@@ -36,7 +36,7 @@ OPMcStateFigure >> renderBasicShape [
 ]
 
 { #category : 'rendering' }
-OPMcStateFigure >> renderShapeDetails [
+OPMcStateShape >> renderShapeDetails [
 
 	super renderShapeDetails.
 
@@ -50,7 +50,7 @@ OPMcStateFigure >> renderShapeDetails [
 ]
 
 { #category : 'rendering' }
-OPMcStateFigure >> selectableInteraction [
+OPMcStateShape >> selectableInteraction [
 
 	^ super selectableInteraction
 		  highlightBorderColor: Color blue;
@@ -58,7 +58,7 @@ OPMcStateFigure >> selectableInteraction [
 ]
 
 { #category : 'rendering' }
-OPMcStateFigure >> updateRenderFromModel [
+OPMcStateShape >> updateRenderFromModel [
 
 	label text: self modelElement name.
 	super updateRenderFromModel.

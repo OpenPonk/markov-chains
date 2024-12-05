@@ -1,9 +1,9 @@
 Class {
 	#name : 'OPMcTransitionShape',
 	#superclass : 'OPEdge',
-	#category : 'OpenPonk-MarkovChains-Shapes',
+	#category : 'OpenPonk-MarkovChains-DiagramElements',
 	#package : 'OpenPonk-MarkovChains',
-	#tag : 'Shapes'
+	#tag : 'DiagramElements'
 }
 
 { #category : 'initialization' }
