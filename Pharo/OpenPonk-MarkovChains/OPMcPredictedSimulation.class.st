@@ -1,3 +1,7 @@
+"
+Spec presenter managing a predictive simulation mode for Markov Chains.
+Extends the standard simulator with a visual terminal panel for sequential sequence prediction.
+"
 Class {
 	#name : 'OPMcPredictedSimulation',
 	#superclass : 'OPMcSimulator',
@@ -72,7 +76,7 @@ OPMcPredictedSimulation >> backAction [
 	self listOfStates
 ]
 
-{ #category : 'actions' }
+{ #category : 'initialization' }
 OPMcPredictedSimulation >> connectPresenters [
 
 	super connectPresenters.
@@ -132,14 +136,14 @@ OPMcPredictedSimulation >> connectPresenters [
 	
 ]
 
-{ #category : 'actions' }
+{ #category : 'initialization' }
 OPMcPredictedSimulation >> initialize [
 	recognizer := OPMcRecognizer new.
 	self watchRecognizer: recognizer.
 	super initialize
 ]
 
-{ #category : 'actions' }
+{ #category : 'initialization' }
 OPMcPredictedSimulation >> initializePresenters [
 
 	inputLabel := self newLabel.
@@ -182,13 +186,6 @@ OPMcPredictedSimulation >> nextAction [
 		resume;
 		nextPredicted.
 	self listOfStates 
-]
-
-{ #category : 'actions' }
-OPMcPredictedSimulation >> openOn: aDiagramController [
-
-	diagramController := aDiagramController.
-	self open
 ]
 
 { #category : 'preconditions' }

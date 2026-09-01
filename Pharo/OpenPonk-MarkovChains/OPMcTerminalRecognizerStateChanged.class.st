@@ -1,3 +1,6 @@
+"
+Announcement triggered when the Markov Chain recognizer advances, communicating the updated sequence position and state.
+"
 Class {
 	#name : 'OPMcTerminalRecognizerStateChanged',
 	#superclass : 'Announcement',

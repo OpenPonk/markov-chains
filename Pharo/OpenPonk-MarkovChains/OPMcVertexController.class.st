@@ -1,3 +1,7 @@
+"
+Abstract base controller for a vertex in a Markov Chain.
+Handles diagram interactions, adornments, and validates connections for states.
+"
 Class {
 	#name : 'OPMcVertexController',
 	#superclass : 'OPElementController',
@@ -62,13 +66,7 @@ OPMcVertexController >> createVertexAdornmentBy: builder [
 			self diagramController editor palette selectTool: tool ]
 ]
 
-{ #category : 'connecting' }
-OPMcVertexController >> dependentElements [
-
-	^ (self model incoming , self model outgoing) asSet
-]
-
-{ #category : 'connecting' }
+{ #category : 'construction' }
 OPMcVertexController >> hookDiagramElement [
 
 	super hookDiagramElement.
@@ -79,21 +77,7 @@ OPMcVertexController >> hookDiagramElement [
 			createTransitionAdornmentBy: builder ]
 ]
 
-{ #category : 'announcements' }
-OPMcVertexController >> internalSubscribeTo: aModel [
-
-	super internalSubscribeTo: aModel.
-	aModel weakWhen: OPElementRemoved send: #removeControllerAndDiagramElement to: self
-]
-
-{ #category : 'destruction' }
-OPMcVertexController >> removeModel [
-
-	self diagramController model remove: self model.
-	super removeModel
-]
-
-{ #category : 'connecting' }
+{ #category : 'diagram elements' }
 OPMcVertexController >> unhookDiagramElement [
 
 	super unhookDiagramElement.

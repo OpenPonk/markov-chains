@@ -1,3 +1,6 @@
+"
+Abstract base class for all events fired by the OPMcRecognizer during a Markov Chain simulation.
+"
 Class {
 	#name : 'OPMcRecognizerEvent',
 	#superclass : 'Announcement',

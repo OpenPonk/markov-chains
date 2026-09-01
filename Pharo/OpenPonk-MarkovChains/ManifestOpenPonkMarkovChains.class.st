@@ -17,6 +17,13 @@ ManifestOpenPonkMarkovChains class >> ruleAnySatisfyRuleV1FalsePositive [
 ]
 
 { #category : 'code-critics' }
+ManifestOpenPonkMarkovChains class >> ruleReShouldSendSuperInitializeAsFirstMessageV1FalsePositive [
+
+	<ignoreForCoverage>
+	^ #(#(#(#RGMethodDefinition #(#OPMcSimulator #initialize #false)) #'2026-08-30T22:37:42.315+02:00') )
+]
+
+{ #category : 'code-critics' }
 ManifestOpenPonkMarkovChains class >> ruleSendsDifferentSuperRuleV1FalsePositive [
 
 	<ignoreForCoverage>

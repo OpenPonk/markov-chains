@@ -1,3 +1,7 @@
+"
+Controller for Markov Chain transitions.
+Manages the diagram lifecycle and interactions for directional edges connecting states.
+"
 Class {
 	#name : 'OPMcTransitionController',
 	#superclass : 'OPDirectionalRelationshipController',
@@ -7,26 +11,12 @@ Class {
 }
 
 { #category : 'construction' }
-OPMcTransitionController >> diagramElementClass [
+OPMcTransitionController class >> diagramElementClass [
 
 	^ OPMcTransitionShape
 ]
 
-{ #category : 'announcements' }
-OPMcTransitionController >> internalSubscribeTo: aModel [
-
-	super internalSubscribeTo: aModel.
-	aModel weakWhen: OPElementRemoved send: #removeControllerAndDiagramElement to: self
-]
-
-{ #category : 'construction' }
-OPMcTransitionController >> modelClass [
-	^ OPMcTransition
-]
-
-{ #category : 'destruction' }
-OPMcTransitionController >> removeModel [
-
-	self diagramController model remove: self model.
-	super removeModel
+{ #category : 'accessing' }
+OPMcTransitionController class >> viewModelClass [
+	^ OPMcTransitionViewModel
 ]

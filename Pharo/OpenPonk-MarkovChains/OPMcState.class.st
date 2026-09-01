@@ -1,3 +1,7 @@
+"
+Model representing a state in a Markov Chain diagram.
+Tracks execution metrics such as activation counts during simulation.
+"
 Class {
 	#name : 'OPMcState',
 	#superclass : 'OPMcVertex',

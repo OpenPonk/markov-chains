@@ -1,3 +1,7 @@
+"
+Spec presenter for the Markov Chain simulation terminal panel.
+Manages the data and UI logic for displaying the input sequence and prediction steps during simulation.
+"
 Class {
 	#name : 'OPMcTerminalPanelPresenter',
 	#superclass : 'SpAbstractWidgetPresenter',

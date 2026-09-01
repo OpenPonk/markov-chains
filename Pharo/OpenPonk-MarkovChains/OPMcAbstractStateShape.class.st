@@ -1,3 +1,7 @@
+"
+Abstract base class for visual representations of Markov Chain states.
+Provides basic adornment behavior and interaction definitions for the diagram.
+"
 Class {
 	#name : 'OPMcAbstractStateShape',
 	#superclass : 'OPBoundNode',
@@ -15,7 +19,7 @@ OPMcAbstractStateShape >> adornmentCreationBlock: aBlock [
 	adornmentCreationBlock := aBlock
 ]
 
-{ #category : 'hooks' }
+{ #category : 'interactions' }
 OPMcAbstractStateShape >> selectableInteraction [
 
 	^ OPRSSelectable highlightAdornments: [ :builder |

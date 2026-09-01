@@ -1,9 +1,11 @@
+"
+Manages a local server for visualizing and simulating Markov Chain models via web interfaces, supporting HTML, SVG, and PNG generation.
+"
 Class {
 	#name : 'OPMcServer',
 	#superclass : 'Object',
 	#instVars : [
 		'server',
-		'image',
 		'diagramController',
 		'model',
 		'currentHTML',

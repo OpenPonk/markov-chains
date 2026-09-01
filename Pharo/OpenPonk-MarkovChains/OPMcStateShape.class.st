@@ -1,3 +1,7 @@
+"
+Diagram element representing a Markov Chain state.
+Manages the rendering details of its underlying Roassal shape, including the state label and bounding geometry.
+"
 Class {
 	#name : 'OPMcStateShape',
 	#superclass : 'OPMcAbstractStateShape',
@@ -9,7 +13,7 @@ Class {
 	#tag : 'DiagramElements'
 }
 
-{ #category : 'removing' }
+{ #category : 'accessing' }
 OPMcStateShape >> attachedShapes [
 
 	^ super attachedShapes , { label }
@@ -49,7 +53,7 @@ OPMcStateShape >> renderShapeDetails [
 	self canvas add: label
 ]
 
-{ #category : 'rendering' }
+{ #category : 'interactions' }
 OPMcStateShape >> selectableInteraction [
 
 	^ super selectableInteraction

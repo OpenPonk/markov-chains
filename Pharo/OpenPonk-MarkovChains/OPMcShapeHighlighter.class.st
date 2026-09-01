@@ -1,3 +1,6 @@
+"
+Utility class for highlighting and unhighlighting Markov Chain diagram elements (states and transitions) during simulations or analysis.
+"
 Class {
 	#name : 'OPMcShapeHighlighter',
 	#superclass : 'Object',

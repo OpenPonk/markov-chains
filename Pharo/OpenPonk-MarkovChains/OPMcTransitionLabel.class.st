@@ -1,3 +1,7 @@
+"
+Diagram element representing a label attached to a Markov Chain transition edge.
+Manages the textual rendering, anchoring, and positioning along the transition's underlying Roassal shape.
+"
 Class {
 	#name : 'OPMcTransitionLabel',
 	#superclass : 'OPEdgeLabel',
@@ -18,13 +22,13 @@ OPMcTransitionLabel >> defaultMinDistance [
 	^ 5
 ]
 
-{ #category : 'adding' }
+{ #category : 'accessing' }
 OPMcTransitionLabel >> defaultText [
 
 	^ self modelElement name
 ]
 
-{ #category : 'adding' }
+{ #category : 'rendering' }
 OPMcTransitionLabel >> renderShapeDetails [
 
 	super renderShapeDetails.

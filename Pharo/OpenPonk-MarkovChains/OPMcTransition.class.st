@@ -1,3 +1,7 @@
+"
+Model representing a transition in a Markov Chain diagram.
+Connects a source state to a target state and defines the probability or condition for traversal.
+"
 Class {
 	#name : 'OPMcTransition',
 	#superclass : 'OPModelObject',

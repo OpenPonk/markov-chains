@@ -1,3 +1,6 @@
+"
+Defines the plugin configuration for Markov Chains. Maps top-level controllers, models, view models, and serializers for the OpenPonk framework.
+"
 Class {
 	#name : 'OPMcPlugin',
 	#superclass : 'OPPlugin',
@@ -36,7 +39,7 @@ OPMcPlugin >> name [
 	^ 'MC Diagram'
 ]
 
-{ #category : 'accessing' }
+{ #category : 'testing' }
 OPMcPlugin >> supportsHidingElements [
 	^ true
 ]

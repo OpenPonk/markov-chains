@@ -1,9 +1,13 @@
+"
+Deprecated model representing an incoming transition in a Markov Chain diagram.
+Retained for backward compatibility.
+"
 Class {
 	#name : 'OPMcIncomingTransition',
 	#superclass : 'OPMcTransition',
-	#category : 'OpenPonk-MarkovChains-Adapters',
+	#category : 'OpenPonk-MarkovChains-ViewModels',
 	#package : 'OpenPonk-MarkovChains',
-	#tag : 'Adapters'
+	#tag : 'ViewModels'
 }
 
 { #category : 'testing' }

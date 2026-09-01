@@ -1,3 +1,6 @@
+"
+Provides example models and diagram setups for Markov Chains.
+"
 Class {
 	#name : 'OPMcExamples',
 	#superclass : 'Object',
@@ -6,7 +9,7 @@ Class {
 	#tag : 'Examples'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'examples' }
 OPMcExamples class >> emptyModel [
 
 	<script: 'self emptyModel inspect'>
@@ -87,7 +90,7 @@ OPMcExamples class >> menuCommandOn: aBuilder [
 				action: [ self openExampleMarkovChain ] ]
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'examples' }
 OPMcExamples class >> openExample: aModel [
 
 	| project |
@@ -96,21 +99,21 @@ OPMcExamples class >> openExample: aModel [
 	^ (OPWorkbench openProject: project) showAllElementsInAllDiagrams
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'examples' }
 OPMcExamples class >> openExampleEmptyModel [
 
 	<example>
 	^ self openExample: self emptyModel
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'examples' }
 OPMcExamples class >> openExampleMarkovChain [
 
 	<example>
 	^ self openExample: self exampleMarkovChain
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'examples' }
 OPMcExamples class >> openExampleMarkovWeather [
 
 	<example>

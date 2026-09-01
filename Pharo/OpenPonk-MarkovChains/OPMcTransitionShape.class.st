@@ -1,3 +1,7 @@
+"
+Diagram element representing a Markov Chain transition edge.
+Manages the rendering logic and label attachments of its underlying Roassal shape.
+"
 Class {
 	#name : 'OPMcTransitionShape',
 	#superclass : 'OPEdge',
@@ -13,7 +17,7 @@ OPMcTransitionShape >> createOwnedElementsWithoutController [
 	OPMcTransitionLabel in: self
 ]
 
-{ #category : 'initialization' }
+{ #category : 'rendering' }
 OPMcTransitionShape >> renderBasicShape [
 
 	^ (self source = self target

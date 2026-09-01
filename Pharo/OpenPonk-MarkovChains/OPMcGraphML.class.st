@@ -1,3 +1,6 @@
+"
+Handles the import and export of Markov Chain diagrams to and from GraphML format.
+"
 Class {
 	#name : 'OPMcGraphML',
 	#superclass : 'Object',
