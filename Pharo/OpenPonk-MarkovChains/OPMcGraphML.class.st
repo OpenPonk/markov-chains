@@ -11,22 +11,24 @@ Class {
 
 { #category : 'toolbar' }
 OPMcGraphML class >> exportPackage: aModel [
-
 	StSaveFilePresenter new
 		title: 'Choose a XMI file to export to';
 		okAction: [ :file | 
+			| message |
 			file
 				ensureDelete;
 				writeStreamDo: [ :stream | 
 					stream << (OPMcGraphML new export: aModel) ].
-			UIManager default
-				inform: (String streamContents: [ :s | 
-						 s << 'Exported to ' << file pathString.
-						 s
-							 cr;
-							 cr.
-						 s << 'Click to open location' ])
-				actionOnClick: [ file openInOSFileBrowser ] ];
+			message := String streamContents: [ :s | 
+				s << 'Exported to ' << file pathString.
+				s cr; cr.
+				s << 'Click to open location' ].
+			(ProvideAnswerNotification signal: message) ifNil: [
+				(GrowlMorph 
+					openWithLabel: 'Information' translated 
+					contents: message)
+					vanishDelay: 5 seconds;
+					actionBlock: [ file openInOSFileBrowser ] ] ];
 		extensions: #( xmi xml uml ) named: 'XMI files';
 		open
 ]
