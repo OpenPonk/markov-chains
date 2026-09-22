@@ -14,6 +14,23 @@ OPMcPlugin >> diagramControllerClass [
 	^ OPMcController
 ]
 
+{ #category : 'templates' }
+OPMcPlugin >> exampleProjectTemplates [
+	"Answers example project templates for Markov Chains."
+
+	^ { 
+		(OPProjectTemplate
+			named: 'Markov Chain'
+			icon: self icon
+			modelFactory: [ OPMcExamples exampleMarkovChain ]
+			isExample: true).
+		(OPProjectTemplate
+			named: 'Markov Weather'
+			icon: self icon
+			modelFactory: [ OPMcExamples exampleMarkovWeather ]
+			isExample: true) }
+]
+
 { #category : 'accessing' }
 OPMcPlugin >> icon [
 	^ OPCoreIcons opMcDiagramIcon

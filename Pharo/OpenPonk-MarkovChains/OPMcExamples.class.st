@@ -67,29 +67,6 @@ OPMcExamples class >> exampleMarkovWeather [
 	^ mc
 ]
 
-{ #category : 'world menu' }
-OPMcExamples class >> menuCommandOn: aBuilder [
-
-	<worldMenu>
-	(aBuilder item: #OPMC)
-		label: 'Markov Chains';
-		icon: OPCoreIcons opMcDiagramIcon;
-		action: [ self openExampleEmptyModel ];
-		parent: #MostUsedTools;
-		order: 220;
-		with: [
-			(aBuilder item: #'MC Example')
-				parent: #OPMC;
-				label: 'Markov Chains Weather';
-				icon: OPCoreIcons opMcDiagramIcon;
-				action: [ self openExampleMarkovWeather ].
-			(aBuilder item: #'MC Example 2')
-				parent: #OPMC;
-				label: 'Upscaled Markov Chain';
-				icon: OPCoreIcons opMcDiagramIcon;
-				action: [ self openExampleMarkovChain ] ]
-]
-
 { #category : 'examples' }
 OPMcExamples class >> openExample: aModel [
 
