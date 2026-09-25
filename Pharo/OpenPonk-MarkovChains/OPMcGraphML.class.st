@@ -46,16 +46,16 @@ OPMcGraphML class >> importToModel: aModel withBuilder: aBuilder [
 		open.
 ]
 
-{ #category : 'toolbar' }
+{ #category : 'toolbar menu' }
 OPMcGraphML class >> toolbarMenu: aBuilder [
 
 	<opEditorToolbarMenu: #OPMcPlugin>
 	(aBuilder item: 'Export as xmi')
-		icon: OPCoreIcons opFsmDiagramIcon;
+		icon: OPCoreIcons opDiagramIcon;
 		action: [ self exportPackage: aBuilder model diagramController model ].
 	(aBuilder item: 'Import as xmi')
-		icon: OPCoreIcons opFsmDiagramIcon;
-		action: [ self importToModel: aBuilder model diagramController model withBuilder: aBuilder ].
+		icon: OPCoreIcons opDiagramIcon;
+		action: [ self importToModel: aBuilder model diagramController model withBuilder: aBuilder ]
 ]
 
 { #category : 'as yet unclassified' }

@@ -21,5 +21,6 @@ OPMcTransitionViewModel >> attachModelFrom: sourceViewModel to: targetViewModel 
 ]
 
 { #category : 'accessing' }
-OPMcTransitionViewModel >> icon [ ^ OPCoreIcons opFsmTransitionIcon
+OPMcTransitionViewModel >> icon [
+	^ OPMcIcons opMcTransitionIcon
 ]

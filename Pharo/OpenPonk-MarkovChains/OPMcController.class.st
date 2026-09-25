@@ -46,10 +46,10 @@ OPMcController >> initializePalette: aPalette [
 	aPalette
 		newCreationTool: 'State' 
 			factory: [ OPMcStateController new ] 
-			icon: OPCoreIcons opFsmRegularStateIcon;
+			icon: OPMcIcons opMcStateIcon;
 		newConnectionCreationTool: 'Transition'
 			factory: [ OPMcTransitionController new ]
-			icon: OPCoreIcons opFsmTransitionIcon
+			icon: OPMcIcons opMcTransitionIcon
 ]
 
 { #category : 'controllers management' }

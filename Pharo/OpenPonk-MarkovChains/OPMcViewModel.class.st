@@ -30,7 +30,8 @@ OPMcViewModel >> essentialChildrenModels [
 ]
 
 { #category : 'accessing' }
-OPMcViewModel >> icon [ ^ OPCoreIcons opMcDiagramIcon
+OPMcViewModel >> icon [
+	^ OPMcIcons opMcDiagramIcon
 ]
 
 { #category : 'accessing' }

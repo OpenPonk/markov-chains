@@ -17,12 +17,12 @@ Class {
 	#tag : 'Zinc'
 }
 
-{ #category : 'toolbar' }
+{ #category : 'toolbar menu' }
 OPMcServer class >> toolbarMenu: aBuilder [
 
 	<opEditorToolbarMenu: #OPMcPlugin>
 	(aBuilder item: 'Launch Server')
-		icon: OPCoreIcons opMcDiagramIcon;
+		icon: OPMcIcons opMcDiagramIcon;
 		action: [ self new launch: aBuilder model  ]
 ]
 

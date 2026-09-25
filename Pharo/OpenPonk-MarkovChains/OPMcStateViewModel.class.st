@@ -16,6 +16,5 @@ OPMcStateViewModel class >> modelClass [ ^ OPMcState
 
 { #category : 'accessing' }
 OPMcStateViewModel >> icon [
-
-	^ OPCoreIcons opFsmRegularStateIcon
+	^ OPMcIcons opMcStateIcon
 ]

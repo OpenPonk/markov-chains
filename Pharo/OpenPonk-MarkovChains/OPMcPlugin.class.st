@@ -10,6 +10,11 @@ Class {
 }
 
 { #category : 'accessing' }
+OPMcPlugin class >> repositoryName [
+	^ #'markov-chains'
+]
+
+{ #category : 'accessing' }
 OPMcPlugin >> diagramControllerClass [
 	^ OPMcController
 ]
@@ -33,7 +38,7 @@ OPMcPlugin >> exampleProjectTemplates [
 
 { #category : 'accessing' }
 OPMcPlugin >> icon [
-	^ OPCoreIcons opMcDiagramIcon
+	^ OPMcIcons opMcDiagramIcon
 ]
 
 { #category : 'accessing' }

@@ -58,12 +58,12 @@ OPMcPredictedSimulation class >> defaultLayout [
 		  yourself
 ]
 
-{ #category : 'layout' }
+{ #category : 'toolbar menu' }
 OPMcPredictedSimulation class >> toolbarMenu: aBuilder [
 
 	<opEditorToolbarMenu: #OPMcPlugin>
 	(aBuilder item: 'Open Predicted Simulation')
-		icon: OPCoreIcons opMcDiagramIcon;
+		icon: OPMcIcons opMcDiagramIcon;
 		action: [ self new openOn: aBuilder model diagramController ]
 ]
 
