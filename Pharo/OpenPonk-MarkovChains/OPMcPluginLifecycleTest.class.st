@@ -1,3 +1,6 @@
+"
+Verifies the initialization, registration, and shutdown lifecycle of the Markov Chains plugin.
+"
 Class {
 	#name : 'OPMcPluginLifecycleTest',
 	#superclass : 'OPAbstractPluginExampleLifecycleTest',

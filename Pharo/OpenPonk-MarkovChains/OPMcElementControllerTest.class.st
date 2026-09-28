@@ -1,3 +1,6 @@
+"
+Abstract base test suite providing shared assertions for Markov Chain element controllers.
+"
 Class {
 	#name : 'OPMcElementControllerTest',
 	#superclass : 'OPAbstractElementControllerTest',

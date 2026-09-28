@@ -1,3 +1,6 @@
+"
+Tests controller interactions, state probabilities, and circular shape rendering for Markov Chain states.
+"
 Class {
 	#name : 'OPMcStateControllerTest',
 	#superclass : 'OPMcElementControllerTest',

@@ -17,15 +17,6 @@ Class {
 	#tag : 'Zinc'
 }
 
-{ #category : 'toolbar menu' }
-OPMcServer class >> toolbarMenu: aBuilder [
-
-	<opEditorToolbarMenu: #OPMcPlugin>
-	(aBuilder item: 'Launch Server')
-		icon: OPMcIcons opMcDiagramIcon;
-		action: [ self new launch: aBuilder model  ]
-]
-
 { #category : 'as yet unclassified' }
 OPMcServer >> getModelAsSVG [
 	| xmlStream xmlString xmlFile |

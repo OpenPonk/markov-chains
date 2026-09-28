@@ -68,15 +68,6 @@ OPMcSimulator class >> defaultLayout [
 		  yourself
 ]
 
-{ #category : 'toolbar menu' }
-OPMcSimulator class >> toolbarMenu: aBuilder [
-
-	<opEditorToolbarMenu: #OPMcPlugin>
-	(aBuilder item: 'Open Simulator')
-		icon: OPMcIcons opMcDiagramIcon;
-		action: [ self new openOn: aBuilder model diagramController ]
-]
-
 { #category : 'actions' }
 OPMcSimulator >> backAction [
 	recognizer back.

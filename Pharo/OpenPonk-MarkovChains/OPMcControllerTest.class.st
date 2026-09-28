@@ -1,3 +1,6 @@
+"
+Tests diagram controller interactions, transition matrix coordination, and canvas events for Markov Chains.
+"
 Class {
 	#name : 'OPMcControllerTest',
 	#superclass : 'OPAbstractDiagramControllerTest',

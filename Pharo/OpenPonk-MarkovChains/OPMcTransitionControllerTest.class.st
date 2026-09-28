@@ -1,3 +1,6 @@
+"
+Tests controller behaviors, probability weight labels, and directed arc rendering for Markov Chain transitions.
+"
 Class {
 	#name : 'OPMcTransitionControllerTest',
 	#superclass : 'OPAbstractDirectionalRelationshipControllerTest',

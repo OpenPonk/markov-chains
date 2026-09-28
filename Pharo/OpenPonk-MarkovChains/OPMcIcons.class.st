@@ -1,3 +1,6 @@
+"
+An icon utility provider supplying visual icons for Markov Chain diagrams, states, and transitions.
+"
 Class {
 	#name : 'OPMcIcons',
 	#superclass : 'Object',
