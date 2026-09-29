@@ -1,3 +1,6 @@
+"
+Container for simulation input represented by visual letter boxes (Morphs) for Markov Chain sequences.
+"
 Class {
 	#name : 'OPMcTerminalPanelMorph',
 	#superclass : 'Morph',
@@ -22,12 +25,12 @@ OPMcTerminalPanelMorph >> data: aCollection [
 		do: [ :terminal | self addMorphBack: (OPMcTerminalBoxMorph new terminal: terminal) ]
 ]
 
-{ #category : 'accessing' }
+{ #category : 'accessing - defaults' }
 OPMcTerminalPanelMorph >> defaultColor [
 	^ Color transparent
 ]
 
-{ #category : 'accessing' }
+{ #category : 'initialization' }
 OPMcTerminalPanelMorph >> initialize [
 	super initialize.
 	self

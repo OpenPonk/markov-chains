@@ -1,3 +1,6 @@
+"
+Visual box (Morph) representing a single terminal symbol or step in the Markov Chain simulation input sequence.
+"
 Class {
 	#name : 'OPMcTerminalBoxMorph',
 	#superclass : 'BorderedMorph',
@@ -26,16 +29,17 @@ OPMcTerminalBoxMorph >> defaultBounds [
 
 { #category : 'accessing - defaults' }
 OPMcTerminalBoxMorph >> defaultColor [
-	^ Smalltalk ui theme windowColor
+
+	^ self theme windowColor
 ]
 
-{ #category : 'accessing - defaults' }
+{ #category : 'updating' }
 OPMcTerminalBoxMorph >> failure [
 	self borderColor: Color red.
 	self color: (colors at: #failure)
 ]
 
-{ #category : 'accessing - defaults' }
+{ #category : 'initialization' }
 OPMcTerminalBoxMorph >> initialize [
 	super initialize.
 	self initializeColorScheme.
@@ -45,46 +49,46 @@ OPMcTerminalBoxMorph >> initialize [
 		cellInset: 5.
 ]
 
-{ #category : 'accessing - defaults' }
+{ #category : 'initialization' }
 OPMcTerminalBoxMorph >> initializeColorScheme [
 
-	colors := { 
-		          (#normal -> Smalltalk ui theme windowColor).
+	colors := {
+		          (#normal -> self theme windowColor).
 		          (#processed -> Color paleOrange).
 		          (#failure -> Color paleRed).
 		          (#success -> Color paleGreen) } asDictionary.
-	Smalltalk ui theme class = PharoDarkTheme ifTrue: [ 
-		colors := { 
-			          (#normal -> Smalltalk ui theme windowColor).
-			          (#processed -> Color paleOrange muchDarker).
-			          (#failure -> Color paleRed muchDarker).
-			          (#success -> Color paleGreen muchDarker) } asDictionary ]
+	self theme class = PharoDarkTheme ifTrue: [
+			colors := {
+				          (#normal -> self theme windowColor).
+				          (#processed -> Color paleOrange muchDarker).
+				          (#failure -> Color paleRed muchDarker).
+				          (#success -> Color paleGreen muchDarker) } asDictionary ]
 ]
 
-{ #category : 'accessing - defaults' }
+{ #category : 'accessing' }
 OPMcTerminalBoxMorph >> morphForTerminal: aSymbol [
 	^ aSymbol asMorph
 ]
 
-{ #category : 'accessing - defaults' }
+{ #category : 'updating' }
 OPMcTerminalBoxMorph >> normal [
 	self borderColor: Color black.
 	self color: (colors at: #normal)
 ]
 
-{ #category : 'accessing - defaults' }
+{ #category : 'updating' }
 OPMcTerminalBoxMorph >> processed [
 	self borderColor: Color orange.
 	self color: (colors at: #processed)
 ]
 
-{ #category : 'accessing - defaults' }
+{ #category : 'updating' }
 OPMcTerminalBoxMorph >> success [
 	self borderColor: Color green muchDarker.
 	self color: (colors at: #success)
 ]
 
-{ #category : 'accessing - defaults' }
+{ #category : 'accessing' }
 OPMcTerminalBoxMorph >> terminal: aSymbol [
 	self submorphsDo: #delete.
 	self addMorph: (self morphForTerminal: aSymbol).

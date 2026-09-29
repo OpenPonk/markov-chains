@@ -1,3 +1,6 @@
+"
+Model representing a Markov Chain diagram. Acts as the root container for probability states and transitions.
+"
 Class {
 	#name : 'OPMc',
 	#superclass : 'OPModelObject',

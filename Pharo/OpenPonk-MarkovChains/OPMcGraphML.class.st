@@ -1,3 +1,6 @@
+"
+Handles the import and export of Markov Chain diagrams to and from GraphML format.
+"
 Class {
 	#name : 'OPMcGraphML',
 	#superclass : 'Object',
@@ -8,49 +11,39 @@ Class {
 
 { #category : 'toolbar' }
 OPMcGraphML class >> exportPackage: aModel [
-
 	StSaveFilePresenter new
 		title: 'Choose a XMI file to export to';
 		okAction: [ :file | 
+			| message |
 			file
 				ensureDelete;
 				writeStreamDo: [ :stream | 
 					stream << (OPMcGraphML new export: aModel) ].
-			UIManager default
-				inform: (String streamContents: [ :s | 
-						 s << 'Exported to ' << file pathString.
-						 s
-							 cr;
-							 cr.
-						 s << 'Click to open location' ])
-				actionOnClick: [ file openInOSFileBrowser ] ];
+			message := String streamContents: [ :s | 
+				s << 'Exported to ' << file pathString.
+				s cr; cr.
+				s << 'Click to open location' ].
+			(ProvideAnswerNotification signal: message) ifNil: [
+				(GrowlMorph 
+					openWithLabel: 'Information' translated 
+					contents: message)
+					vanishDelay: 5 seconds;
+					actionBlock: [ file openInOSFileBrowser ] ] ];
 		extensions: #( xmi xml uml ) named: 'XMI files';
 		open
 ]
 
-{ #category : 'toolbar' }
-OPMcGraphML class >> importToModel: aModel withBuilder: aBuilder [
-
+{ #category : 'importing' }
+OPMcGraphML class >> importToModel: aModel inEditor: anEditor [
+	"Imports XMI model data into aModel and refreshes the diagram controller and layout in anEditor."
 	StOpenFilePresenter new
 		title: 'Choose a XMI export of UML model';
 		okAction: [ :file | 
-			OPMcGraphML new import: file into: aModel.
+			self new import: file into: aModel.
 			self inform: 'Imported from ' , file fullName.
-			self updateModelAfterImport: (aBuilder model)];
+			self updateModelAfterImport: anEditor ];
 		extensions: #( xmi xml uml ) named: 'XMI files';
-		open.
-]
-
-{ #category : 'toolbar' }
-OPMcGraphML class >> toolbarMenu: aBuilder [
-
-	<opEditorToolbarMenu: #OPMcPlugin>
-	(aBuilder item: 'Export as xmi')
-		icon: OPCoreIcons opFsmDiagramIcon;
-		action: [ self exportPackage: aBuilder model diagramController model ].
-	(aBuilder item: 'Import as xmi')
-		icon: OPCoreIcons opFsmDiagramIcon;
-		action: [ self importToModel: aBuilder model diagramController model withBuilder: aBuilder ].
+		open
 ]
 
 { #category : 'as yet unclassified' }

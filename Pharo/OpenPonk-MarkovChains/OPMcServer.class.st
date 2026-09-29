@@ -1,9 +1,11 @@
+"
+Manages a local server for visualizing and simulating Markov Chain models via web interfaces, supporting HTML, SVG, and PNG generation.
+"
 Class {
 	#name : 'OPMcServer',
 	#superclass : 'Object',
 	#instVars : [
 		'server',
-		'image',
 		'diagramController',
 		'model',
 		'currentHTML',
@@ -14,15 +16,6 @@ Class {
 	#package : 'OpenPonk-MarkovChains',
 	#tag : 'Zinc'
 }
-
-{ #category : 'toolbar' }
-OPMcServer class >> toolbarMenu: aBuilder [
-
-	<opEditorToolbarMenu: #OPMcPlugin>
-	(aBuilder item: 'Launch Server')
-		icon: OPCoreIcons opMcDiagramIcon;
-		action: [ self new launch: aBuilder model  ]
-]
 
 { #category : 'as yet unclassified' }
 OPMcServer >> getModelAsSVG [

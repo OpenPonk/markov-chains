@@ -1,6 +1,9 @@
+"
+Applies automated layout algorithms to Markov Chain diagrams, positioning states and routing transitions for optimal visual structure.
+"
 Class {
 	#name : 'OPMcLayouter',
-	#superclass : 'OPLayouter',
+	#superclass : 'OPNodesAndEdgesLayouter',
 	#category : 'OpenPonk-MarkovChains-Plugin',
 	#package : 'OpenPonk-MarkovChains',
 	#tag : 'Plugin'
@@ -20,7 +23,7 @@ OPMcLayouter >> allNodes [
 		thenCollect: #roassalShape
 ]
 
-{ #category : 'accessing' }
+{ #category : 'layouts' }
 OPMcLayouter >> defaultLayout [
 	self gridLayout
 ]

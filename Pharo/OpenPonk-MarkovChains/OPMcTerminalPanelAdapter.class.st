@@ -1,3 +1,6 @@
+"
+Morphic adapter for the Markov Chain terminal panel presenter, linking the Spec model to its Morphic UI representation.
+"
 Class {
 	#name : 'OPMcTerminalPanelAdapter',
 	#superclass : 'SpAbstractMorphicAdapter',

@@ -1,3 +1,6 @@
+"
+Abstract base model representing a vertex (state) in a Markov Chain diagram.
+"
 Class {
 	#name : 'OPMcVertex',
 	#superclass : 'OPModelObject',

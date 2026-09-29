@@ -1,3 +1,6 @@
+"
+Handles serialization and materialization of Markov Chain models, converting between in-memory objects and persisted string formats.
+"
 Class {
 	#name : 'OPMcModelSerializer',
 	#superclass : 'OPModelSerializer',
@@ -6,7 +9,7 @@ Class {
 	#tag : 'Serialization'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 OPMcModelSerializer class >> exportVersion [
 
 	^ 1
@@ -18,13 +21,13 @@ OPMcModelSerializer class >> fileExtensions [
 	^ #( #xml )
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'formatting' }
 OPMcModelSerializer class >> formatName [
 
 	^ #graphml
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 OPMcModelSerializer class >> minImportVersion [
 
 	^ 1

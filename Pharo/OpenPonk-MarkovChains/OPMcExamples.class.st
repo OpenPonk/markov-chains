@@ -1,3 +1,6 @@
+"
+Provides example models and diagram setups for Markov Chains.
+"
 Class {
 	#name : 'OPMcExamples',
 	#superclass : 'Object',
@@ -6,7 +9,7 @@ Class {
 	#tag : 'Examples'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'examples' }
 OPMcExamples class >> emptyModel [
 
 	<script: 'self emptyModel inspect'>
@@ -64,30 +67,7 @@ OPMcExamples class >> exampleMarkovWeather [
 	^ mc
 ]
 
-{ #category : 'world menu' }
-OPMcExamples class >> menuCommandOn: aBuilder [
-
-	<worldMenu>
-	(aBuilder item: #OPMC)
-		label: 'Markov Chains';
-		icon: OPCoreIcons opMcDiagramIcon;
-		action: [ self openExampleEmptyModel ];
-		parent: #MostUsedTools;
-		order: 220;
-		with: [
-			(aBuilder item: #'MC Example')
-				parent: #OPMC;
-				label: 'Markov Chains Weather';
-				icon: OPCoreIcons opMcDiagramIcon;
-				action: [ self openExampleMarkovWeather ].
-			(aBuilder item: #'MC Example 2')
-				parent: #OPMC;
-				label: 'Upscaled Markov Chain';
-				icon: OPCoreIcons opMcDiagramIcon;
-				action: [ self openExampleMarkovChain ] ]
-]
-
-{ #category : 'as yet unclassified' }
+{ #category : 'examples' }
 OPMcExamples class >> openExample: aModel [
 
 	| project |
@@ -96,21 +76,21 @@ OPMcExamples class >> openExample: aModel [
 	^ (OPWorkbench openProject: project) showAllElementsInAllDiagrams
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'examples' }
 OPMcExamples class >> openExampleEmptyModel [
 
 	<example>
 	^ self openExample: self emptyModel
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'examples' }
 OPMcExamples class >> openExampleMarkovChain [
 
 	<example>
 	^ self openExample: self exampleMarkovChain
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'examples' }
 OPMcExamples class >> openExampleMarkovWeather [
 
 	<example>

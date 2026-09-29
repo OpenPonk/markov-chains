@@ -1,3 +1,7 @@
+"
+Spec presenter managing the visualization and execution of the Markov Chain simulation within the editor.
+Observes recognizer events and triggers diagram highlighting based on state activations.
+"
 Class {
 	#name : 'OPMcSimulator',
 	#superclass : 'SpPresenter',
@@ -64,15 +68,6 @@ OPMcSimulator class >> defaultLayout [
 		  yourself
 ]
 
-{ #category : 'layout' }
-OPMcSimulator class >> toolbarMenu: aBuilder [
-
-	<opEditorToolbarMenu: #OPMcPlugin>
-	(aBuilder item: 'Open Simulator')
-		icon: OPCoreIcons opMcDiagramIcon;
-		action: [ self new openOn: aBuilder model diagramController ]
-]
-
 { #category : 'actions' }
 OPMcSimulator >> backAction [
 	recognizer back.
@@ -87,7 +82,7 @@ OPMcSimulator >> backButton [
 	^ backButton
 ]
 
-{ #category : 'actions' }
+{ #category : 'initialization' }
 OPMcSimulator >> connectPresenters [
 
 	super connectPresenters.
@@ -160,14 +155,15 @@ OPMcSimulator >> idleLabel [
 	^ idleLabel
 ]
 
-{ #category : 'actions' }
+{ #category : 'initialization' }
 OPMcSimulator >> initialize [
+
 	recognizer := OPMcRecognizer new.
 	self watchRecognizer: recognizer.
 	super initialize
 ]
 
-{ #category : 'actions' }
+{ #category : 'initialization' }
 OPMcSimulator >> initializePresenters [
 
 	inputLabel := self newLabel.
@@ -186,7 +182,7 @@ OPMcSimulator >> initializePresenters [
 	
 ]
 
-{ #category : 'actions' }
+{ #category : 'initialization' }
 OPMcSimulator >> initializeWindow: aWindow [
 
 	super initializeWindow: aWindow.

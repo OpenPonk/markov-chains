@@ -1,3 +1,6 @@
+"
+Controller for the top-level Markov Chain diagram. Manages the lifecycle, layout applications, and palette initialization.
+"
 Class {
 	#name : 'OPMcController',
 	#superclass : 'OPDiagramController',
@@ -5,6 +8,12 @@ Class {
 	#package : 'OpenPonk-MarkovChains',
 	#tag : 'Controllers'
 }
+
+{ #category : 'accessing' }
+OPMcController class >> viewModelClass [
+
+	^ OPMcViewModel
+]
 
 { #category : 'userinterface' }
 OPMcController >> applyLayout: anAlgorithm [
@@ -24,12 +33,7 @@ OPMcController >> canBeTargetFor: aController [
 		or: [ aController isKindOf: OPMcVertexController ]
 ]
 
-{ #category : 'connecting' }
-OPMcController >> commonModelClassPrefix [
-	^ 'OPMc'
-]
-
-{ #category : 'connecting' }
+{ #category : 'accessing' }
 OPMcController >> controllerFactory [
 
 	^ super controllerFactory
@@ -37,29 +41,18 @@ OPMcController >> controllerFactory [
 		  register: OPMcTransitionController forModel: OPMcTransition
 ]
 
-{ #category : 'connecting' }
-OPMcController >> elementsToShowInside [
-
-	^ self model elements
-]
-
-{ #category : 'connecting' }
+{ #category : 'ui interaction' }
 OPMcController >> initializePalette: aPalette [
 	aPalette
 		newCreationTool: 'State' 
 			factory: [ OPMcStateController new ] 
-			icon: OPCoreIcons opFsmRegularStateIcon;
+			icon: OPMcIcons opMcStateIcon;
 		newConnectionCreationTool: 'Transition'
 			factory: [ OPMcTransitionController new ]
-			icon: OPCoreIcons opFsmTransitionIcon
+			icon: OPMcIcons opMcTransitionIcon
 ]
 
-{ #category : 'connecting' }
-OPMcController >> modelClass [
-	^ OPMc
-]
-
-{ #category : 'connecting' }
+{ #category : 'controllers management' }
 OPMcController >> newControllerFor: aModel [
 	"IncomingTransition identifies itself as transition, but is not"
 

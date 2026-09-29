@@ -1,3 +1,7 @@
+"
+Controller for a Markov Chain state.
+Manages the diagram lifecycle, valid connections, and interactions for state nodes.
+"
 Class {
 	#name : 'OPMcStateController',
 	#superclass : 'OPMcVertexController',
@@ -6,18 +10,13 @@ Class {
 	#tag : 'Controllers'
 }
 
-{ #category : 'forms' }
-OPMcStateController >> buildEditorForm: aForm [
-	super buildEditorForm: aForm.
-]
-
 { #category : 'construction' }
-OPMcStateController >> diagramElementClass [
+OPMcStateController class >> diagramElementClass [
 
 	^ OPMcStateShape
 ]
 
 { #category : 'accessing' }
-OPMcStateController >> modelClass [
-	^ OPMcState
+OPMcStateController class >> viewModelClass [
+	^ OPMcStateViewModel
 ]

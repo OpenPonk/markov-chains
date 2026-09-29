@@ -1,3 +1,6 @@
+"
+Announcement triggered when the input data sequence changes within the Markov Chain terminal simulation UI.
+"
 Class {
 	#name : 'OPMcTerminalDataChanged',
 	#superclass : 'Announcement',
