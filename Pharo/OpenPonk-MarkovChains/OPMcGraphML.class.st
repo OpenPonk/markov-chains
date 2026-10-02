@@ -9,28 +9,19 @@ Class {
 	#tag : 'Serialization'
 }
 
-{ #category : 'toolbar' }
+{ #category : 'exporting' }
 OPMcGraphML class >> exportPackage: aModel [
-	StSaveFilePresenter new
-		title: 'Choose a XMI file to export to';
-		okAction: [ :file | 
-			| message |
-			file
-				ensureDelete;
-				writeStreamDo: [ :stream | 
-					stream << (OPMcGraphML new export: aModel) ].
-			message := String streamContents: [ :s | 
-				s << 'Exported to ' << file pathString.
-				s cr; cr.
-				s << 'Click to open location' ].
-			(ProvideAnswerNotification signal: message) ifNil: [
-				(GrowlMorph 
-					openWithLabel: 'Information' translated 
-					contents: message)
-					vanishDelay: 5 seconds;
-					actionBlock: [ file openInOSFileBrowser ] ] ];
-		extensions: #( xmi xml uml ) named: 'XMI files';
-		open
+	| baseName |
+	baseName := (aModel respondsTo: #name)
+		ifTrue: [ aModel name ]
+		ifFalse: [ nil ].
+	(baseName isNil or: [ baseName trimBoth isEmpty ]) ifTrue: [ baseName := 'export' ].
+	OPExportFileDialog
+		exportBlock: [ self new export: aModel ]
+		defaultFileName: (FileNameSanitizer sanitize: baseName trimBoth) , '.graphml'
+		extensions: #( graphml xml )
+		named: 'GraphML files'
+		title: 'Choose a GraphML file to export to'
 ]
 
 { #category : 'importing' }
