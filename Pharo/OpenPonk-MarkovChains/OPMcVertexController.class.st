@@ -49,7 +49,7 @@ OPMcVertexController >> createVertexAdornmentBy: builder [
 				 yourself)
 		action: [ 
 			| tool |
-			(tool := OPCreationTool new)
+			(tool := OPNodeCreationTool new)
 				palette: self diagramController editor palette;
 				factory: [ OPMcStateController new ];
 				whenCreated: [ :ctrl | 
