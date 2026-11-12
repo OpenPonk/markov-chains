@@ -4,9 +4,9 @@ Verifies the initialization, registration, and shutdown lifecycle of the Markov 
 Class {
 	#name : 'OPMcPluginLifecycleTest',
 	#superclass : 'OPAbstractPluginExampleLifecycleTest',
-	#category : 'OpenPonk-MarkovChains-Tests',
-	#package : 'OpenPonk-MarkovChains',
-	#tag : 'Tests'
+	#category : 'OpenPonk-MarkovChains-Tests-Plugin',
+	#package : 'OpenPonk-MarkovChains-Tests',
+	#tag : 'Plugin'
 }
 
 { #category : 'accessing' }

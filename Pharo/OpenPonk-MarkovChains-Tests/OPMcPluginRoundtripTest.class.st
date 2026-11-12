@@ -4,9 +4,9 @@ Verifies the serialization and deserialization roundtrip persistence for Markov 
 Class {
 	#name : 'OPMcPluginRoundtripTest',
 	#superclass : 'OPAbstractPluginExampleRoundtripTest',
-	#category : 'OpenPonk-MarkovChains-Tests',
-	#package : 'OpenPonk-MarkovChains',
-	#tag : 'Tests'
+	#category : 'OpenPonk-MarkovChains-Tests-Plugin',
+	#package : 'OpenPonk-MarkovChains-Tests',
+	#tag : 'Plugin'
 }
 
 { #category : 'accessing' }

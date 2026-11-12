@@ -4,8 +4,8 @@ Tests controller interactions, state probabilities, and circular shape rendering
 Class {
 	#name : 'OPMcStateControllerTest',
 	#superclass : 'OPMcElementControllerTest',
-	#category : 'OpenPonk-MarkovChains-Controllers',
-	#package : 'OpenPonk-MarkovChains',
+	#category : 'OpenPonk-MarkovChains-Tests-Controllers',
+	#package : 'OpenPonk-MarkovChains-Tests',
 	#tag : 'Controllers'
 }
 

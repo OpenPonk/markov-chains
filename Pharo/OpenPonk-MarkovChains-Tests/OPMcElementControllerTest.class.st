@@ -4,8 +4,8 @@ Abstract base test suite providing shared assertions for Markov Chain element co
 Class {
 	#name : 'OPMcElementControllerTest',
 	#superclass : 'OPAbstractElementControllerTest',
-	#category : 'OpenPonk-MarkovChains-Controllers',
-	#package : 'OpenPonk-MarkovChains',
+	#category : 'OpenPonk-MarkovChains-Tests-Controllers',
+	#package : 'OpenPonk-MarkovChains-Tests',
 	#tag : 'Controllers'
 }
 

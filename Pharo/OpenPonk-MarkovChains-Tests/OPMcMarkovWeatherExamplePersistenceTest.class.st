@@ -4,9 +4,9 @@ Integration tests ensuring that the Markov Chain weather example model correctly
 Class {
 	#name : 'OPMcMarkovWeatherExamplePersistenceTest',
 	#superclass : 'OPExamplePersistenceTest',
-	#category : 'OpenPonk-MarkovChains-Tests',
-	#package : 'OpenPonk-MarkovChains',
-	#tag : 'Tests'
+	#category : 'OpenPonk-MarkovChains-Tests-Examples',
+	#package : 'OpenPonk-MarkovChains-Tests',
+	#tag : 'Examples'
 }
 
 { #category : 'hooks' }

@@ -8,9 +8,9 @@ Class {
 		'toolbarPresenter',
 		'mockWorkbench'
 	],
-	#category : 'OpenPonk-MarkovChains-Tests',
-	#package : 'OpenPonk-MarkovChains',
-	#tag : 'Tests'
+	#category : 'OpenPonk-MarkovChains-Tests-Commands',
+	#package : 'OpenPonk-MarkovChains-Tests',
+	#tag : 'Commands'
 }
 
 { #category : 'running' }

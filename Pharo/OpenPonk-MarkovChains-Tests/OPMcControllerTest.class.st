@@ -4,8 +4,8 @@ Tests diagram controller interactions, transition matrix coordination, and canva
 Class {
 	#name : 'OPMcControllerTest',
 	#superclass : 'OPAbstractDiagramControllerTest',
-	#category : 'OpenPonk-MarkovChains-Controllers',
-	#package : 'OpenPonk-MarkovChains',
+	#category : 'OpenPonk-MarkovChains-Tests-Controllers',
+	#package : 'OpenPonk-MarkovChains-Tests',
 	#tag : 'Controllers'
 }
 

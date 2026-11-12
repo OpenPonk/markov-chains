@@ -26,6 +26,9 @@ BaselineOfOpenPonkMarkovChains >> baseline: spec [
 			package: 'OpenPonk-MarkovChains'
 			with: [
 			spec requires: #( 'OpenPonkModel' 'Mustache' ) ].
-		spec group: 'plugin' with: #( 'OpenPonk-MarkovChains' ).
+		spec
+			package: 'OpenPonk-MarkovChains-Tests'
+			with: [ spec requires: #( 'OpenPonk-MarkovChains' ) ].
+		spec group: 'plugin' with: #( 'OpenPonk-MarkovChains' 'OpenPonk-MarkovChains-Tests' ).
 		spec group: 'default' with: #( 'OpenPonk' 'plugin' ) ]
 ]

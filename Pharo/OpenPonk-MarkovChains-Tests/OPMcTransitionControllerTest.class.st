@@ -4,8 +4,8 @@ Tests controller behaviors, probability weight labels, and directed arc renderin
 Class {
 	#name : 'OPMcTransitionControllerTest',
 	#superclass : 'OPAbstractDirectionalRelationshipControllerTest',
-	#category : 'OpenPonk-MarkovChains-Controllers',
-	#package : 'OpenPonk-MarkovChains',
+	#category : 'OpenPonk-MarkovChains-Tests-Controllers',
+	#package : 'OpenPonk-MarkovChains-Tests',
 	#tag : 'Controllers'
 }
 
