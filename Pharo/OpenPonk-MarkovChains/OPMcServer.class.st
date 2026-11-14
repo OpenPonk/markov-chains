@@ -1,5 +1,5 @@
 "
-Manages a local server for visualizing and simulating Markov Chain models via web interfaces, supporting HTML, SVG, and PNG generation.
+Local Zinc HTTP handler for driving Markov Chain model import and simulation workflows over a web interface, embedding SVG diagram previews into Mustache HTML responses while delegating execution to the active diagram editor and simulator windows.
 "
 Class {
 	#name : 'OPMcServer',
@@ -19,64 +19,50 @@ Class {
 
 { #category : 'as yet unclassified' }
 OPMcServer >> getModelAsSVG [
+
 	| xmlStream xmlString xmlFile |
 	diagramController canvasPresenter currentCanvas zoomToFit.
 	xmlStream := WriteStream on: ''.
-	diagramController canvasPresenter currentCanvas svgCairoExporter exportToStream: xmlStream.
+	diagramController canvasPresenter currentCanvas svgExporter exportToStream: xmlStream.
 	xmlString := xmlStream contents.
-	xmlFile := (XMLDOMParser parse: xmlString).
+	xmlFile := XMLDOMParser parse: xmlString.
 	(xmlFile nodeAt: 1) attributeAt: #width put: self pngWidth.
 	(xmlFile nodeAt: 1) attributeAt: #height put: self pngHeight.
-	modelPNG := xmlFile asString.
-	
+	modelPNG := xmlFile asString
 ]
 
 { #category : 'accessing' }
 OPMcServer >> handleGetRequest: request [
+
 	request hasEntity ifTrue: [ ^ ZnResponse badRequest: request ].
-	(request uri equals: #home asUrl) ifTrue: [
-		model workbench projectController project removeModel:
-			diagramController model.
-		model workbench projectController project addModel: (OPMc new name: 'New Markov Chain Diagram').
-		model workbench projectController project ensureModelsHaveDiagrams.
-		(model workbench openProject: (model workbench projectController project)) showAllElementsInAllDiagrams.
-		diagramController := model workbench projectController controllers at: 1.
-		model := diagramController editor.
-		currentHTML := self htmlPlugin ].
+	(request uri equals: #home asZnUrl) ifTrue: [
+			model workbench projectController project removeModel: diagramController model.
+			model workbench projectController project addModel: (OPMc new name: 'New Markov Chain Diagram').
+			model workbench projectController project ensureModelsHaveDiagrams.
+			(model workbench openProject: model workbench projectController project) showAllElementsInAllDiagrams.
+			diagramController := model workbench projectController controllers at: 1.
+			model := diagramController editor.
+			currentHTML := self htmlPlugin ].
 	^ ZnResponse ok: (ZnEntity html: currentHTML)
 ]
 
 { #category : 'accessing' }
 OPMcServer >> handlePostRequest: request [
-   | part badRequest |
-   badRequest := [ ^ ZnResponse badRequest: request ].
-   request hasEntity ifFalse: badRequest.
-   (request contentType matches: ZnMimeType multiPartFormData)
-      ifTrue: [ 
-			"Check if an xmi file is uploaded"
-			part := (request entity partNamed: #file ifNone: [ nil ]).
-			part ifNotNil: [ ^ self loadFile: (part entity) via: request ]. ].
-	
-	(request contentType matches: ZnMimeType applicationFormUrlEncoded)
-		ifTrue: [ 
-			"Check if / which radiobutton is selected regarding simulation method"
-			(request entity includesField: #simType)
-				ifTrue: [ ^ self loadSimType: (request entity) via: request  ]. ].
-			
-	(request contentType matches: ZnMimeType applicationFormUrlEncoded)
-		ifTrue: [ 
-			"Check for random simulation parameters"
-			((request entity includesField: #nos) and: (request entity includesField: #idle))
-				ifTrue: [ ^ self launchSimRnd: (request entity fields) via: request ]. ].
-			
-	(request contentType matches: ZnMimeType applicationFormUrlEncoded)
-		ifTrue: [ 
-			"Check for predicted simulation parameters"
-			(((request entity includesField: #states) and: 
-			 (request entity includesField: #idle)) and: 
-			 (request entity includesField: #separator))
-				ifTrue: [ ^ self launchSimPred: (request entity fields) via: request ]. ].
-	badRequest.
+
+	| part |
+	request hasEntity ifFalse: [ ^ ZnResponse badRequest: request ].
+	(request contentType matches: ZnMimeType multiPartFormData) ifTrue: [
+			part := request entity partNamed: #file ifNone: [ nil ].
+			part ifNotNil: [ ^ self loadFile: part entity via: request ] ].
+
+	(request contentType matches: ZnMimeType applicationFormUrlEncoded) ifTrue: [
+			(request entity includesField: #simType) ifTrue: [ ^ self loadSimType: request entity via: request ].
+			((request entity includesField: #nos) and: (request entity includesField: #idle)) ifTrue: [
+				^ self launchSimRnd: request entity fields via: request ].
+			((request entity includesField: #states) and: [(request entity includesField: #idle) and:[
+				 (request entity includesField: #separator)]]) ifTrue: [ ^ self launchSimPred: request entity fields via: request ] ].
+
+	^ ZnResponse badRequest: request
 ]
 
 { #category : 'accessing' }
