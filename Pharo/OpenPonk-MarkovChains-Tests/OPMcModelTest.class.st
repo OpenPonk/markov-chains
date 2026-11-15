@@ -48,6 +48,19 @@ OPMcModelTest >> tearDown [
 ]
 
 { #category : 'tests' }
+OPMcModelTest >> testEmptyExampleModel [
+
+	| emptyChain |
+	emptyChain := OPMcExamples emptyModel.
+	self assert: emptyChain class identicalTo: OPMc.
+	self assert: emptyChain name equals: 'New Markov Chain Diagram'.
+	self assert: emptyChain uuid class identicalTo: UUID.
+	self assertEmpty: emptyChain states.
+	self assertEmpty: emptyChain transitions.
+	self assertEmpty: emptyChain elements
+]
+
+{ #category : 'tests' }
 OPMcModelTest >> testModelPredicatesAndCollections [
 
 	self deny: markovChain isState description: 'Markov chain container must not report as a state'.
@@ -179,4 +192,19 @@ OPMcModelTest >> testVertexPredicatesAndTopology [
 			transitionAlphaBeta.
 			transitionBetaGamma.
 			selfTransition }
+]
+
+{ #category : 'tests' }
+OPMcModelTest >> testVertexRemovedFromDirectAndInvalidOwner [
+
+	self should: [ stateAlpha removedFrom: stateBeta ] raise: AssertionFailure.
+
+	stateBeta removedFrom: markovChain.
+	self assert: stateBeta owner isNil description: 'Direct removedFrom: must clear vertex owner'.
+	self assert: transitionAlphaBeta owner isNil description: 'Direct removedFrom: must clear incoming transition owner'.
+	self assert: transitionBetaGamma owner isNil description: 'Direct removedFrom: must clear outgoing transition owner'.
+	self assert: transitionAlphaBeta source isNil description: 'Direct removedFrom: must detach incoming transition source'.
+	self assert: transitionBetaGamma target isNil description: 'Direct removedFrom: must detach outgoing transition target'.
+	self assertEmpty: stateAlpha outgoing.
+	self assertEmpty: stateGamma incoming
 ]

@@ -26,14 +26,22 @@ OPMcControllerTest >> modelClass [
 
 { #category : 'tests' }
 OPMcControllerTest >> testControllerFactory [
-	self assert: controller controllerFactory isNotNil.
-	self assert: (controller controllerFactory isKindOf: OPControllerFactory)
+
+	| factory |
+	factory := controller controllerFactory.
+	self assert: factory class identicalTo: OPControllerFactory.
+	self assert: (factory hasControllerFor: OPMcState new) description: 'Controller factory must register OPMcState'.
+	self assert: (factory hasControllerFor: OPMcTransition new) description: 'Controller factory must register OPMcTransition'.
+	self deny: (factory hasControllerFor: OPMc new) description: 'Controller factory must not register diagram model OPMc'
 ]
 
 { #category : 'tests' }
 OPMcControllerTest >> testInitializePalette [
-	| palette |
+
+	| palette entryLabels |
 	palette := OPPalette new.
 	controller initializePalette: palette.
-	self denyCollection: palette items hasSameElements: #()
+	self assert: palette items size equals: 4.
+	entryLabels := palette items select: [ :eachItem | eachItem isKindOf: OPPaletteEntry ] thenCollect: #label.
+	self assertCollection: entryLabels hasSameElements: #( 'Select' 'State' 'Transition' )
 ]
