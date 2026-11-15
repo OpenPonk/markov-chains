@@ -18,7 +18,7 @@ OPMcExamples class >> emptyModel [
 		  yourself
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'examples' }
 OPMcExamples class >> exampleMarkovChain [
 
 	<script: 'self exampleMarkovChain inspect'>
@@ -40,7 +40,7 @@ OPMcExamples class >> exampleMarkovChain [
 	^ mc
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'examples' }
 OPMcExamples class >> exampleMarkovWeather [
 
 	<script: 'self exampleMarkovWeather inspect'>

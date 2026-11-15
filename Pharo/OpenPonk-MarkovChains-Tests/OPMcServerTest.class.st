@@ -98,6 +98,12 @@ OPMcServerTest >> testConstantsAndStaticHtmlTemplates [
 		description: 'Plugin template must declare multipart file upload form'.
 	self assert: (server htmlPlugin includesSubstring: 'name="file"') description: 'Plugin template must declare file input'.
 	self
+		assert: (server htmlPlugin includesSubstring: 'GraphML-File:')
+		description: 'Plugin template must label upload field as GraphML-File'.
+	self
+		deny: (server htmlPlugin includesSubstring: 'xmi-File:')
+		description: 'Plugin template must not retain copy-pasted xmi-File label'.
+	self
 		assert: (server htmlSimType includesSubstring: '{{{image}}}')
 		description: 'Simulation type template must include image placeholder'.
 	self
@@ -247,6 +253,120 @@ OPMcServerTest >> testHandlePostRequestAndDirectHandlersRejectInvalidInputs [
 				             (#states -> 'sunny,cloudy').
 				             (#idle -> '0.001').
 				             (#separator -> '') }).
+	self assert: response statusLine code equals: 400
+]
+
+{ #category : 'tests' }
+OPMcServerTest >> testLaunchSimRejectsNonNumericAndInvalidNumericInputsWithBadRequest [
+
+	| response |
+	self setUpHeadlessDiagramController.
+	server instVarNamed: #modelPNG put: '<svg id="validation-svg"/>'.
+
+	response := server handleRequest: (self postFormRequest: { (#simType -> 'rndSim') }).
+	self assert: response statusLine code equals: 302.
+
+	{
+		{
+			(#nos -> 'abc').
+			(#idle -> '0.001') }.
+		{
+			(#nos -> '').
+			(#idle -> '0.001') }.
+		{
+			(#nos -> '1.5').
+			(#idle -> '0.001') }.
+		{
+			(#nos -> '2abc').
+			(#idle -> '0.001') }.
+		{
+			(#nos -> '2').
+			(#idle -> 'abc') }.
+		{
+			(#nos -> '2').
+			(#idle -> '') }.
+		{
+			(#nos -> '2').
+			(#idle -> '0.1abc') }.
+		{
+			(#nos -> '2').
+			(#idle -> 'NaN') }.
+		{
+			(#nos -> '2').
+			(#idle -> 'Infinity') } } do: [ :invalidRndFields |
+			response := server handleRequest: (self postFormRequest: invalidRndFields).
+			self assert: response statusLine code equals: 400 ].
+
+	response := server handleRequest: (self postFormRequest: { (#simType -> 'predSim') }).
+	self assert: response statusLine code equals: 302.
+
+	{
+		{
+			(#states -> 'sunny,cloudy').
+			(#idle -> 'abc').
+			(#separator -> ',') }.
+		{
+			(#states -> 'sunny,cloudy').
+			(#idle -> '').
+			(#separator -> ',') }.
+		{
+			(#states -> 'sunny,cloudy').
+			(#idle -> '0.1abc').
+			(#separator -> ',') }.
+		{
+			(#states -> 'sunny,cloudy').
+			(#idle -> 'NaN').
+			(#separator -> ',') }.
+		{
+			(#states -> 'sunny,cloudy').
+			(#idle -> 'Infinity').
+			(#separator -> ',') } } do: [ :invalidPredFields |
+			response := server handleRequest: (self postFormRequest: invalidPredFields).
+			self assert: response statusLine code equals: 400 ]
+]
+
+{ #category : 'tests' }
+OPMcServerTest >> testLoadFileAcceptsXmlAndGraphMlMimeTypesAndRejectsUnsupportedTypes [
+
+	| graphMlXml supportedEntities multipartEntity multipartRequest response |
+	project := OPProject named: 'McServerXmlMimeUploadTest'.
+	project addModel: (OPMc named: 'Upload Target').
+	workbench := OPWorkbench openProject: project.
+	workbench showAllElementsInAllDiagrams.
+	diagramController := workbench projectController controllers first.
+	server instVarNamed: #diagramController put: diagramController.
+	server instVarNamed: #model put: diagramController editor.
+
+	graphMlXml := OPMcGraphML new export: OPMcExamples exampleMarkovWeather.
+	supportedEntities := {
+		                     ('weather.xml' -> (ZnEntity xml: graphMlXml)).
+		                     ('weather-text.xml' -> (ZnEntity with: graphMlXml type: 'text/xml' asZnMimeType)).
+		                     ('weather.graphml'
+		                      -> (ZnByteArrayEntity with: graphMlXml utf8Encoded type: 'application/graphml+xml' asZnMimeType)) }.
+
+	supportedEntities do: [ :eachPair |
+			| targetModel |
+			targetModel := OPMc named: 'Fresh Target'.
+			diagramController model: targetModel.
+			multipartEntity := ZnMultiPartFormDataEntity new.
+			multipartEntity addPart: (ZnMimePart fieldName: #file fileName: eachPair key entity: eachPair value).
+			multipartRequest := (ZnRequest post: '/mc')
+				                    entity: multipartEntity;
+				                    yourself.
+			response := server handleRequest: multipartRequest.
+			self assert: response statusLine code equals: 302.
+			self assert: response location equals: 'mc'.
+			self assert: targetModel states size equals: 3.
+			self assert: targetModel transitions size equals: 9.
+			self
+				assert: ((server instVarNamed: #modelPNG) includesSubstring: '<svg')
+				description: 'Supported XML/GraphML upload must regenerate SVG preview' ].
+
+	multipartEntity := ZnMultiPartFormDataEntity new.
+	multipartEntity addPart: (ZnMimePart fieldName: #file fileName: 'plain.txt' entity: (ZnEntity text: graphMlXml)).
+	response := server handleRequest: ((ZnRequest post: '/mc')
+			             entity: multipartEntity;
+			             yourself).
 	self assert: response statusLine code equals: 400
 ]
 

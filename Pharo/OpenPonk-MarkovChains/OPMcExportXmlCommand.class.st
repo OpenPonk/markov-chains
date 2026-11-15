@@ -27,11 +27,13 @@ OPMcExportXmlCommand >> defaultMenuIcon [
 { #category : 'accessing' }
 OPMcExportXmlCommand >> defaultMenuItemName [
 	"Answers the display name of the MC export command."
-	^ 'Export as xmi'
+
+	^ 'Export as GraphML...'
 ]
 
 { #category : 'execution' }
 OPMcExportXmlCommand >> execute [
-	"Exports the Markov Chains domain model to an XMI file."
+	"Exports the Markov Chains domain model to a GraphML file."
+
 	OPMcGraphML exportPackage: self model
 ]

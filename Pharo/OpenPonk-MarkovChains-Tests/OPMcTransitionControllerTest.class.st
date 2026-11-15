@@ -9,7 +9,7 @@ Class {
 	#tag : 'Controllers'
 }
 
-{ #category : 'accessing' }
+{ #category : 'constants' }
 OPMcTransitionControllerTest class >> diagramElementClass [
 	^ OPMcTransitionShape
 ]

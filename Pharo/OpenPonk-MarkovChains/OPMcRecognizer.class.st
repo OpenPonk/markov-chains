@@ -19,15 +19,17 @@ Class {
 	#tag : 'Simulations'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 OPMcRecognizer >> allStates [
 
 	| visited |
 	visited := Set new.
 	^ path select: [ :element |
 			  (visited includes: element)
-				  ifFalse: [ visited add: element ];
-				  yourself ]
+				  ifTrue: [ false ]
+				  ifFalse: [
+						  visited add: element.
+						  true ] ]
 ]
 
 { #category : 'accessing' }
@@ -147,7 +149,7 @@ OPMcRecognizer >> consumedBackNotEmpty [
 	
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 OPMcRecognizer >> decrementGC [
 	globalCounter = 1
 		ifFalse: [ globalCounter := globalCounter - 1 ] 
@@ -155,7 +157,7 @@ OPMcRecognizer >> decrementGC [
 	
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 OPMcRecognizer >> decrementGCInclZero [
 	globalCounter = 1
 		ifFalse: [ globalCounter := globalCounter - 1 ] 
@@ -175,7 +177,7 @@ OPMcRecognizer >> goTo: aPlace [
 	self announce: (OPMcRecognizerEnter place: current)
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 OPMcRecognizer >> incrementGC [
 	globalCounter 
 		ifNotNil: [ globalCounter := globalCounter + 1 ] 
@@ -183,12 +185,22 @@ OPMcRecognizer >> incrementGC [
 	
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 OPMcRecognizer >> incrementGCInclZero [
 	globalCounter 
 		ifNotNil: [ globalCounter := globalCounter + 1 ] 
 		ifNil: [ globalCounter  := 0 ] 
 	
+]
+
+{ #category : 'initialization' }
+OPMcRecognizer >> initialize [
+
+	super initialize.
+	path := Stack new.
+	consumed := Stack new.
+	consumedBack := Stack new.
+	canContinue := false
 ]
 
 { #category : 'accessing' }
@@ -208,7 +220,7 @@ OPMcRecognizer >> input: aCollection startingAt: aState for: idleTime [
 	
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'stepping' }
 OPMcRecognizer >> inputFinished [
 	((current name = (input at: input size asInteger) asString) & (globalCounter = input size)) 		
 		ifTrue: [ ^ self beCompletePredicted  ].
@@ -219,7 +231,7 @@ OPMcRecognizer >> inputPosition [
 	^ "path size + 1" globalCounter
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 OPMcRecognizer >> inputPositionExclNil [
 	^ globalCounter + 1
 ]
@@ -295,7 +307,7 @@ OPMcRecognizer >> nextPredicted [
 		ifFalse: [ self consumedBackEmpty ]. 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'stepping' }
 OPMcRecognizer >> nextTransition [
 	| transition |
 	current outgoing do: [ :each | 
@@ -376,7 +388,7 @@ OPMcRecognizer >> stop [
 
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'actions' }
 OPMcRecognizer >> stopPredicted [
 	canContinue := false.
 	path := Stack new.

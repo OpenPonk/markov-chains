@@ -26,22 +26,24 @@ OPMcGraphML class >> exportPackage: aModel [
 
 { #category : 'importing' }
 OPMcGraphML class >> importToModel: aModel inEditor: anEditor [
-	"Imports XMI model data into aModel and refreshes the diagram controller and layout in anEditor."
+	"Imports GraphML model data into aModel and refreshes the diagram controller and layout in anEditor."
+
 	StOpenFilePresenter new
-		title: 'Choose a XMI export of UML model';
-		okAction: [ :file | 
-			self new import: file into: aModel.
-			self inform: 'Imported from ' , file fullName.
-			self updateModelAfterImport: anEditor ];
-		extensions: #( xmi xml uml ) named: 'XMI files';
+		title: 'Choose a GraphML file to import from';
+		okAction: [ :file |
+				self new import: file into: aModel.
+				InformativeNotification signal: 'Imported from ' , file fullName.
+				self updateModelAfterImport: anEditor ];
+		extensions: #( graphml xml ) named: 'GraphML files';
 		open
 ]
 
-{ #category : 'as yet unclassified' }
-OPMcGraphML class >> updateModelAfterImport: aModel [
-	aModel workbench projectTree refresh.
-	aModel diagramController showAllElements.
-	aModel diagramController layouter defaultLayout
+{ #category : 'importing' }
+OPMcGraphML class >> updateModelAfterImport: anEditor [
+
+	anEditor workbench projectTree refresh.
+	anEditor diagramController showAllElements.
+	anEditor diagramController layouter defaultLayout
 ]
 
 { #category : 'public-exporting' }

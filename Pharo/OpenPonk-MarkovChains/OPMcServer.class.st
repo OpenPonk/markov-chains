@@ -17,7 +17,7 @@ Class {
 	#tag : 'Zinc'
 }
 
-{ #category : 'as yet unclassified' }
+{ #category : 'rendering' }
 OPMcServer >> getModelAsSVG [
 
 	| xmlStream xmlString xmlFile |
@@ -81,10 +81,10 @@ OPMcServer >> handleRequest: request [
    ^ ZnResponse notFound: request uri
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 OPMcServer >> htmlPlugin [
-	^ 
-'<html>
+
+	^ '<html>
  <head>
   <title>OpenPonk Remote Simulator</title>
  </head>
@@ -102,7 +102,7 @@ OPMcServer >> htmlPlugin [
   </tr>
   <form enctype="multipart/form-data" action="mc" method="POST">
   <tr>
-   <td style="padding:5px">xmi-File:</td>
+   <td style="padding:5px">GraphML-File:</td>
    <td><input type="file" name="file"/></td>
   </tr>
   <tr>
@@ -381,7 +381,7 @@ OPMcServer >> htmlSimRndResults [
 </html>'
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 OPMcServer >> htmlSimType [
 	^
 '<html>
@@ -426,7 +426,18 @@ OPMcServer >> htmlSimType [
 </html>'
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
+OPMcServer >> isSupportedGraphMlContentType: aMimeType [
+
+	aMimeType ifNil: [ ^ false ].
+	^ {
+		  ZnMimeType applicationOctetStream.
+		  ZnMimeType applicationXml.
+		  'text/xml' asZnMimeType.
+		  'application/graphml+xml' asZnMimeType } anySatisfy: [ :supportedType | aMimeType matches: supportedType ]
+]
+
+{ #category : 'actions' }
 OPMcServer >> launch: aModel [
 	server := ZnServer startDefaultOn: 8080.
 	"server delegate map: #mc to: self.
@@ -438,66 +449,64 @@ OPMcServer >> launch: aModel [
 	
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'request handling' }
 OPMcServer >> launchSimPred: fields via: request [
-	((((fields at: #states) value isNotEmpty) and: 
-	 ((fields at: #idle) value asNumber asFloat > 0.0)) and:
-	 ((fields at: #separator) value isNotEmpty))
-		ifFalse: [ ^ ZnResponse badRequest: request ].
+
+	| idleSeconds |
+	idleSeconds := self positiveNumberFrom: (fields at: #idle) value.
+	((fields at: #states) value isNotEmpty and: [ idleSeconds isNotNil and: [ (fields at: #separator) value isNotEmpty ] ]) ifFalse: [
+		^ ZnResponse badRequest: request ].
 	simulator input text: (fields at: #states).
-	simulator idleInput text: (fields at: #idle).
+	simulator idleInput text: (fields at: #idle) trimBoth.
 	simulator separatorInput text: (fields at: #separator).
 	simulator startAction.
 	simulator runAction.
-	(simulator recognizer globalCounter < simulator recognizer inputs size)
-		ifTrue: [ self getModelAsSVG.
-					 currentHTML := self mustacheHtmlSimPredResultsFailure ]
+	simulator recognizer globalCounter < simulator recognizer inputs size
+		ifTrue: [
+				self getModelAsSVG.
+				currentHTML := self mustacheHtmlSimPredResultsFailure ]
 		ifFalse: [ currentHTML := self mustacheHtmlSimPredResults ].
 	^ ZnResponse redirect: #mc
-	
-
-
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'request handling' }
 OPMcServer >> launchSimRnd: fields via: request [
-	(((fields at: #nos) value asInteger > 0) and: ((fields at: #idle) value asNumber asFloat > 0.0))
-		ifFalse: [ ^ ZnResponse badRequest: request ].
-	simulator input text: (fields at: #nos).
-	simulator idleInput text: (fields at: #idle).
+
+	| numberOfSteps idleSeconds |
+	numberOfSteps := self positiveIntegerFrom: (fields at: #nos) value.
+	idleSeconds := self positiveNumberFrom: (fields at: #idle) value.
+	(numberOfSteps isNotNil and: [ idleSeconds isNotNil ]) ifFalse: [ ^ ZnResponse badRequest: request ].
+	simulator input text: (fields at: #nos) trimBoth.
+	simulator idleInput text: (fields at: #idle) trimBoth.
 	simulator startAction.
 	simulator runAction.
 	currentHTML := self mustacheHtmlSimRndResults.
 	^ ZnResponse redirect: #mc
-	
-
-
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'request handling' }
 OPMcServer >> loadFile: file via: request [
-   (file notNil
-      and: [ file contentType matches: 'application/octet-stream' asZnMimeType ])
-      ifFalse: [ ^ ZnResponse badRequest: request ] 
-		ifTrue: [ OPMcGraphML new import: file into: diagramController model.
-					 OPMcGraphML updateModelAfterImport: model.
-					 self getModelAsSVG.
-					 currentHTML := self mustacheHtmlSimType ].
-   ^ ZnResponse redirect: #mc
+
+	(file isNotNil and: [ self isSupportedGraphMlContentType: file contentType ]) ifFalse: [ ^ ZnResponse badRequest: request ].
+	OPMcGraphML new import: file into: diagramController model.
+	OPMcGraphML updateModelAfterImport: model.
+	self getModelAsSVG.
+	currentHTML := self mustacheHtmlSimType.
+	^ ZnResponse redirect: #mc
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'request handling' }
 OPMcServer >> loadSimType: field via: request [
-   (field notNil
-      and: [ field contentType matches: ZnMimeType applicationFormUrlEncoded ])
-      ifFalse: [ ^ ZnResponse badRequest: request ].
-	((field fields at: #simType) value = #rndSim)
-		ifTrue: [ simulator := OPMcSimulator new openOn: diagramController.
-					 currentHTML := self mustacheHtmlSimRnd  ].
-	((field fields at: #simType) value = #predSim)
-		ifTrue: [ simulator := OPMcPredictedSimulation new openOn: diagramController. 
-					 currentHTML := self mustacheHtmlSimPred ].
-   ^ ZnResponse redirect: #mc
+
+	(field isNotNil and: [ field contentType matches: ZnMimeType applicationFormUrlEncoded ]) ifFalse: [
+		^ ZnResponse badRequest: request ].
+	(field fields at: #simType) value = #rndSim ifTrue: [
+			simulator := OPMcSimulator new openOn: diagramController.
+			currentHTML := self mustacheHtmlSimRnd ].
+	(field fields at: #simType) value = #predSim ifTrue: [
+			simulator := OPMcPredictedSimulation new openOn: diagramController.
+			currentHTML := self mustacheHtmlSimPred ].
+	^ ZnResponse redirect: #mc
 ]
 
 { #category : 'accessing' }
@@ -569,17 +578,42 @@ OPMcServer >> mustacheHtmlSimType [
 			{(#image -> modelPNG contents)} asDictionary
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 OPMcServer >> pngHeight [
 	^ '300pt'
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'accessing' }
 OPMcServer >> pngWidth [
 	^ '300pt'
 ]
 
-{ #category : 'as yet unclassified' }
+{ #category : 'private' }
+OPMcServer >> positiveIntegerFrom: aString [
+
+	| trimmed value |
+	trimmed := aString asString trimBoth.
+	(trimmed isEmpty or: [ (trimmed allSatisfy: [ :eachChar | eachChar isDigit ]) not ]) ifTrue: [ ^ nil ].
+	value := trimmed asInteger.
+	value > 0 ifFalse: [ ^ nil ].
+	^ value
+]
+
+{ #category : 'private' }
+OPMcServer >> positiveNumberFrom: aString [
+
+	| trimmed stream parsed floatValue |
+	trimmed := aString asString trimBoth.
+	trimmed isEmpty ifTrue: [ ^ nil ].
+	stream := trimmed readStream.
+	parsed := Number readFrom: stream ifFail: [ ^ nil ].
+	stream atEnd ifFalse: [ ^ nil ].
+	floatValue := parsed asFloat.
+	(floatValue isNaN or: [ floatValue isInfinite or: [ floatValue <= 0.0 ] ]) ifTrue: [ ^ nil ].
+	^ floatValue
+]
+
+{ #category : 'accessing' }
 OPMcServer >> siteTags [
 	^ { #mc.
 		 #home. }

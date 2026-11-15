@@ -129,6 +129,39 @@ OPMcGraphMLTest >> testExportAndImportRoundtripWithStatesTransitionsAndSelfLoops
 ]
 
 { #category : 'tests' }
+OPMcGraphMLTest >> testExportPackagePassesGraphMLExtensionsAndTitleToExportDialog [
+
+	| modelWithSpecialName capturedBlock capturedFileName capturedExtensions capturedFilterName capturedTitle exportedXml |
+	capturedBlock := nil.
+	capturedFileName := nil.
+	capturedExtensions := nil.
+	capturedFilterName := nil.
+	capturedTitle := nil.
+	modelWithSpecialName := OPMc named: 'My / Chain'.
+	(OPExportFileDialog stub
+		 exportBlock: Any
+		 defaultFileName: Any
+		 extensions: Any
+		 named: Any
+		 title: Any) will: [ :exportBlock :defaultFileName :extensions :filterName :dialogTitle |
+			capturedBlock := exportBlock.
+			capturedFileName := defaultFileName.
+			capturedExtensions := extensions.
+			capturedFilterName := filterName.
+			capturedTitle := dialogTitle ].
+
+	OPMcGraphML exportPackage: modelWithSpecialName.
+
+	self assert: capturedFileName equals: (FileNameSanitizer sanitize: 'My / Chain') , '.graphml'.
+	self assert: capturedExtensions equals: #( graphml xml ).
+	self assert: capturedFilterName equals: 'GraphML files'.
+	self assert: capturedTitle equals: 'Choose a GraphML file to export to'.
+	exportedXml := capturedBlock value.
+	self assert: (exportedXml includesSubstring: '<graphml') description: 'Export block must generate GraphML XML'.
+	self assert: (exportedXml includesSubstring: 'My / Chain') description: 'Export block must include model name'
+]
+
+{ #category : 'tests' }
 OPMcGraphMLTest >> testImportErrorBoundaryCases [
 
 	| missingNameXml missingNodeTypeXml danglingEdgeXml |
@@ -188,6 +221,69 @@ OPMcGraphMLTest >> testImportIntoTargetModelFromMemoryFile [
 	self
 		assertCollection: (targetModel states collect: [ :eachState | eachState uuid -> eachState name ])
 		hasSameElements: (sourceModel states collect: [ :eachState | eachState uuid -> eachState name ])
+]
+
+{ #category : 'tests' }
+OPMcGraphMLTest >> testImportToModelInEditorUsesGraphMLFilterAndUpdatesEditor [
+
+	| sourceModel memoryFile targetModel mockOpenDialog capturedTitle capturedExtensions capturedFilterName capturedOkAction openCalled mockEditor mockWorkbench mockProjectTree mockDiagramController mockLayouter refreshedAll showedAll appliedLayout capturedNotifications |
+	sourceModel := OPMcExamples exampleMarkovWeather.
+	memoryFile := FileSystem memory root / 'import-dialog.graphml'.
+	memoryFile writeStreamDo: [ :stream | stream nextPutAll: (graphML export: sourceModel) ].
+	targetModel := OPMc named: 'Initial Target'.
+
+	capturedTitle := nil.
+	capturedExtensions := nil.
+	capturedFilterName := nil.
+	capturedOkAction := nil.
+	openCalled := false.
+	capturedNotifications := OrderedCollection new.
+	mockOpenDialog := Mock new.
+	StOpenFilePresenter stub new willReturn: mockOpenDialog.
+	(mockOpenDialog stub title: Any) will: [ :dialogTitle | capturedTitle := dialogTitle ].
+	(mockOpenDialog stub extensions: Any named: Any) will: [ :extensions :filterName |
+			capturedExtensions := extensions.
+			capturedFilterName := filterName ].
+	(mockOpenDialog stub okAction: Any) will: [ :actionBlock | capturedOkAction := actionBlock ].
+	mockOpenDialog stub open will: [ openCalled := true ].
+
+	refreshedAll := false.
+	showedAll := false.
+	appliedLayout := false.
+	mockProjectTree := Mock new.
+	mockProjectTree stub refresh will: [ refreshedAll := true ].
+	mockWorkbench := Mock new.
+	mockWorkbench stub projectTree willReturn: mockProjectTree.
+	mockLayouter := Mock new.
+	mockLayouter stub defaultLayout will: [ appliedLayout := true ].
+	mockDiagramController := Mock new.
+	mockDiagramController stub showAllElements will: [ showedAll := true ].
+	mockDiagramController stub layouter willReturn: mockLayouter.
+	mockEditor := Mock new.
+	mockEditor stub workbench willReturn: mockWorkbench.
+	mockEditor stub diagramController willReturn: mockDiagramController.
+
+	OPMcGraphML importToModel: targetModel inEditor: mockEditor.
+
+	self assert: openCalled description: 'importToModel:inEditor: must open the file dialog'.
+	self assert: capturedTitle equals: 'Choose a GraphML file to import from'.
+	self assert: capturedExtensions equals: #( graphml xml ).
+	self assert: capturedFilterName equals: 'GraphML files'.
+
+	[ capturedOkAction value: memoryFile ]
+		on: InformativeNotification
+		do: [ :notification |
+				capturedNotifications add: notification messageText.
+				notification resume ].
+
+	self assertCollection: capturedNotifications hasSameElements: { ('Imported from ' , memoryFile fullName) }.
+	self assert: targetModel uuid equals: sourceModel uuid.
+	self assert: targetModel name equals: 'Markov Weather'.
+	self assert: targetModel states size equals: 3.
+	self assert: targetModel transitions size equals: 9.
+	self assert: refreshedAll description: 'updateModelAfterImport: must refresh the project tree'.
+	self assert: showedAll description: 'updateModelAfterImport: must show all diagram elements'.
+	self assert: appliedLayout description: 'updateModelAfterImport: must apply default layout'
 ]
 
 { #category : 'tests' }

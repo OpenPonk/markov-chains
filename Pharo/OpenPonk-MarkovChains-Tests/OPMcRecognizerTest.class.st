@@ -59,17 +59,34 @@ OPMcRecognizerTest >> tearDown [
 OPMcRecognizerTest >> testAllStatesAndTransitionLookupHelpers [
 
 	| transitionGammaAlpha |
+	self assertEmpty: recognizer allStates.
+
 	transitionGammaAlpha := OPMcTransition from: stateGamma to: stateAlpha named: '1.0'.
 	markovChain add: transitionGammaAlpha.
 
 	recognizer predictedInput: #( 'a' 'b' 'c' ) startingAt: stateAlpha for: '0'.
 	recognizer nextUpToEndPredicted.
-	"OPMcRecognizer>>#allStates cascades #yourself on the Boolean result of #ifFalse:, selecting only states appearing at least twice in path."
-	self assertEmpty: recognizer allStates.
+	self assert: recognizer allStates size equals: 3.
+	self assertCollection: recognizer allStates hasSameElements: {
+			stateAlpha.
+			stateBeta.
+			stateGamma }.
 
 	recognizer predictedInput: #( 'a' 'b' 'c' 'a' ) startingAt: stateAlpha for: '0'.
 	recognizer nextUpToEndPredicted.
-	self assertCollection: recognizer allStates hasSameElements: { stateAlpha }.
+	self assert: recognizer allStates size equals: 3.
+	self assertCollection: recognizer allStates hasSameElements: {
+			stateAlpha.
+			stateBeta.
+			stateGamma }.
+
+	recognizer predictedInput: #( 'a' 'b' 'c' 'a' 'b' 'c' 'a' ) startingAt: stateAlpha for: '0'.
+	recognizer nextUpToEndPredicted.
+	self assert: recognizer allStates size equals: 3.
+	self assertCollection: recognizer allStates hasSameElements: {
+			stateAlpha.
+			stateBeta.
+			stateGamma }.
 
 	self assert: (recognizer transitionFrom: stateAlpha using: '1.0') identicalTo: transitionAlphaBeta.
 	self assert: (recognizer transitionFrom: stateAlpha using: 'missing') isNil description: 'Unmatched symbol should return nil'.

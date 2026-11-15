@@ -36,18 +36,59 @@ OPMcModelMenuTest >> tearDown [
 { #category : 'tests' }
 OPMcModelMenuTest >> testModelMenuContainsMcCommanderActivationsWhenMcEditorFocused [
 	"Verifies that the Model menu contains Markov Chains Commander 1 commands when an MC editor is focused."
+
 	| mcPlugin testEditor modelMenuItem subMenuLabels |
-	mcPlugin := OPPluginRegistry default plugins
-		detect: [ :eachPluginCandidate | eachPluginCandidate isKindOf: OPMcPlugin ].
+	mcPlugin := OPPluginRegistry default plugins detect: [ :eachPluginCandidate | eachPluginCandidate isKindOf: OPMcPlugin ].
 	testEditor := (OPEditor on: mcPlugin)
-		workbench: mockWorkbench;
-		yourself.
+		              workbench: mockWorkbench;
+		              yourself.
 
 	toolbarPresenter focusedEditor: testEditor.
-	modelMenuItem := toolbarPresenter menu menuGroups first menuItems
-		detect: [ :eachMenuItem | eachMenuItem name = 'Model' ].
-	subMenuLabels := modelMenuItem subMenu menuGroups
-		flatCollect: [ :eachGroup | eachGroup menuItems collect: [ :eachItem | eachItem name ] ].
+	modelMenuItem := toolbarPresenter menu menuGroups first menuItems detect: [ :eachMenuItem | eachMenuItem name = 'Model' ].
+	subMenuLabels := modelMenuItem subMenu menuGroups flatCollect: [ :eachGroup |
+		                 eachGroup menuItems collect: [ :eachItem | eachItem name ] ].
 
-	self assertCollection: subMenuLabels includesAll: #( 'Export as xmi' 'Import as xmi' 'Open Simulator' 'Open Predicted Simulation' 'Launch Server' )
+	self
+		assertCollection: subMenuLabels
+		includesAll: #( 'Export as GraphML...' 'Import from GraphML...' 'Open Simulator' 'Open Predicted Simulation'
+		   'Launch Server' )
+]
+
+{ #category : 'tests' }
+OPMcModelMenuTest >> testXmlCommandsExecuteDelegatesToMcGraphML [
+	"Verifies menu names and execution delegation of GraphML export and import commands."
+
+	| targetModel mockDiagramController mockEditor toolContext exportedModel importedModel importedEditor exportCommand importCommand |
+	targetModel := OPMc named: 'Menu Command Chain'.
+	mockDiagramController := Mock new.
+	mockDiagramController stub model willReturn: targetModel.
+	mockEditor := Mock new.
+	mockEditor stub diagramController willReturn: mockDiagramController.
+
+	exportedModel := nil.
+	importedModel := nil.
+	importedEditor := nil.
+	(OPMcGraphML stub exportPackage: Any) will: [ :aModel | exportedModel := aModel ].
+	(OPMcGraphML stub importToModel: Any inEditor: Any) will: [ :aModel :anEditor |
+			importedModel := aModel.
+			importedEditor := anEditor ].
+
+	exportCommand := OPMcExportXmlCommand new.
+	self assert: exportCommand defaultMenuItemName equals: 'Export as GraphML...'.
+	importCommand := OPMcImportXmlCommand new.
+	self assert: importCommand defaultMenuItemName equals: 'Import from GraphML...'.
+
+	toolContext := CmdSimpleToolContext for: mockEditor.
+	CmdCommandActivator new
+		command: exportCommand;
+		context: toolContext;
+		executeCommand.
+	self assert: exportedModel identicalTo: targetModel.
+
+	CmdCommandActivator new
+		command: importCommand;
+		context: toolContext;
+		executeCommand.
+	self assert: importedModel identicalTo: targetModel.
+	self assert: importedEditor identicalTo: mockEditor
 ]

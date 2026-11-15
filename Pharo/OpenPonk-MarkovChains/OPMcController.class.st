@@ -15,18 +15,6 @@ OPMcController class >> viewModelClass [
 	^ OPMcViewModel
 ]
 
-{ #category : 'userinterface' }
-OPMcController >> applyLayout: anAlgorithm [
-
-	| roassalShapes edges |
-	roassalShapes := self controllers
-		           select: [ :each | each isKindOf: OPMcVertexController ]
-		           thenCollect: [ :each | each roassalShape ].
-	edges := (roassalShapes flatCollect: #connectedLines) reject: [ :each |
-		         each from = each to ].
-	anAlgorithm on: roassalShapes asGroup edges: edges asGroup
-]
-
 { #category : 'connecting' }
 OPMcController >> canBeTargetFor: aController [
 	^ (super canBeTargetFor: aController)

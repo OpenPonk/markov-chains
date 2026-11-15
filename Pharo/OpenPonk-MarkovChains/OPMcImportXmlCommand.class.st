@@ -27,11 +27,13 @@ OPMcImportXmlCommand >> defaultMenuIcon [
 { #category : 'accessing' }
 OPMcImportXmlCommand >> defaultMenuItemName [
 	"Answers the display name of the MC import command."
-	^ 'Import as xmi'
+
+	^ 'Import from GraphML...'
 ]
 
 { #category : 'execution' }
 OPMcImportXmlCommand >> execute [
-	"Imports XMI model data into the active Markov Chains domain model and updates diagram."
+	"Imports GraphML model data into the active Markov Chains domain model and updates diagram."
+
 	OPMcGraphML importToModel: self model inEditor: self editor
 ]
