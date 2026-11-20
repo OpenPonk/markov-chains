@@ -3,7 +3,7 @@ Unit tests for the in-memory Markov Chain HTTP request handler, covering route d
 "
 Class {
 	#name : 'OPMcServerTest',
-	#superclass : 'TestCase',
+	#superclass : 'OPAbstractUITest',
 	#instVars : [
 		'server',
 		'markovChain',
