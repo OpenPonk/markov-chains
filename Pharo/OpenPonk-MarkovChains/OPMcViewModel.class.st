@@ -1,6 +1,5 @@
 "
-View model for the top-level Markov Chain model.
-Provides essential child models and icon definitions for the workbench tree and UI integration.
+View model for the top-level Markov Chain model. Provides child models and icon definitions for the workbench tree and UI integration.
 "
 Class {
 	#name : 'OPMcViewModel',
@@ -22,11 +21,6 @@ OPMcViewModel class >> modelClass [ ^ OPMc
 
 { #category : 'accessing' }
 OPMcViewModel >> childrenModels [ ^ self model states
-]
-
-{ #category : 'accessing' }
-OPMcViewModel >> essentialChildrenModels [
-			^ self model elements asArray
 ]
 
 { #category : 'accessing' }

@@ -10,13 +10,12 @@ Class {
 }
 
 { #category : 'tests' }
-OPMcViewModelTest >> testViewModelEssentialChildrenDependentElementsAndIcons [
+OPMcViewModelTest >> testViewModelChildrenDependentElementsAndIcons [
 
 	| markovChain stateAlpha stateBeta transitionAlphaBeta mcViewModel stateAlphaViewModel stateBetaViewModel transitionViewModel |
 	markovChain := OPMc named: 'Chain'.
 	mcViewModel := OPMcViewModel new model: markovChain.
 	self assertEmpty: mcViewModel childrenModels.
-	self assertEmpty: mcViewModel essentialChildrenModels.
 	self assert: mcViewModel modelRootViewModel identicalTo: mcViewModel.
 	self assert: mcViewModel icon bits equals: OPMcIcons opMcDiagramIcon bits.
 
@@ -33,11 +32,6 @@ OPMcViewModelTest >> testViewModelEssentialChildrenDependentElementsAndIcons [
 	self assertCollection: mcViewModel childrenModels hasSameElements: {
 			stateAlpha.
 			stateBeta }.
-	self assert: mcViewModel essentialChildrenModels class identicalTo: Array.
-	self assertCollection: mcViewModel essentialChildrenModels hasSameElements: {
-			stateAlpha.
-			stateBeta.
-			transitionAlphaBeta }.
 
 	stateAlphaViewModel := OPMcStateViewModel new model: stateAlpha.
 	stateBetaViewModel := OPMcStateViewModel new model: stateBeta.
