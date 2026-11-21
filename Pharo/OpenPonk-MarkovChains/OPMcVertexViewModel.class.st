@@ -23,7 +23,10 @@ OPMcVertexViewModel class >> modelClass [ ^ OPMcVertex
 { #category : 'accessing' }
 OPMcVertexViewModel >> childrenModels [
 
-	^ self model incoming asArray , self model outgoing asArray
+	^ self model incoming asOrderedCollection
+		  addAll: self model outgoing;
+		  removeDuplicates;
+		  yourself
 ]
 
 { #category : 'accessing' }

@@ -10,6 +10,26 @@ Class {
 }
 
 { #category : 'tests' }
+OPMcViewModelTest >> testSelfLoopTransitionIsNotDuplicatedInChildrenModels [
+
+	| markovChain state selfLoop stateViewModel children |
+	markovChain := OPMc named: 'SelfLoopChain'.
+	state := OPMcState named: 'sunny'.
+	selfLoop := (state => state)
+		            name: '0.7';
+		            yourself.
+	markovChain addAll: {
+			state.
+			selfLoop }.
+	stateViewModel := OPMcStateViewModel new model: state.
+
+	children := stateViewModel childrenModels.
+
+	self assert: children size equals: 1.
+	self assertCollection: children hasSameElements: { selfLoop }
+]
+
+{ #category : 'tests' }
 OPMcViewModelTest >> testViewModelChildrenDependentElementsAndIcons [
 
 	| markovChain stateAlpha stateBeta transitionAlphaBeta mcViewModel stateAlphaViewModel stateBetaViewModel transitionViewModel |
