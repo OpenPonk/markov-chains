@@ -29,6 +29,7 @@ OPMcState >> counterAdd [
 { #category : 'actions' }
 OPMcState >> counterDecrement [
 
+	activationCount ifNil: [ ^ activationCount := 0 ].
 	activationCount := activationCount < 2
 		                   ifTrue: [ 0 ]
 		                   ifFalse: [ activationCount - 1 ]

@@ -129,6 +129,25 @@ OPMcGraphMLTest >> testExportAndImportRoundtripWithStatesTransitionsAndSelfLoops
 ]
 
 { #category : 'tests' }
+OPMcGraphMLTest >> testExportPackageFallsBackToDefaultExportFileName [
+
+	| capturedFileNames |
+	capturedFileNames := OrderedCollection new.
+	(OPExportFileDialog stub
+		 exportBlock: Any
+		 defaultFileName: Any
+		 extensions: Any
+		 named: Any
+		 title: Any) will: [ :exportBlock :defaultFileName :extensions :filterName :dialogTitle |
+		capturedFileNames add: defaultFileName ].
+
+	OPMcGraphML exportPackage: (OPMc named: '   ').
+	OPMcGraphML exportPackage: Object new.
+
+	self assert: capturedFileNames asArray equals: #( 'export.graphml' 'export.graphml' )
+]
+
+{ #category : 'tests' }
 OPMcGraphMLTest >> testExportPackagePassesGraphMLExtensionsAndTitleToExportDialog [
 
 	| modelWithSpecialName capturedBlock capturedFileName capturedExtensions capturedFilterName capturedTitle exportedXml |

@@ -257,6 +257,34 @@ OPMcServerTest >> testHandlePostRequestAndDirectHandlersRejectInvalidInputs [
 ]
 
 { #category : 'tests' }
+OPMcServerTest >> testIsSupportedGraphMlContentTypeRejectsNil [
+
+	self deny: (server isSupportedGraphMlContentType: nil) description: 'Nil MIME type must not be accepted as GraphML'
+]
+
+{ #category : 'tests' }
+OPMcServerTest >> testLaunchMapsRoutesAndInitializesServerState [
+
+	| mockZnServer delegate mockEditor |
+	self setUpHeadlessDiagramController.
+	delegate := ZnDefaultServerDelegate new.
+	mockZnServer := Mock new.
+	mockZnServer stub delegate willReturn: delegate.
+	(ZnServer stub startDefaultOn: 8080) willReturn: mockZnServer.
+	mockEditor := Mock new.
+	mockEditor stub diagramController willReturn: diagramController.
+
+	server launch: mockEditor.
+
+	self assert: (server instVarNamed: #server) identicalTo: mockZnServer.
+	self assert: (server instVarNamed: #diagramController) identicalTo: diagramController.
+	self assert: (server instVarNamed: #model) identicalTo: mockEditor.
+	self assert: (server instVarNamed: #currentHTML) equals: server htmlPlugin.
+	self assert: (delegate prefixMap at: 'mc') identicalTo: server.
+	self assert: (delegate prefixMap at: 'home') identicalTo: server
+]
+
+{ #category : 'tests' }
 OPMcServerTest >> testLaunchSimRejectsNonNumericAndInvalidNumericInputsWithBadRequest [
 
 	| response |

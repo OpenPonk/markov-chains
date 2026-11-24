@@ -34,6 +34,25 @@ OPMcModelMenuTest >> tearDown [
 ]
 
 { #category : 'tests' }
+OPMcModelMenuTest >> testModelMenuActivationsDefineExpectedGroupAndOrder [
+
+	| expectedOrders |
+	expectedOrders := {
+		                  (OPMcExportXmlCommand -> 10).
+		                  (OPMcImportXmlCommand -> 20).
+		                  (OPMcOpenSimulatorCommand -> 30).
+		                  (OPMcOpenPredictedSimulationCommand -> 40).
+		                  (OPMcLaunchServerCommand -> 50) }.
+	expectedOrders do: [ :eachPair |
+			| activation |
+			activation := eachPair key modelMenuActivation.
+			self assert: activation class identicalTo: OPModelMenuActivation.
+			self assert: activation menuGroup identicalTo: OPModelBasicMenuGroup.
+			self assert: activation menuItemOrder equals: eachPair value.
+			self assert: activation activeContext equals: OPEditor asAnnotationContext ]
+]
+
+{ #category : 'tests' }
 OPMcModelMenuTest >> testModelMenuContainsMcCommanderActivationsWhenMcEditorFocused [
 	"Verifies that the Model menu contains Markov Chains Commander 1 commands when an MC editor is focused."
 
@@ -52,6 +71,57 @@ OPMcModelMenuTest >> testModelMenuContainsMcCommanderActivationsWhenMcEditorFocu
 		assertCollection: subMenuLabels
 		includesAll: #( 'Export as GraphML...' 'Import from GraphML...' 'Open Simulator' 'Open Predicted Simulation'
 		   'Launch Server' )
+]
+
+{ #category : 'tests' }
+OPMcModelMenuTest >> testSimulatorPredictedAndServerCommandsExecuteDelegation [
+
+	| mockDiagramController mockEditor toolContext openedSimulatorController openedPredictedController launchedEditor mockSimulator mockPredicted mockServer simulatorCommand predictedCommand serverCommand |
+	mockDiagramController := Mock new.
+	mockEditor := Mock new.
+	mockEditor stub diagramController willReturn: mockDiagramController.
+
+	openedSimulatorController := nil.
+	openedPredictedController := nil.
+	launchedEditor := nil.
+	mockSimulator := Mock new.
+	(mockSimulator stub openOn: Any) will: [ :aController | openedSimulatorController := aController ].
+	OPMcSimulator stub new willReturn: mockSimulator.
+	mockPredicted := Mock new.
+	(mockPredicted stub openOn: Any) will: [ :aController | openedPredictedController := aController ].
+	OPMcPredictedSimulation stub new willReturn: mockPredicted.
+	mockServer := Mock new.
+	(mockServer stub launch: Any) will: [ :anEditor | launchedEditor := anEditor ].
+	OPMcServer stub new willReturn: mockServer.
+
+	simulatorCommand := OPMcOpenSimulatorCommand new.
+	predictedCommand := OPMcOpenPredictedSimulationCommand new.
+	serverCommand := OPMcLaunchServerCommand new.
+	self assert: simulatorCommand defaultMenuItemName equals: 'Open Simulator'.
+	self assert: simulatorCommand defaultMenuIcon bits equals: OPMcIcons opMcDiagramIcon bits.
+	self assert: predictedCommand defaultMenuItemName equals: 'Open Predicted Simulation'.
+	self assert: predictedCommand defaultMenuIcon bits equals: OPMcIcons opMcDiagramIcon bits.
+	self assert: serverCommand defaultMenuItemName equals: 'Launch Server'.
+	self assert: serverCommand defaultMenuIcon bits equals: OPMcIcons opMcDiagramIcon bits.
+
+	toolContext := CmdSimpleToolContext for: mockEditor.
+	CmdCommandActivator new
+		command: simulatorCommand;
+		context: toolContext;
+		executeCommand.
+	self assert: openedSimulatorController identicalTo: mockDiagramController.
+
+	CmdCommandActivator new
+		command: predictedCommand;
+		context: toolContext;
+		executeCommand.
+	self assert: openedPredictedController identicalTo: mockDiagramController.
+
+	CmdCommandActivator new
+		command: serverCommand;
+		context: toolContext;
+		executeCommand.
+	self assert: launchedEditor identicalTo: mockEditor
 ]
 
 { #category : 'tests' }

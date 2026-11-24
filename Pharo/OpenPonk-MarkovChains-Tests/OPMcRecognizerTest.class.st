@@ -88,33 +88,28 @@ OPMcRecognizerTest >> testAllStatesAndTransitionLookupHelpers [
 			stateBeta.
 			stateGamma }.
 
-	self assert: (recognizer transitionFrom: stateAlpha using: '1.0') identicalTo: transitionAlphaBeta.
-	self assert: (recognizer transitionFrom: stateAlpha using: 'missing') isNil description: 'Unmatched symbol should return nil'.
-
-	recognizer predictedInput: #( 'a' 'b' ) startingAt: stateAlpha for: '0'.
-	recognizer incrementGCInclZero.
-	recordedEvents removeAll.
-	recognizer nextTransition.
-	self assertEmpty: recordedEvents.
-
-	recognizer predictedInput: #( 'a' 'z' ) startingAt: stateAlpha for: '0'.
-	recognizer incrementGCInclZero.
-	recordedEvents removeAll.
-	recognizer nextTransition.
-	self assert: recordedEvents last class identicalTo: OPMcRecognizerFailure.
-
-	markovChain remove: transitionGammaAlpha.
-	recognizer predictedInput: #( 'c' ) startingAt: stateGamma for: '0'.
-	recognizer incrementGCInclZero.
-	recordedEvents removeAll.
-	recognizer nextTransition.
-	self assert: recordedEvents last class identicalTo: OPMcRecognizerSuccess.
-
 	recordedEvents removeAll.
 	recognizer beSuccess.
 	recognizer beFailure.
 	self assert: recordedEvents first class identicalTo: OPMcRecognizerSuccess.
 	self assert: recordedEvents second class identicalTo: OPMcRecognizerFailure
+]
+
+{ #category : 'tests' }
+OPMcRecognizerTest >> testBackAndNextAfterTwoStepsWithSingleTransitionInConsumedBack [
+
+	recognizer input: '3' startingAt: stateAlpha for: '0'.
+	recordedEvents removeAll.
+
+	2 timesRepeat: [ recognizer next ].
+	self assert: recordedEvents last place identicalTo: stateBeta.
+
+	recognizer back.
+	self assert: recordedEvents last place identicalTo: stateAlpha.
+
+	recognizer next.
+	self assert: recordedEvents last place identicalTo: stateBeta.
+	self assert: recognizer consumed size equals: 2
 ]
 
 { #category : 'tests' }
@@ -228,6 +223,56 @@ OPMcRecognizerTest >> testBackPredictedAndConsumedBackNotEmptyBranches [
 ]
 
 { #category : 'tests' }
+OPMcRecognizerTest >> testBackToInitialStateAndNextFromSingleConsumedBack [
+
+	recognizer input: '3' startingAt: stateAlpha for: '0'.
+	recordedEvents removeAll.
+
+	recognizer next.
+	self assert: recordedEvents last place identicalTo: transitionAlphaBeta.
+
+	recognizer back.
+	self assertEmpty: recognizer consumed.
+	self assert: recordedEvents last place identicalTo: stateAlpha.
+	self assert: recognizer globalCounter equals: 1.
+
+	recognizer next.
+	self assert: recordedEvents last place identicalTo: transitionAlphaBeta.
+	self assert: recognizer consumed size equals: 1
+]
+
+{ #category : 'tests' }
+OPMcRecognizerTest >> testConsumedBackNotEmptyAdvancesToTransitionAndCompletes [
+
+	recognizer predictedInput: #( 'a' 'b' 'c' ) startingAt: stateAlpha for: '0'.
+	3 timesRepeat: [ recognizer nextPredicted ].
+	self assert: stateBeta activations equals: 1.
+	self assert: recognizer globalCounter equals: 2.
+
+	2 timesRepeat: [ recognizer backPredicted ].
+	self assert: stateBeta activations equals: 0.
+	self assert: recognizer globalCounter equals: 1.
+
+	recognizer nextPredicted.
+	self assert: recordedEvents last place identicalTo: stateBeta.
+
+	recognizer nextPredicted.
+	self assert: stateBeta activations equals: 1.
+	self assert: recognizer globalCounter equals: 2.
+	self assert: recordedEvents last place identicalTo: transitionBetaGamma.
+
+	recognizer nextPredicted.
+	self assert: recordedEvents last place identicalTo: stateGamma.
+
+	recognizer nextPredicted.
+	self assert: stateBeta activations equals: 1.
+	self assert: stateGamma activations equals: 1.
+	self assert: recognizer globalCounter equals: 3.
+	self assert: recordedEvents last class identicalTo: OPMcRecognizerSuccess.
+	self assert: recordedEvents last place identicalTo: stateGamma
+]
+
+{ #category : 'tests' }
 OPMcRecognizerTest >> testGlobalCounterHelpers [
 
 	| counterRecognizer |
@@ -313,6 +358,27 @@ OPMcRecognizerTest >> testInputConfigurationAndReset [
 	self assert: recognizer isPathEmpty description: 'Stop predicted should clear path'.
 	self assertEmpty: recognizer consumed.
 	self assert: recognizer globalCounter equals: 0
+]
+
+{ #category : 'tests' }
+OPMcRecognizerTest >> testNextCompletesWhenConsumedBackNotEmptyReachesStepLimit [
+
+	| transitionGammaAlpha |
+	transitionGammaAlpha := OPMcTransition from: stateGamma to: stateAlpha named: '1.0'.
+	markovChain add: transitionGammaAlpha.
+	recognizer input: '2' startingAt: stateAlpha for: '0'.
+
+	4 timesRepeat: [ recognizer next ].
+	self assert: recognizer globalCounter equals: 2.
+
+	recognizer back.
+	self assert: recognizer globalCounter equals: 2.
+	recordedEvents removeAll.
+
+	recognizer next.
+	self assert: stateBeta activations equals: 2.
+	self assert: recordedEvents last class identicalTo: OPMcRecognizerSuccess.
+	self assert: recordedEvents last place identicalTo: stateBeta
 ]
 
 { #category : 'tests' }

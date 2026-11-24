@@ -72,66 +72,9 @@ OPMcPredictedSimulation >> connectPresenters [
 
 	super connectPresenters.
 	inputLabel label: 'Input:'.
-	input whenTextChangedDo: [ :text | 
-		text
-			ifEmpty: [ startButton disable ]
-			ifNotEmpty: [ startButton enable ] ].
-	idleLabel label: 'Idle [s]:'.
-	idleInput text: '0.1'.
 	separatorLabel label: 'Separated by:'.
 	separatorInput text: ','.
-	startButton
-		label: 'Start';
-		iconName: #glamorousThrough;
-		action: [ self startAction ];
-		disable.
-	stopButton
-		label: 'Stop';
-		iconName: #stop;
-		action: [ self stopAction ];
-		disable.
-	resetButton
-		label: 'Reset';
-		iconName: #smallUpdate;
-		action: [ self resetAction ];
-		disable.
-	backButton
-		label: 'Back';
-		iconName: #back;
-		action: [ self backAction ];
-		disable.
-	nextButton
-		label: 'Next';
-		iconName: #forward;
-		action: [ self nextAction ];
-		disable.
-	runButton
-		label: 'Run';
-		iconName: #smallDoIt;
-		action: [ self runAction ];
-		disable.
-	pauseButton 
-		label: 'Pause';
-		iconName: #testYellow;
-		action: [ self pauseAction ];
-		disable.
-	resumeButton 
-		label: 'Resume';
-		iconName: #smallDoIt;
-		action: [ self resumeAction ];
-		disable.
-	letterPanel data: ''.
-	"stateTable 
-		addColumn: (SpStringTableColumn title: 'States' evaluated: #name);
-		addColumn: (SpStringTableColumn title: 'Enterings' evaluated: #activations)"
-	
-]
-
-{ #category : 'initialization' }
-OPMcPredictedSimulation >> initialize [
-	recognizer := OPMcRecognizer new.
-	self watchRecognizer: recognizer.
-	super initialize
+	letterPanel data: ''
 ]
 
 { #category : 'initialization' }
@@ -181,25 +124,35 @@ OPMcPredictedSimulation >> nextAction [
 
 { #category : 'preconditions' }
 OPMcPredictedSimulation >> preconditions [
-	diagramController model states
-		detect: [ :each | each name = (self inputData at: 1) asString]
-		ifNone: [ UIManager default abort: 'No state named ', 
-				(self inputData at: 1) asString, 
-				' found'.
+
+	| parsedInput firstStateName |
+	parsedInput := self inputData.
+	parsedInput ifEmpty: [
+			UIManager default abort: 'No input states provided'.
+			^ false ].
+	firstStateName := parsedInput first asString.
+	diagramController model states detect: [ :each | each name = firstStateName ] ifNone: [
+			UIManager default abort: (String streamContents: [ :stream |
+						 stream nextPutAll: 'No state named '.
+						 stream nextPutAll: firstStateName.
+						 stream nextPutAll: ' found' ]).
 			^ false ].
 	^ true
 ]
 
 { #category : 'actions' }
 OPMcPredictedSimulation >> resumeAction [
+
 	input disable.
 	idleInput disable.
+	separatorInput disable.
 	startButton disable.
 	stopButton enable.
 	backButton disable.
 	nextButton disable.
+	pauseButton enable.
 	resumeButton disable.
-	recognizer 
+	recognizer
 		resume;
 		nextUpToEndPredicted
 ]
@@ -225,29 +178,31 @@ OPMcPredictedSimulation >> separatorLabel [
 
 { #category : 'actions' }
 OPMcPredictedSimulation >> startAction [
-	self preconditions
-		ifFalse: [ ^ self ].
-	self preconditions.
+
+	self preconditions ifFalse: [ ^ self ].
 	input disable.
+	idleInput disable.
 	separatorInput disable.
 	startButton disable.
 	stopButton enable.
 	backButton disable.
 	nextButton enable.
 	runButton enable.
+	resetButton disable.
 	self resetAction.
 	recognizer
 		predictedInput: self inputData
-		startingAt: (diagramController model states detect: 
-			[ :each | each name = (self inputData at: 1) asString])
+		startingAt: (diagramController model states detect: [ :each | each name = self inputData first asString ])
 		for: self idleData.
-	letterPanel data: self inputData.
+	letterPanel data: self inputData
 ]
 
 { #category : 'actions' }
 OPMcPredictedSimulation >> stopAction [
+
 	input enable.
 	idleInput enable.
+	separatorInput enable.
 	startButton enable.
 	stopButton disable.
 	backButton disable.
@@ -255,9 +210,9 @@ OPMcPredictedSimulation >> stopAction [
 	runButton disable.
 	resetButton enable.
 	pauseButton disable.
+	resumeButton disable.
 	recognizer stopPredicted.
-	diagramController model elements
-		do: [ :each | OPMcShapeHighlighter unhighlight: (diagramController roassalShapeForModel: each) ]
+	diagramController model elements do: [ :each | OPMcShapeHighlighter unhighlight: (diagramController roassalShapeForModel: each) ]
 ]
 
 { #category : 'actions' }

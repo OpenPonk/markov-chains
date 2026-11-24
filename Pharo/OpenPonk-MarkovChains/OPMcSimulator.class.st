@@ -238,15 +238,17 @@ OPMcSimulator >> openOn: aDiagramController [
 
 { #category : 'actions' }
 OPMcSimulator >> pauseAction [
+
 	input disable.
 	idleInput disable.
 	startButton disable.
 	stopButton enable.
 	backButton enable.
 	nextButton enable.
+	pauseButton disable.
 	resumeButton enable.
 	recognizer pause.
-	self listOfStates 
+	self listOfStates
 ]
 
 { #category : 'actions' }
@@ -281,14 +283,16 @@ OPMcSimulator >> resetStateEntries [
 
 { #category : 'actions' }
 OPMcSimulator >> resumeAction [
+
 	input disable.
 	idleInput disable.
 	startButton disable.
 	stopButton enable.
 	backButton disable.
 	nextButton disable.
+	pauseButton enable.
 	resumeButton disable.
-	recognizer 
+	recognizer
 		resume;
 		nextUpToEnd
 ]
@@ -336,6 +340,7 @@ OPMcSimulator >> startButton [
 
 { #category : 'actions' }
 OPMcSimulator >> stopAction [
+
 	input enable.
 	idleInput enable.
 	startButton enable.
@@ -345,9 +350,9 @@ OPMcSimulator >> stopAction [
 	runButton disable.
 	resetButton enable.
 	pauseButton disable.
+	resumeButton disable.
 	recognizer stop.
-	diagramController model elements
-		do: [ :each | OPMcShapeHighlighter unhighlight: (diagramController roassalShapeForModel: each) ]
+	diagramController model elements do: [ :each | OPMcShapeHighlighter unhighlight: (diagramController roassalShapeForModel: each) ]
 ]
 
 { #category : 'actions' }

@@ -48,6 +48,15 @@ OPMcModelTest >> tearDown [
 ]
 
 { #category : 'tests' }
+OPMcModelTest >> testDeprecatedIncomingTransitionInstantiatesTransition [
+
+	| createdTransition |
+	self assert: OPMcIncomingTransition isDeprecated description: 'OPMcIncomingTransition must remain marked deprecated'.
+	createdTransition := OPMcIncomingTransition new.
+	self assert: createdTransition class identicalTo: OPMcTransition
+]
+
+{ #category : 'tests' }
 OPMcModelTest >> testEmptyExampleModel [
 
 	| emptyChain |

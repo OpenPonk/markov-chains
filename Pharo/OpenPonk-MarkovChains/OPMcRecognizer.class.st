@@ -34,15 +34,17 @@ OPMcRecognizer >> allStates [
 
 { #category : 'accessing' }
 OPMcRecognizer >> back [
+
 	consumed ifEmpty: [ ^ self ].
 	canContinue := true.
-	consumed top isState 
-		ifTrue: [ consumed top counterDecrement.
-					self decrementGC  ].
+	consumed top isState ifTrue: [
+			consumed top counterDecrement.
+			self decrementGC ].
 	consumedBack push: consumed pop.
-	self goTo: consumed top.
-	consumed ifEmpty: [ ^ self ].
-	
+	consumed ifEmpty: [
+			self goTo: consumedBack top.
+			^ self ].
+	self goTo: consumed top
 ]
 
 { #category : 'accessing' }
@@ -124,29 +126,27 @@ OPMcRecognizer >> consumedBackEmpty [
 
 { #category : 'accessing' }
 OPMcRecognizer >> consumedBackNotEmpty [
-	|transition|
+
+	| transition |
 	consumed push: consumedBack pop.
-	consumedBack isEmpty 
-		ifTrue: [ consumed top isState 
-			ifTrue: [ self incrementGCInclZero.
-						 consumed top counterAdd.
-						 ((current name = (input at: input size asInteger) asString) 
-						 & (globalCounter = input size)) ifTrue: [ ^ self beCompletePredicted  ].
-						 
-						 current outgoing do: [ :each | 
-						 (each target name = (input at: globalCounter + 1) asString) ifTrue: [
-			 			 transition := each ] ].
-	
-						 (transition isNil & (globalCounter ~= input size)) ifTrue: [ 
-		     				^ self beCompletePredicted ].
-						 (transition isNil & (globalCounter = input size)) ifTrue: [ 
-							^ self beCompletePredicted ]. ]
-					
-			ifFalse: [ ^ self goTo: consumed top target ]  ]
-		ifFalse: [ consumed top isState 
-						ifTrue: [ self incrementGCInclZero. consumed top counterAdd ].
-					  ^ self goTo: consumedBack top ]
-	
+	consumedBack isEmpty
+		ifTrue: [
+				consumed top isState
+					ifTrue: [
+							self incrementGCInclZero.
+							consumed top counterAdd.
+							(current name = (input at: input size asInteger) asString and: [ globalCounter = input size ]) ifTrue: [
+								^ self beCompletePredicted ].
+							globalCounter < input size ifTrue: [
+								current outgoing do: [ :each | each target name = (input at: globalCounter + 1) asString ifTrue: [ transition := each ] ] ].
+							transition ifNil: [ ^ self beCompletePredicted ].
+							self goTo: transition ]
+					ifFalse: [ ^ self goTo: consumed top target ] ]
+		ifFalse: [
+				consumed top isState ifTrue: [
+						self incrementGCInclZero.
+						consumed top counterAdd ].
+				^ self goTo: consumedBack top ]
 ]
 
 { #category : 'actions' }
@@ -253,51 +253,43 @@ OPMcRecognizer >> isPathEmpty [
 
 { #category : 'accessing' }
 OPMcRecognizer >> next [
-	| transition sum probability|	
-	consumedBack isNotEmpty 
-		ifTrue:[  
-			canContinue ifFalse: [ ^ self beComplete ].
-			current isTransition
-				ifTrue: [ 
-					consumed push: consumedBack pop.
-					^ self goTo: current target ].
-			(current isState & current outgoing isNil) | (globalCounter = (input asNumber))
-				ifTrue: [ 
-					current counterAdd.
-					^ self beComplete ]. 
-			current isState & ((consumed size) > 1)
-				ifTrue: [ 
-					current counterAdd.
-					self incrementGC  ].
-			consumed push: consumedBack pop.
-			self goTo: consumedBack top.	]
-		ifFalse: [ 
-			consumed push: current.
-			canContinue
-				ifFalse: [ ^ self beComplete ].
-			current isTransition
-				ifTrue: [ ^ self goTo: current target ].
-			(current isState & current outgoing isNil) | (globalCounter = (input asNumber))
-				ifTrue: [ 
-					path push: current.
-					current counterAdd.
-					^ self beComplete ]. 
-			current isState & ((consumed size) > 1)
-				ifTrue: [ 
-					path push: current.
-					current counterAdd.
-					self incrementGC
-					 ].	
-				
-			probability := (0 to: 100) atRandom.
-			sum := 0.
-			current outgoing do: [ :each | 
-				sum := sum + (each name asNumber * 100).
-				(probability <= sum and: [ transition isNil ])
-					ifTrue:[ transition := each ] ].
-			transition ifNil: [ ^ self beComplete ].
-			self goTo: transition. ].
-	
+
+	| transition sum probability |
+	consumedBack isNotEmpty
+		ifTrue: [
+				canContinue ifFalse: [ ^ self beComplete ].
+				current isTransition ifTrue: [
+						consumed push: consumedBack pop.
+						^ self goTo: current target ].
+				((current isState and: [ current outgoing isNil ]) or: [ globalCounter = input asNumber ]) ifTrue: [
+						current counterAdd.
+						^ self beComplete ].
+				(current isState and: [ consumed size > 1 ]) ifTrue: [
+						current counterAdd.
+						self incrementGC ].
+				consumed push: consumedBack pop.
+				consumedBack isNotEmpty ifTrue: [ ^ self goTo: consumedBack top ].
+				consumed top isTransition ifTrue: [ ^ self goTo: consumed top target ] ]
+		ifFalse: [
+				consumed push: current.
+				canContinue ifFalse: [ ^ self beComplete ].
+				current isTransition ifTrue: [ ^ self goTo: current target ].
+				((current isState and: [ current outgoing isNil ]) or: [ globalCounter = input asNumber ]) ifTrue: [
+						path push: current.
+						current counterAdd.
+						^ self beComplete ].
+				(current isState and: [ consumed size > 1 ]) ifTrue: [
+						path push: current.
+						current counterAdd.
+						self incrementGC ] ].
+
+	probability := (0 to: 100) atRandom.
+	sum := 0.
+	current outgoing do: [ :each |
+			sum := sum + (each name asNumber * 100).
+			(probability <= sum and: [ transition isNil ]) ifTrue: [ transition := each ] ].
+	transition ifNil: [ ^ self beComplete ].
+	self goTo: transition
 ]
 
 { #category : 'stepping' }
@@ -305,19 +297,6 @@ OPMcRecognizer >> nextPredicted [
 	consumedBack isNotEmpty 
 		ifTrue:[ self consumedBackNotEmpty ]
 		ifFalse: [ self consumedBackEmpty ]. 
-]
-
-{ #category : 'stepping' }
-OPMcRecognizer >> nextTransition [
-	| transition |
-	current outgoing do: [ :each | 
-		(each target name = (input at: globalCounter + 1) asString) ifTrue: [
-			 transition := each ] ].
-	
-	(transition isNil & (globalCounter ~= input size)) ifTrue: [ 
-		^ self beCompletePredicted ].
-	(transition isNil & (globalCounter = input size)) ifTrue: [ 
-		^ self beCompletePredicted ].
 ]
 
 { #category : 'stepping' }
@@ -396,9 +375,4 @@ OPMcRecognizer >> stopPredicted [
 	consumedBack := Stack new.
 	globalCounter := 0
 
-]
-
-{ #category : 'private' }
-OPMcRecognizer >> transitionFrom: aState using: aSymbol [
-	^ aState outgoing detect: [ :each | each matches: aSymbol asString ] ifNone: [ nil ]
 ]

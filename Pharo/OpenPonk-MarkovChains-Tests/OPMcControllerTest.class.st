@@ -38,10 +38,20 @@ OPMcControllerTest >> testControllerFactory [
 { #category : 'tests' }
 OPMcControllerTest >> testInitializePalette [
 
-	| palette entryLabels |
+	| palette entries stateEntry transitionEntry |
 	palette := OPPalette new.
 	controller initializePalette: palette.
 	self assert: palette items size equals: 4.
-	entryLabels := palette items select: [ :eachItem | eachItem isKindOf: OPPaletteEntry ] thenCollect: #label.
-	self assertCollection: entryLabels hasSameElements: #( 'Select' 'State' 'Transition' )
+	entries := palette items select: [ :eachItem | eachItem isKindOf: OPPaletteEntry ].
+	self assertCollection: (entries collect: #label) hasSameElements: #( 'Select' 'State' 'Transition' ).
+
+	stateEntry := entries detect: [ :eachEntry | eachEntry label = 'State' ].
+	transitionEntry := entries detect: [ :eachEntry | eachEntry label = 'Transition' ].
+	stateEntry click.
+	self assert: palette selectedTool class identicalTo: OPNodeCreationTool.
+	self assert: (palette selectedTool instVarNamed: #factory) value class identicalTo: OPMcStateController.
+
+	transitionEntry click.
+	self assert: palette selectedTool class identicalTo: OPConnectionCreationTool.
+	self assert: (palette selectedTool instVarNamed: #factory) value class identicalTo: OPMcTransitionController
 ]
